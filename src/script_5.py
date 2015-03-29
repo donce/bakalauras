@@ -147,12 +147,9 @@ class Network(object):
         for layer in reversed(range(1, self.layers-1)):
             deltas[layer] = dot(transpose(self.weights[layer+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[layer])
 
-        for layer in range(1, self.layers):#TODO: +1, because we skip last layer - we do it in the code below
+        for layer in range(1, self.layers):
             self.biases[layer] -= self.learning_rate * deltas[layer]
-            for i in xrange(self.layer_neurons(layer)):
-                for j in xrange(self.layer_neurons(layer-1)):
-                    dw = deltas[layer][i][0] * self.activations[layer-1][j][0]
-                    self.weights[layer][i][j] -= self.learning_rate * dw
+            self.weights[layer] -= self.learning_rate * transpose(dot(self.activations[layer-1], deltas[layer]))
 
         for j in xrange(self.layer_neurons(output_layer)):
             output = result[j][0]
@@ -226,19 +223,10 @@ XOR = (
 )
 
 
-# network = Network((2, 2, 1))
-# network = Network((2, 3, 1))
-# network = Network((2, 2, 1))
-# network.teach(XOR, max_cycles=1000)
-# network.print_state()
-# network.run(XOR[0][0], XOR[0][1])
-# network.print_state()
-# network.run(XOR[0][0], XOR[0][1])
-# network.print_state()
 
-
-# network = Network((2, 1))
-# network.teach(AND)
+#correct: 288
+network = Network((2, 1), use_random=False)
+network.teach(AND)
 
 def normalize_input(data):
     min_values = data[0][0][:]
@@ -273,12 +261,10 @@ def read_input():
 
 # data = read_input()[:150]
 # normalize_input(data)
-# for d in data:
-#     print d
+
 
 # network = Network((30, 3))
 # network = Network((30, 100, 100, 3)) #best
-# network = Network((30, 100, 100, 100,  3))
 # network.teach(data, max_cycles=30)
 
 
@@ -300,10 +286,10 @@ def read_iris():
 
 
 
-iris_data = read_iris()
-normalize_input(iris_data)
+# iris_data = read_iris()
+# normalize_input(iris_data)
 
 # random.shuffle(iris_data)
 
-network = Network((4, 4, 4, 3))
-network.teach(iris_data, max_cycles=100)
+# network = Network((4, 4, 4, 3), use_random=True)
+# network.teach(iris_data, max_cycles=10)
