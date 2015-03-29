@@ -1,9 +1,9 @@
 '''
+
 Single layer perceptron using sigmoid activation function.
 AND and OR in one network, using two output neurons.
 
-TODO:
-XOR
+
 '''
 import math
 import random
@@ -34,12 +34,11 @@ vectorized_answer = vectorize(answer)
 class Network(object):
     """
     Attributes:
-        activations [layer][j][0] float
         biases [layer][j][0] float
-
-        inputs [layer][0][j] int
-
         weights [layer][from][to] float
+
+        activations [layer][j][0] float - outputing value after applying activation function
+        inputs [layer][0][j] float - sum of inputs received
     """
     inputs = None
     activations = None
@@ -49,24 +48,28 @@ class Network(object):
 
 
     learning_rate = None
+    use_random = True
 
-    def __init__(self, layer_neurons, learning_rate=0.001):
+    def __init__(self, layer_neurons, learning_rate=0.5, use_random=True):
         self.weights = []
         self.inputs = []
         self.activations = []
         self.biases = []
         for layer, neurons in enumerate(layer_neurons):
-            # self.biases.append(array([[2.0 * random.random() - 1.0] for _ in xrange(neurons)]))
-            self.biases.append(array([[0.0] for _ in xrange(neurons)]))
+            if use_random:
+                self.biases.append(array([[2.0 * random.random() - 1.0] for _ in xrange(neurons)]))
+            else:
+                self.biases.append(array([[0.0] for _ in xrange(neurons)]))
 
             self.activations.append(array([array([0.0]) for _ in xrange(neurons)]))
             self.inputs.append(array([[0.0 for _ in xrange(neurons)]]))
 
             if layer > 0:
                 prev_neurons = layer_neurons[layer - 1]
-
-                # curr_weights = array([[2.0 * random.random() - 1.0 for _ in xrange(prev_neurons)] for _ in xrange(neurons)])
-                curr_weights = array([[0.0 for _ in xrange(prev_neurons)] for _ in xrange(neurons)])
+                if use_random:
+                    curr_weights = array([[2.0 * random.random() - 1.0 for _ in xrange(prev_neurons)] for _ in xrange(neurons)])
+                else:
+                    curr_weights = array([[0.0 for _ in xrange(prev_neurons)] for _ in xrange(neurons)])
             else:
                 curr_weights = array([])
             self.weights.append(curr_weights)
@@ -138,54 +141,26 @@ class Network(object):
 
         total_error = 0
 
+
         deltas = (self.layers) * [None]
         deltas[self.layers-1] = 2 * (result - desired_result) * vectorized_sigmoid_derivative(result)
-        # print deltas
         for layer in reversed(range(1, self.layers-1)):
-            # print 'Layer', layer
-
-            # l = self.layers - 2
-            # deltas[layer] = dot(transpose(self.weights[l+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[l])
-
             deltas[layer] = dot(transpose(self.weights[layer+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[layer])
 
-
-            # print deltas
-            # print
-        # print 'DELTAS:', deltas
-
-        for layer in range(1, self.layers-1):#TODO: +1, because we skip last layer - we do it in the code below
-            # print 'LEARNING', layer
-            delta = deltas[layer]
-            # print delta
-            # print self.biases[layer]
-            self.biases[layer] -= self.learning_rate * delta
-            # print self.biases[layer]
+        for layer in range(1, self.layers):#TODO: +1, because we skip last layer - we do it in the code below
+            self.biases[layer] -= self.learning_rate * deltas[layer]
             for i in xrange(self.layer_neurons(layer)):
                 for j in xrange(self.layer_neurons(layer-1)):
-                    dw = deltas[layer][j][0]
-                    # print 'dw{}, {} = {}'.format(i, j, dw)
+                    dw = deltas[layer][i][0] * self.activations[layer-1][j][0]
                     self.weights[layer][i][j] -= self.learning_rate * dw
 
-        for i in xrange(self.layer_neurons(output_layer)):
-            output = result[i][0]
-            desired_output = desired_result[i][0]
+        for j in xrange(self.layer_neurons(output_layer)):
+            output = result[j][0]
+            desired_output = desired_result[j][0]
 
-            # print 'output = {} (desired = {})'.format(output, desired_output)
             error = (output - desired_output) ** 2
             total_error += error
-            # print 'error = {}'.format(error)
 
-            delta = deltas[self.layers-1][i][0]
-            for j in xrange(self.layer_neurons(output_layer-1)):
-                dw = delta * self.activations[output_layer-1][j][0]
-                # print 'dw{} = {}'.format(j, dw)
-                self.weights[output_layer][i][j] -= self.learning_rate * dw
-            # print 'db = {}'.format(delta)
-            self.biases[output_layer][i][0] -= self.learning_rate * delta
-        # correct = self.answer(self.)
-        # print vectorized_answer(result)
-        # print desired_result
         correct = False
         return correct, total_error
 
@@ -193,18 +168,11 @@ class Network(object):
         success = False
         cycle = 0
         errors = []
-        # while not success:
         while cycles != None or not success:
-            # print 'before'
-            # self.print_state()
-            # print '===================='
             success = True
             cycle_error = 0
             for case in data:
-                # print '-------'
-                # print case
                 correct, curr_error = self.run(case[0], case[1])
-                # if abs(error - allowed_error)
                 cycle_error += curr_error
                 if curr_error > allowed_error:
                     success = False
@@ -272,39 +240,6 @@ XOR = (
 # network = Network((2, 1))
 # network.teach(AND)
 
-# network = Network((2, 1))
-# assert network.teach(OR)
-# network = Network((2, 2))
-# assert network.teach(AND_OR)
-#result: 184
-
-
-# network = Network((2, 2, 1))
-# network.run(*XOR[0])
-# network.run(*XOR[0])
-# network.run(*XOR[0])
-# network.run(*XOR[0])
-# network.teach(XOR, max_cycles=5000)
-
-
-def read_iris():
-    iris_data = []
-    types = {}
-    next_type_nr = 0
-    f = open('iris.data')
-    for line in f.readlines():
-        data = line.rstrip().split(',')
-        # print data
-        input = map(float, data[:4])
-        type = data[4]
-        if type not in types:
-            types[type] = [1.0 if i == next_type_nr else 0.0 for i in range(3)]
-            next_type_nr += 1
-        iris_data.append((input, types[type]))
-    f.close()
-    return iris_data
-
-
 def normalize_input(data):
     min_values = data[0][0][:]
     max_values = data[0][0][:]
@@ -316,19 +251,59 @@ def normalize_input(data):
     for current in data:
         input = current[0]
         for nr, value in enumerate(input):
-            input[nr] = (value - min_values[nr]) / (max_values[nr] - min_values[nr])
+            input[nr] = float(value - min_values[nr]) / (max_values[nr] - min_values[nr])
+
+'''
+About data:
+Each input has 50 integer values
+Each group has 500 samples (0:500, 500:1500...)
+'''
+
+
+def read_input():
+    data = []
+    f = open('../data/CR1')
+    for nr, line in enumerate(f.readlines()):
+        type = nr / 50
+        input = map(int, line.strip().split())
+        type_output = [1.0 if i == type else 0.0 for i in range(3)]
+        data.append((input, type_output))
+    f.close()
+    return data
+
+# data = read_input()[:150]
+# normalize_input(data)
+# for d in data:
+#     print d
+
+# network = Network((30, 3))
+# network = Network((30, 100, 100, 3)) #best
+# network = Network((30, 100, 100, 100,  3))
+# network.teach(data, max_cycles=30)
+
+
+def read_iris():
+    iris_data = []
+    types = {}
+    next_type_nr = 0
+    f = open('iris.data')
+    for line in f.readlines():
+        data = line.rstrip().split(',')
+        input = map(float, data[:4])
+        type = data[4]
+        if type not in types:
+            types[type] = [1.0 if i == next_type_nr else 0.0 for i in range(3)]
+            next_type_nr += 1
+        iris_data.append((input, types[type]))
+    f.close()
+    return iris_data
+
 
 
 iris_data = read_iris()
 normalize_input(iris_data)
-from random import shuffle
-# shuffle(iris_data)
 
-# network = Network((4, 3))
+# random.shuffle(iris_data)
+
 network = Network((4, 4, 4, 3))
-
-# print network.run(iris_data[0][0], iris_data[0][1])
-# print network.run(iris_data[0][0], iris_data[0][1])
-print network.run(iris_data[0][0], iris_data[0][1])
-# print network.run(iris_data[0][0], iris_data[0][1])
-# network.teach(iris_data, max_cycles=100)
+network.teach(iris_data, max_cycles=100)
