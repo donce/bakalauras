@@ -1,14 +1,11 @@
 '''
-
 Single layer perceptron using sigmoid activation function.
 AND and OR in one network, using two output neurons.
-
-
 '''
 import math
 import random
 
-from numpy import array, dot, vectorize, transpose, empty
+from numpy import array, dot, vectorize, transpose
 
 import matplotlib.pyplot as pyplot
 
@@ -27,9 +24,6 @@ def answer(output):
     return 1 if output > 0.5 else 0
 vectorized_answer = vectorize(answer)
 
-# from winsound import Beep
-# Beep(1000, 2000)
-
 
 class Network(object):
     """
@@ -45,7 +39,6 @@ class Network(object):
 
     weights = None
     biases = None
-
 
     learning_rate = None
     use_random = True
@@ -124,7 +117,6 @@ class Network(object):
             a = self.activations[layer-1]
             self.inputs[layer] = dot(w, a) + self.biases[layer]
             self.activations[layer] = self.apply_activation(self.inputs[layer])
-        # print '------'
 
     def get_output(self):
         return self.activations[self.layers-1]
@@ -141,8 +133,7 @@ class Network(object):
 
         total_error = 0
 
-
-        deltas = (self.layers) * [None]
+        deltas = self.layers * [None]
         deltas[self.layers-1] = 2 * (result - desired_result) * vectorized_sigmoid_derivative(result)
         for layer in reversed(range(1, self.layers-1)):
             deltas[layer] = dot(transpose(self.weights[layer+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[layer])
@@ -165,7 +156,7 @@ class Network(object):
         success = False
         cycle = 0
         errors = []
-        while cycles != None or not success:
+        while cycles is not None or not success:
             success = True
             cycle_error = 0
             for case in data:
@@ -221,7 +212,6 @@ XOR = (
     ((1, 0), (1,)),
     ((1, 1), (0,)),
 )
-
 
 
 #correct: 288
