@@ -11,7 +11,11 @@ import matplotlib.pyplot as pyplot
 
 
 def sigmoid_function(value):
-    return 1.0 / (1.0 + pow(math.e, -value))
+    try:
+        return 1.0 / (1.0 + pow(math.e, -value))
+    except OverflowError as e:
+        # print value
+        raise e
 vectorized_sigmoid_function = vectorize(sigmoid_function)
 
 
@@ -140,7 +144,9 @@ class Network(object):
 
         for layer in range(1, self.layers):
             self.biases[layer] -= self.learning_rate * deltas[layer]
-            self.weights[layer] -= self.learning_rate * transpose(dot(self.activations[layer-1], deltas[layer]))
+            for i in xrange(self.layer_neurons(layer)):
+                for j in xrange(self.layer_neurons(layer-1)):
+                    self.weights[layer][i][j] -= self.learning_rate * deltas[layer][i][0] * self.activations[layer-1][j][0]
 
         for j in xrange(self.layer_neurons(output_layer)):
             output = result[j][0]
@@ -151,6 +157,11 @@ class Network(object):
 
         correct = False
         return correct, total_error
+
+    def run_encoding(self, data, encoding_layer):
+        self.run(data, data)
+        return transpose(self.activations[encoding_layer])[0]
+        # return transpose(self.activations[1])[0]
 
     def teach(self, data, allowed_error=0.01, max_cycles=None, cycles=None):
         success = False
@@ -215,8 +226,9 @@ XOR = (
 
 
 #correct: 288
-network = Network((2, 1), use_random=False)
-network.teach(AND)
+# network = Network((2, 1), use_random=False)
+# network.teach(AND)
+
 
 def normalize_input(data):
     min_values = data[0][0][:]
@@ -231,10 +243,54 @@ def normalize_input(data):
         for nr, value in enumerate(input):
             input[nr] = float(value - min_values[nr]) / (max_values[nr] - min_values[nr])
 
+
 '''
 About data:
-Each input has 50 integer values
+Each input has 30 integer values
 Each group has 500 samples (0:500, 500:1500...)
+'''
+
+
+'''
+DATA = (
+    (0.0, 0.0, 0.0),
+    (0.0, 0.1, 0.0),
+    (0.0, 0.2, 0.0),
+    (0.0, 0.3, 0.0),
+    (0.0, 0.4, 0.0),
+    (0.0, 0.5, 0.0),
+    (0.0, 0.6, 0.0),
+    (0.0, 0.7, 0.0),
+    (0.0, 0.8, 0.0),
+    (0.0, 0.9, 0.0),
+    (0.0, 1.0, 0.0),
+)
+'''
+
+
+def generate_encoding_data(inputs):
+    return [(d, d) for d in inputs]
+
+
+# for a in generate_encoding_data(DATA):
+#     print a
+# network = Network((3, 2, 3), use_random=False)
+# network.teach(generate_encoding_data(DATA), allowed_error=0.2)
+# network.run_encoding(DATA[0])
+# network.run_encoding(DATA[0])
+
+'''
+xs = []
+ys = []
+
+for d in DATA:
+    x, y = network.run_encoding(d)
+    xs.append(x)
+    ys.append(y)
+    print x, y
+    # pyplot.
+pyplot.plot(xs, ys, 'ro')
+pyplot.show()
 '''
 
 
@@ -249,13 +305,46 @@ def read_input():
     f.close()
     return data
 
-# data = read_input()[:150]
+# data = read_input()[:1500]
 # normalize_input(data)
 
-
 # network = Network((30, 3))
-# network = Network((30, 100, 100, 3)) #best
-# network.teach(data, max_cycles=30)
+# network = Network((30, 100, 100, 3)) #best for classification
+
+network = Network((30, 2, 30))
+# network = Network((30, 30, 2, 30, 30))
+
+data = read_input()[:1500]
+normalize_input(data)
+data = [d[0] for d in data]
+
+# partial_data = data[0:1] + data[500:501] + data[1000:1001]
+partial_data = data[0:50] + data[500:550] + data[1000:1050]
+# print partial_data
+# print len(partial_data)
+
+# print generate_encoding_data(partial_data)
+network.teach(generate_encoding_data(partial_data), max_cycles=1)
+
+xs = []
+ys = []
+
+for d in partial_data:
+    x, y = network.run_encoding(d, 1)
+    xs.append(x)
+    ys.append(y)
+
+# xs, ys = compress([d[0] for d in data])
+# pyplot.plot(xs[:1], ys[:1], 'ro')
+# pyplot.plot(xs[1:2], ys[1:2], 'go')
+# pyplot.plot(xs[2:3], ys[2:3], 'bo')
+pyplot.plot(xs[:50], ys[:50], 'ro')
+pyplot.plot(xs[50:100], ys[50:100], 'go')
+pyplot.plot(xs[100:150], ys[100:150], 'bo')
+# pyplot.plot(xs[:500], ys[:500], 'ro')
+# pyplot.plot(xs[500:1000], ys[500:1000], 'go')
+# pyplot.plot(xs[1000:1500], ys[1000:1500], 'bo')
+pyplot.show()
 
 
 def read_iris():
