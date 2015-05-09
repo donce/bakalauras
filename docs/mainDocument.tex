@@ -49,8 +49,7 @@
 
  %the main part
 \newpage
-\section{Pirmasis skyrius}
-\label{sec:motivation}
+\section{Dirbtinių neuronų tinklas}
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -128,6 +127,19 @@ Galimi sprendimai:
 
 \includegraphics[width=\linewidth]{pics/classification}
 
+
+\section{Iriso gėlių duomenys}
+
+Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl. Iris flower) duomenys.
+Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
+Aprašyta po 50 kiekvienos rūšies vilkdagių.
+Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgis, taurėlapio plotis, vainiklapio ilgis bei vainiklapio plotis.
+Šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
+
+Šie duomenys puikiai tinka klasifikavimo tinklo apmokymui - tinklo tikslas yra kuo mažiau klystant pasakyti, kuriai iš 3 vilkdagių rūšių tam tikra gėlė su tam tikrais parametrais priklauso.
+Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - testavimui.
+Tokiu būdu bus užtikrinama, kad tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
+
 \subsection{Pirmojo skyriaus poskyris}
 \label{sec:example}
 Pateikiamas \ref{sec:example} poskyrio tekstas. Vienas iš šaltinių~\cite{KTZ}. Visas turinys priklauso \ref{sec:motivation} skyriui.
@@ -135,10 +147,6 @@ Pateikiamas \ref{sec:example} poskyrio tekstas. Vienas iš šaltinių~\cite{KTZ}
 \subsubsection{Pirmojo skyriaus pirmo poskyrio poskyris}
 \label{sec:data}
 Pateikiamas trečio lygio poskyrio tekstas.
-
-\begin{equation}
-x = \sum_{i=1}^N m_i
-\end{equation}
 
 \begin{table}[!ht]\centering
 \caption{Lentelė ... }
