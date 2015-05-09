@@ -51,8 +51,6 @@
 \newpage
 \section{Dirbtinių neuronų tinklas}
 
-\section{Dirbtinių neuronų tinklas}
-
 Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą užduotį arba užduotis.
 Dirbtinis neuronų tinklas gavęs pradinius užduoties duomenis, juos apdoroja ir taip gaunamas tam tikras atsakymas.
 Šis atsakymas nebūtinai yra teisingas - neuronų tinklai suprojektuoti taip, kad galėtų būti mokomi kai gauna neteisingą atsakymą.
@@ -62,17 +60,17 @@ Dirbtinis neuronų tinklas gavęs pradinius užduoties duomenis, juos apdoroja i
 Dirbinių neuronų tinklas sudarytas iš daugybės dirbtinių neuronų, todėl norint suprasti tinklą, reikia pradėti nuo vieno dirbtinio neurono.
 Žmogaus smegenys sudarytos iš daugybės neuronų.
 Dirbtinis neuronas - tai supaprastintas šių biologinių neuronų modelis.
-Jo modelis pavaizduotas \ref{fig:neuron} paveiksliuke.
+Jo modelis pavaizduotas \ref{fig:neuron}~paveiksliuke.
 Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungtis dirbtinis neuronas gauna signalus iš kitų dirbtinių neuronų - iš $k$-tosios jungties gaunamas $x_k$ dydžio signalas.
 Šiuos signalus neuronas apjungia ir pertvarko, ir taip sugeneruojamas dirbtinio neurono išeinamasis signalas.
 Šis išeinamasis signalas gali būti siunčiamas daugybei kitų neuronų - dešinėje esančios jungtys yra neurono išeinamojo signalo jungtys, kuriomis ir yra siunčiamas išeinamasis signalas.
 
 Dirbtinis neuronas generuoja išeinamąjį signalą pagal tam tikrą modelį.
 Pirmiausia, kiekviena įeinančioji jungtis turi savo svorį $w_i$ - šis svoris yra padauginamas iš įeinančio signalo dydžio $x_k$.
-Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas skaičius $a$ (\ref{eq:a} formulė).
+Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas skaičius $a$ (\ref{eq:a}~formulė).
 Tada šis skaičius $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
 Šį funkcija $f$ yra vadinama aktyvacijos funkcija - ją galima keisti pagal tai, kokio tikslo siekiama iš šio dirbtinio neurono.
-Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė (\ref{eq:sigmoid} formulė).
+Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė (\ref{eq:sigmoid}~formulė).
 Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau norint apmokyti dirbtinį neuronų tinklą, reikia rasti šios funkcijos išvestinę.
 Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, kurios ne tik tinkamai pertvarko signalą išvedimui, tačiau ir kurios išvestinės yra paprastos.
 
@@ -123,14 +121,12 @@ Galimi sprendimai:
 		* Klasifikavimas požymių išskyrimui
 		* Dimensiškumo mažinimas -> Klasifikavimas
 
-
-
 \includegraphics[width=\linewidth]{pics/classification}
 
 
-\section{Iriso gėlių duomenys}
+\section{Vilkdagių duomenys}
 
-Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl. Iris flower) duomenys.
+Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl. \textit{Iris flower}) duomenys.
 Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
 Aprašyta po 50 kiekvienos rūšies vilkdagių.
 Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgis, taurėlapio plotis, vainiklapio ilgis bei vainiklapio plotis.
@@ -140,13 +136,9 @@ Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgis, taurė
 Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - testavimui.
 Tokiu būdu bus užtikrinama, kad tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
 
-\subsection{Pirmojo skyriaus poskyris}
-\label{sec:example}
-Pateikiamas \ref{sec:example} poskyrio tekstas. Vienas iš šaltinių~\cite{KTZ}. Visas turinys priklauso \ref{sec:motivation} skyriui.
+TODO: nuoroda į Vilkdagių duomenis?
 
-\subsubsection{Pirmojo skyriaus pirmo poskyrio poskyris}
-\label{sec:data}
-Pateikiamas trečio lygio poskyrio tekstas.
+Šaltinis ~\cite{KTZ}.
 
 \begin{table}[!ht]\centering
 \caption{Lentelė ... }
@@ -173,7 +165,7 @@ test&test\\
 %% this part is optional
 \newpage
 \begin{appendices}
-Dokumentą sudaro du priedai: \ref{app:a} priede  ....
+Dokumentą sudaro du priedai: \ref{app:a}~priede  ....
 \newpage
 \section{Pirmojo priedo pavadinimas}
 \label{app:a}
