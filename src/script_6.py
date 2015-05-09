@@ -11,11 +11,7 @@ import matplotlib.pyplot as pyplot
 
 
 def sigmoid_function(value):
-    try:
-        return 1.0 / (1.0 + pow(math.e, -value))
-    except OverflowError as e:
-        # print value
-        raise e
+    return 1.0 / (1.0 + pow(math.e, -value))
 vectorized_sigmoid_function = vectorize(sigmoid_function)
 
 
@@ -251,7 +247,7 @@ def normalize_input_linear(data):
             input[nr] = float(value - min_values[nr]) / (max_values[nr] - min_values[nr])
 
 
-def normalize_input_means(data):
+def normalize_gaussian(data):
     inputs = array([d[0] for d in data])
     means = mean(inputs, 0)
     stds = std(inputs, 0)

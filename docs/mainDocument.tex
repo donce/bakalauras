@@ -20,6 +20,9 @@
 
 \input{macros}
 
+\usepackage{setspace}
+\onehalfspacing
+
 \begin{document}
  % #1 -report type, #2 - title, #3-7 students, #8 - supervisor
  \depttitlepage{Baigiamasis bakalauro darbas}{Duomenų dimensiškumo mažinimas ir klasifikavimas}{Donatas Kučinskas} 
@@ -48,6 +51,83 @@
 \newpage
 \section{Pirmasis skyrius}
 \label{sec:motivation}
+
+\section{Dirbtinių neuronų tinklas}
+
+Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą užduotį arba užduotis.
+Dirbtinis neuronų tinklas gavęs pradinius užduoties duomenis, juos apdoroja ir taip gaunamas tam tikras atsakymas.
+Šis atsakymas nebūtinai yra teisingas - neuronų tinklai suprojektuoti taip, kad galėtų būti mokomi kai gauna neteisingą atsakymą.
+
+\subsection{Dirbtinis neuronas}
+
+Dirbinių neuronų tinklas sudarytas iš daugybės dirbtinių neuronų, todėl norint suprasti tinklą, reikia pradėti nuo vieno dirbtinio neurono.
+Žmogaus smegenys sudarytos iš daugybės neuronų.
+Dirbtinis neuronas - tai supaprastintas šių biologinių neuronų modelis.
+Jo modelis pavaizduotas \ref{fig:neuron} paveiksliuke.
+Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungtis dirbtinis neuronas gauna signalus iš kitų dirbtinių neuronų - iš $k$-tosios jungties gaunamas $x_k$ dydžio signalas.
+Šiuos signalus neuronas apjungia ir pertvarko, ir taip sugeneruojamas dirbtinio neurono išeinamasis signalas.
+Šis išeinamasis signalas gali būti siunčiamas daugybei kitų neuronų - dešinėje esančios jungtys yra neurono išeinamojo signalo jungtys, kuriomis ir yra siunčiamas išeinamasis signalas.
+
+Dirbtinis neuronas generuoja išeinamąjį signalą pagal tam tikrą modelį.
+Pirmiausia, kiekviena įeinančioji jungtis turi savo svorį $w_i$ - šis svoris yra padauginamas iš įeinančio signalo dydžio $x_k$.
+Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas skaičius $a$ (\ref{eq:a} formulė).
+Tada šis skaičius $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
+Šį funkcija $f$ yra vadinama aktyvacijos funkcija - ją galima keisti pagal tai, kokio tikslo siekiama iš šio dirbtinio neurono.
+Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė (\ref{eq:sigmoid} formulė).
+Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau norint apmokyti dirbtinį neuronų tinklą, reikia rasti šios funkcijos išvestinę.
+Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, kurios ne tik tinkamai pertvarko signalą išvedimui, tačiau ir kurios išvestinės yra paprastos.
+
+\begin{figure}
+	\includegraphics[scale=0.5]{diagrams/1_neuron}
+	\caption{Dirbtinis neuronas}
+	\label{fig:neuron}
+\end{figure}
+
+\begin{equation} \label{eq:a}
+a = \sum_{k=1}^N w_kx_k
+\end{equation}
+
+\begin{equation} \label{eq:sigmoid}
+f(a) = \frac{1}{1 + e^{-a}}
+\end{equation}
+
+TODO: bias
+
+
+\subsection{Dirbtiniai neuronai/tinklas?TODO}
+
+Visi
+
+
+
+[TODO: dirbtinio neurono paveiksliukas]
+
+
+[TODO: citata?]
+
+
+[TODO: 110 iš knygos]
+
+
+\section{Dimensiškumo mažinimas}
+
+
+Klasifikavimo problema
+
+Galimi sprendimai:
+
+	* statistinis sprendimas
+	* neuroniniai tinklai
+		* veikimas
+		* apmokymas
+		* validavimas?
+		* Klasifikavimas požymių išskyrimui
+		* Dimensiškumo mažinimas -> Klasifikavimas
+
+
+
+\includegraphics[width=\linewidth]{pics/classification}
+
 \subsection{Pirmojo skyriaus poskyris}
 \label{sec:example}
 Pateikiamas \ref{sec:example} poskyrio tekstas. Vienas iš šaltinių~\cite{KTZ}. Visas turinys priklauso \ref{sec:motivation} skyriui.
