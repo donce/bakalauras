@@ -84,10 +84,10 @@
 }
 
 %some kywords
- \def\keywordAbstract{\iftoggle{inLithuanian}{Santrauka}{Abstract}}
- \def\keywordAbstractOther{\iftoggle{inLithuanian}{Summary}{Santrauka}}
+ \def\keywordAbstract{\iftoggle{inLithuanian}{Santrauka lietuvių kalba}{Abstract}}
+ \def\keywordAbstractOther{\iftoggle{inLithuanian}{Santrauka anglų kalba\break(\textit{Summary})}{Santrauka lietuvių kalba}}
  \def\keyWordIntroduction{\iftoggle{inLithuanian}{Įvadas}{Introduction}}
- \def\keyWordConclusions{\iftoggle{inLithuanian}{Išvados ir rekomendacijos}{Conclusions and Recommendations}}
+ \def\keyWordConclusions{\iftoggle{inLithuanian}{Rezultatai ir išvados}{Conclusions and Recommendations}}
 
  \def\keyWordPreface{\iftoggle{inLithuanian}{Pratarmė}{Preface}}
  \def\keyWordAppendice{\iftoggle{inLithuanian}{Priedas}{Appendix}}
@@ -127,10 +127,10 @@
 \cleardoublepage
 \phantomsection
 \iftoggle{inLithuanian}{
- \renewcommand{\refname}{Literatūros šaltiniai}
+ \renewcommand{\refname}{Šaltiniai}
 
- \addcontentsline{toc}{section}{Literatūros šaltiniai}
- \markboth{\refname}{Literatūros šaltiniai}
+ \addcontentsline{toc}{section}{Šaltiniai}
+ \markboth{\refname}{Šaltiniai}
  }
 {
 

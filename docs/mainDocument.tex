@@ -32,16 +32,15 @@
  {}{}{}{}% students 2-5
  {Vytautas Valaitis}
 
-\tableofcontents
-
-
-%keywords and notations if needed
-\sectionWithoutNumber{Sutartinis terminų žodynas}{keywords}{Pateikiamas terminų sąrašas (jei reikia)}
 
  %both abstracts
 \bothabstracts{\input{abstract}}%tex-file of abstract in original language
 {Darbo pavadinimas kita kalba} %if work is in LT this title should be in English
 {\input{abstractEN}}%tex-file of abstract in other language
+
+
+\newpage
+\tableofcontents
 
 
  %Introduction section: label is sec:intro
@@ -261,25 +260,12 @@ test&test\\
 \sectionWithoutNumber{\keyWordConclusions}{conclu}
 \input{conclusions.tex}
 
-%ateities darbų gairės, planas/next steps of the work
-\sectionWithoutNumber{Ateities tyrimų planas}{future}{Pristatomi ateities darbai ir/ar jų planas, gairės tolimesniems darbams....}
 
  %file literatureSources.bib
 \referenceSources{literatureSources}
 
-
-
-%% this part is optional
 \newpage
-\begin{appendices}
-Dokumentą sudaro du priedai: \ref{app:a}~priede  ....
-\newpage
-\section{Pirmojo priedo pavadinimas}
-\label{app:a}
-Pirmojo priedo tekstas ...
-
-\newpage
-\section{Šaltiniai}
+\sectionWithoutNumber{Šaltiniai}{sources}
 
 TODO: add titles
 TODO: ašyse sudėti pavadinimus
@@ -291,7 +277,8 @@ TODO: ašyse sudėti pavadinimus
 	\url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=857823}
 \end{enumerate}
 
-\end{appendices}
+%keywords and notations if needed
+\sectionWithoutNumber{Sutartinis terminų žodynas}{keywords}{Pateikiamas terminų sąrašas (jei reikia)}
 
 
 \end{document}
