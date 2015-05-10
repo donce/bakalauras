@@ -78,7 +78,8 @@ Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau n
 Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, kurios ne tik tinkamai pertvarko signalą išvedimui, tačiau ir kurios išvestinės yra paprastos.
 
 Įeinamosios neurono jungtys numeruojamos nuo 1 iki $k$.
-Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$. Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
+Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$.
+Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
 
 
 
@@ -100,7 +101,76 @@ f(a) = \frac{1}{1 + e^{-a}}
 
 \subsection{Dirbtiniai neuronai/tinklas?TODO}
 
-Visi
+Dirbtinių neuronų tinklas (angl.~\textit{Artificial neural network}) - tai tinklas, kurį sudaro dirbtiniai neuronai bei jungtys, jungiančios kai kuriuos dirbtinius neuronus.
+Per kiekvieną jungtį gali eiti signalas, kuris perduoda vieno neurono išeinamąjį signalą kitam neuronui.
+Kiekvienas neuronas gali turėti bet kokį skaičių įeinančių ir bet kokį skaičių išeinančių jungčių.
+
+Kai kurios jungtys gali būti prijungtos tik prie vieno neurono.
+Jungtys, kurios įeina į neuroną tačiau neišeina iš jokio neurono, naudojamos duomenų perdavimui - šiomis jungtimis neuronų tinklui perduodami signalai, atitinkantys duomenis.
+Jungtys, išeinančios iš neurono tačiau neįeinančios į jokį neuroną, naudojamos rezultato gavimui - kai per visą neuroninį tinklą pereina signalai, būtent šiose jungtyse ir yra gaunamas pateiktus duomenis atitinkantis atsakymas.
+
+Dirbtinio neuronų tinklo užduotis - pagal pateikiamus duomenis sugeneruoti atsakymą.
+Pirmiausia duomenys pateikiami per tam skirtas jungtis.
+Neuronai, prijungti prie šių jungčių, gauna šiuos pradinius signalus, juos apdoroja ir pradeda skleisti tam tikro stiprumo signalą išeinančiomis jungtimis.
+Taip signalai sklinda tolyn ir visi tinklo neuronai būna apdorojami tol, kol galiausiai rezultatas būna gaunamas tam skirtose jungtyse.
+
+
+Neuronų tinklo pateiktas atsakymas nebūtinai yra teisingas - neuronų tinklas suprojektuotas taip, kad jį būtų galima tobulinti pagal daromas klaidas.
+Vienas populiariausių būdų, kuris yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{Backpropogation}).
+Tam, kad būtų galima apmokyti neuronų tinklą spręsti konkrečią problemą, reikia turėti nemažą šios problemos pavyzdinių duomenų rinkinį bei iš anksto žinoti kiekvienų duomenų teisingą atsakymą.
+Mokymas vyksta pažingsniui, vienu metu neuroninui tinklui pateikiant vienus duomenis iš turimo duomenų rinkinio.
+Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
+Šis gautas atsakymas yra sulyginamas su teisingu, iš anksto žinomu atsakymu.
+Pagal tai, kaip neurininio tinklo pateiktas atsakymas skiriasi nuo teisingojo, neuroninis tinklas būna pertvarkomas.
+Pertvarkymas vyksta nagrinėjant neuroninį tinklą priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
+Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungčių svoriai $w_k$ (įskaitant ir $w_0$, kuris naudojamas kaip papildomas parametras) būna pakeičiami taip, kad neuroninis tinklas gautų panašesnį atsakymą į teisingąjį.
+
+Taip atlikus vienų duomenų iš rinkinio apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
+Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
+Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
+Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos (angl.~\textit{Overfitting}).
+Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
+TODO: įdėti (angl. Validation)?
+
+
+TODO: backpropogation
+
+\subsection{Daugiasluoksnis perceptronas}
+
+Daugiasluoksnis perceptronas - tai tam tikromis savybėmis pasižymintis dirbtinių neuronų tinklas.
+Tai viena populiariausių dirbtinių neuroninių tinklų rūšis, kadangi savybės, kuriomis šis tinklas pasižymi, leidžia padaryti tam tikras skaičiavimo optimizacijas bei pakankamai lengvai realizuoti veikiantį neuroninį tinklą.
+Be to, galima keisti daugiasluoksnio perceptrono parametrus pritaikant jį konkrečiai sprendžiamai problemai.
+
+Neuronų tinklą galima nagrinėti kaip grafą, kuriame dirbtiniai neuronai yra grafo viršūnės, o jungtys, jungiančios juos - kryptinės grafo briaunos.
+Jeigu neuronų tinklo grafe būtų bent vienas ciklas, tai reikštų, kad šiame cikle esančiomis jungtimis einantys signalai gali keistis ne kartą - atnaujinus tam tikro neurono išvedimo signalą, ciklu gali pakisti ir šio neurono įvedimo signalas.
+Tada reikėtų vėl atnaujinti šio neurono išvedimo signalą, o tai darant vėl gali pakeisti bet kurį įvedimo signalą ir t.t.
+Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{feedforward}).
+Pagal apibrėžimą, jeigu tinklo grafe nėra nei vieno ciklo, tinklas yra pirmyn skleidžiamas.
+
+Tai, kad daugiasluoksnis perceptronas yra skleidžiamas pirmyn, suteikia nemažai privalumų.
+Norint apdorojant tam tikrą neuroną, privalu žinoti visus įeinančiųjų jungčių signalų dydžius, o tai reiškia, kad jau turi būti apdoroti visi neuronai, kurių išeinamosios jungtys įeina į apdorojamąjį neuroną.
+Grafe be ciklų rasti tokią seką, kuria būtų galima apdoroti tinklo neuronus nėra sunku - šį užduotis yra plačiai žinoma ir vadinama topologiniu rikiavimu.
+Yra žinoma, kad beciklinį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
+Šį sąvybė palengvina neuroninio tinklo apdorojimą.
+
+TODO: LAYERS
+
+Tai reiškia, kad grafą galima išrikiuoti topologiškai, t.y. susidaryti tokią viršūnių seką, kuria galėsime apdoroti dirbtinį neuroninį tinklą.
+
+Yra žinoma, kad 
+Kadangi pirmyn skleidžiami grafai neturi ciklų,
+Yra žinoma, kad kryptinį grafą, neturintį 
+
+nėra ciklų
+topologinis rikiavimas
+
+
+TODO: tam pasitarnauja topologinis rikiavimas
+
+TODO: Jei būtų ciklas, reikėtų pastoviai atnaujinti.
+
+
+Visi tinklo dirbtiniai neuronai veikia pagal anksčiau aprašytą modelį - 
 
 
 
@@ -130,8 +200,9 @@ Galimi sprendimai:
 
 \subsection{Statistinis sprendimas}
 
-Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl. \textit{Linear discriminant analysis}).
+Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{Linear discriminant analysis}).
 
+\url{http://en.wikipedia.org/wiki/Linear_discriminant_analysis#Face_recognition}
 
 
 \includegraphics[width=\linewidth]{pics/classification}
@@ -139,7 +210,7 @@ Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskrimin
 
 \section{Vilkdagių duomenys}
 
-Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl. \textit{Iris flower}) duomenys.
+Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
 Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
 Aprašyta po 50 kiekvienos rūšies vilkdagių.
 Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgis, taurėlapio plotis, vainiklapio ilgis bei vainiklapio plotis.
@@ -210,8 +281,14 @@ Pirmojo priedo tekstas ...
 \newpage
 \section{Šaltiniai}
 
+TODO: add titles
+TODO: ašyse sudėti pavadinimus
+
 \begin{enumerate}
 	\item \url{http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=298007}
+	\item
+	\url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=857823&queryText%3Doverfitting}
+	\url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=857823}
 \end{enumerate}
 
 \end{appendices}
