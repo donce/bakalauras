@@ -84,8 +84,8 @@ Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 
 
 
 \begin{figure}
-	\includegraphics[scale=0.5]{diagrams/1_neuron}
-	\caption{Dirbtinis neuronas \TODO{add functions}}
+	\includegraphics[scale=0.75]{diagrams/1_neuron}
+	\caption{Dirbtinis neuronas}
 	\label{fig:neuron}
 \end{figure}
 
@@ -241,14 +241,31 @@ Visos genų grupės turi po 500 genų.
 Analizuojami duomenų parametrai gali būti labai skirtingi, kadangi jie išreiškia skirtingas savybes, dydžius.
 Skiriasi parametrų mąsteliai - pvz. vieno parametro reikšmės gali kisti intervale $[0; 10]$, o kito $[10^3; 10^9]$.
 Dėl šių skirtumų tokias parametrų reikšmes tiesiai pateikti neuroniniui tinklui nėra praktiška.
-Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
-Tačiau daug naudingiau būtų visiems parametrams suteiktu vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
+Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikšmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
+Tačiau daug naudingiau būtų visiems parametrams suteikti vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
 Dėl šios priežasties prieš pateikiant duomenis neuroniniui tinklui, juos svarbu normuoti.
 
 Normuojant duomenis, kiekvienas duomenų parametras normuojamas atskirai.
 Norint sunormuotį parametrą, reikia išnagrinėti turimas šio parametro reikšmes bei pakeisti jas naujomis.
 Sunormalizavus duomenis, visi parametrai turėtų turėti beveik lygią svarbą neuroniniui tinklui - jų reikšmių intervalai turėtų būti lygūs.
 Paprasčiausias parametro normavimo metodas - rasti minimalią $p_{min}$ ir maksimalią $p_{max}$ parametro reikšmes ir kiekvieną $i$-tojo įrašo analizuojamo parametro reikšmę $p_i$ pakeisti pagal formulę:
+
+\begin{equation}
+p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
+\end{equation}
+
+Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
+Šis metodas buvo naudojamas tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengvai sugalvojamas metodas.
+Visgi vėliau buvo pradėtas naudoti kitas metodas - radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
+
+\begin{equation}
+p_i = \frac{p_i - p_{mean}}{p_{std}}
+\end{equation}
+
+Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
+Bandymu metu, šis metodas pasirodė tinkamesnis tiriamai problemai.
+
+TODO: gauso metodo straipsnis?
 
 \TODO{aprašyti, kad buvo naudota iš pradžių?}
 \TODO{palyginti abiejų normavimų efektyvumą?}
@@ -258,9 +275,6 @@ Paprasčiausias parametro normavimo metodas - rasti minimalią $p_{min}$ ir maks
 
 Kitas, šiame darbe naudojamas
 
-\begin{equation}
-p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
-\end{equation}
 
 
 \TODO{rezultatų palyginimas?}
