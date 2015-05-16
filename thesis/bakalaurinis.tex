@@ -300,29 +300,18 @@ p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
 
 Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
 Šis metodas buvo naudojamas tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengvai sugalvojamas metodas.
-Visgi vėliau buvo pradėtas naudoti kitas metodas - radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
+Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite{gaussian} šaltinyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
+Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
 
 \begin{equation}
 p_i = \frac{p_i - p_{mean}}{p_{std}}
 \end{equation}
 
 Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
-Bandymu metu, šis metodas pasirodė tinkamesnis tiriamai problemai.
+Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi yra 68\% tikimybė, kad jie bus iš intervalo $[-1; 1]$.
+Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
 
-\ref{ref-gaussian}
-
-\cite{638621}
-\TODO{gauso metodo straipsnis?}
-
-\TODO{aprašyti, kad buvo naudota iš pradžių?}
 \TODO{palyginti abiejų normavimų efektyvumą?}
-
-
-\TODO{ASD}
-
-Kitas, šiame darbe naudojamas
-
-
 
 \TODO{rezultatų palyginimas?}
 
