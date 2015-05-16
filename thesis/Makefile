@@ -2,7 +2,6 @@ generuoti:
 	xelatex bakalaurinis.tex
 	biber bakalaurinis
 	xelatex bakalaurinis.tex
-	open bakalaurinis.pdf || xdg-open bakalaurinis.pdf
 
 ubuntu:
 	echo "Diegiamas LaTeX (PdfLaTeX, XeTeX ir kt.)"
