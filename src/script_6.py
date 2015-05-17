@@ -5,7 +5,7 @@ AND and OR in one network, using two output neurons.
 import math
 import random
 
-from numpy import array, dot, vectorize, transpose, mean, std, copy as numpy_copy
+from numpy import array, zeros, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
 import matplotlib.pyplot as pyplot
 
@@ -43,9 +43,11 @@ class Network(object):
     biases = []
 
     learning_rate = None
+    momentum_coefficient = None
 
-    def __init__(self, learning_rate=0.5):
+    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0):
         self.learning_rate = learning_rate
+        self.momentum_coefficient = momentum_coefficient
 
     def generate(self, layer_neurons, use_random=True):
         for layer, neurons in enumerate(layer_neurons):
@@ -138,6 +140,7 @@ class Network(object):
         self.set_input_data(inputs)
         self.feed_forward()
 
+
         result = self.get_output()
 
         total_error = 0
@@ -147,11 +150,14 @@ class Network(object):
         for layer in reversed(range(1, self.layers-1)):
             deltas[layer] = dot(transpose(self.weights[layer+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[layer])
 
-        for layer in range(1, self.layers):
-            self.biases[layer] -= self.learning_rate * deltas[layer]
+        velocities = [zeros(a.shape) if a is not None else None for a in deltas]
+
+        for layer in xrange(1, self.layers):
+            velocities[layer] = velocities[layer] * self.momentum_coefficient - self.learning_rate * deltas[layer]
+            self.biases[layer] += velocities[layer]
             for i in xrange(self.layer_neurons(layer)):
                 for j in xrange(self.layer_neurons(layer-1)):
-                    self.weights[layer][i][j] -= self.learning_rate * deltas[layer][i][0] * self.activations[layer-1][j][0]
+                    self.weights[layer][i][j] += velocities[layer][i][0] * self.activations[layer-1][j][0]
 
         for j in xrange(self.layer_neurons(output_layer)):
             output = result[j][0]
@@ -344,7 +350,7 @@ def read_input():
 
 # network = Network()
 # network.generate((30, 2, 30))
-network = Network()
+network = Network(learning_rate=0.5, momentum_coefficient=0.2)
 network.generate((30, 30, 2, 30, 30))
 
 data = read_input()[:1500]
