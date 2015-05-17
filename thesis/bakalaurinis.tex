@@ -211,31 +211,8 @@ Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus treči�
 Savybė, kad kiekvieno sluoksnio, išskyrus paskutinio, visi neuronai turi išeinamąsias jungtis į visus sekančio sluoksnio neuronus taip pat yra naudinga - žinant tai, nereikia turėti jokio tinklo grafo, kadangi užtenka žinoti kiekvieno sluoksnio neuronus bei jungčių svorius.
 Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti suprastintas.
 Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
-Išanalizavus \TODO{finish}
-
-\TODO{MATRIX CALCULATIONS}
-
-
-\TODO{LAYERS}
-\TODO{matricų operacijos}
-
-Tai reiškia, kad grafą galima išrikiuoti topologiškai, t.y. susidaryti tokią viršūnių seką, kuria galėsime apdoroti dirbtinį neuroninį tinklą.
-
-Yra žinoma, kad 
-Kadangi pirmyn skleidžiami grafai neturi ciklų,
-Yra žinoma, kad kryptinį grafą, neturintį 
-
-nėra ciklų
-topologinis rikiavimas
-
-
-\TODO{tam pasitarnauja topologinis rikiavimas}
-
-\TODO{Jei būtų ciklas, reikėtų pastoviai atnaujinti.}
-
-
-Visi tinklo dirbtiniai neuronai veikia pagal anksčiau aprašytą modelį - 
-
+Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktivacijos funkciją pritaikyti visai matricai.
+Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
 
 
 \TODO{dirbtinio neurono paveiksliukas}
@@ -254,7 +231,9 @@ Taip pat aprašoma, kiek kiekvienas sluoksnis turi neuronų, kokios aktyvacijos 
 Visa tai kažkiek suvaržo neuroninio tinklo galimybes mokytis - prireikus išmokti sudėtingesnius duomenis, turima neuroninio tinklo struktūra gali to tiesiog nemokėti.
 Dėl to konkretus neuroninis tiklas turi tam tikras ribas, iki kurių gali tobulėti.
 
+\subsection{Neuroninio tinklo apmokymas}
 
+\TODO{parašyti}
 
 \section{Duomenys}
 

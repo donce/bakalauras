@@ -5,7 +5,7 @@ AND and OR in one network, using two output neurons.
 import math
 import random
 
-from numpy import array, dot, vectorize, transpose, mean, std
+from numpy import array, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
 import matplotlib.pyplot as pyplot
 
@@ -36,20 +36,18 @@ class Network(object):
         activations [layer][j][0] float - outputing value after applying activation function
         inputs [layer][0][j] float - sum of inputs received
     """
-    inputs = None
-    activations = None
+    inputs = []
+    activations = []
 
-    weights = None
-    biases = None
+    weights = []
+    biases = []
 
     learning_rate = None
-    use_random = True
 
-    def __init__(self, layer_neurons, learning_rate=0.5, use_random=True):
-        self.weights = []
-        self.inputs = []
-        self.activations = []
-        self.biases = []
+    def __init__(self, learning_rate=0.5):
+        self.learning_rate = learning_rate
+
+    def generate(self, layer_neurons, use_random=True):
         for layer, neurons in enumerate(layer_neurons):
             if use_random:
                 self.biases.append(array([[2.0 * random.random() - 1.0] for _ in xrange(neurons)]))
@@ -69,13 +67,14 @@ class Network(object):
                 curr_weights = array([])
             self.weights.append(curr_weights)
 
-        self.learning_rate = learning_rate
-
-    def serialize(self):
-        pass  # TODO: implement
-
-    def load(self):
-        pass  # TODO: implement
+    def clone(self):
+        network = Network()
+        network.inputs = [numpy_copy(a) for a in self.inputs]
+        network.activations = [numpy_copy(a) for a in self.activations]
+        network.weights = [numpy_copy(a) for a in self.weights]
+        network.biases = [numpy_copy(a) for a in self.biases]
+        network.learning_rate = self.learning_rate
+        return network
 
     def print_data(self):
         print 'activations:', self.activations
@@ -169,6 +168,9 @@ class Network(object):
         return transpose(self.activations[encoding_layer])[0]
 
     def teach(self, data, allowed_error=0.01, max_cycles=None, cycles=None):
+        best_network = self
+        best_error = None
+
         success = False
         cycle = 0
         errors = []
@@ -181,7 +183,11 @@ class Network(object):
                 if curr_error > allowed_error:
                     success = False
             cycle += 1
-            errors.append(cycle_error / len(data))
+            iteration_error = cycle_error / len(data)
+            errors.append(iteration_error)
+            if (iteration_error < best_error) or not best_error:
+                best_error = iteration_error
+                best_network = self.clone()
             if not success and max_cycles is not None and cycle >= max_cycles:
                 print 'stopping because max cycles limit exceeded'
                 break
@@ -198,7 +204,7 @@ class Network(object):
         print 'cycles:', cycle
         print 'finished'
         self.print_state()
-        return success
+        return success, best_network
 
 
 OR = (
@@ -233,7 +239,8 @@ XOR = (
 
 
 #correct: 288
-# network = Network((2, 1), use_random=False)
+# network = Network()
+# network.generate((2, 1), use_random=False)
 # network.teach(AND)
 
 
@@ -287,7 +294,8 @@ def generate_encoding_data(inputs):
 
 # for a in generate_encoding_data(DATA):
 #     print a
-# network = Network((3, 2, 3), use_random=False)
+# network = Network()
+# network.generate((3, 2, 3), use_random=False)
 # network.teach(generate_encoding_data(DATA), allowed_error=0.2)
 # network.run_encoding(DATA[0])
 # network.run_encoding(DATA[0])
@@ -329,11 +337,15 @@ def read_input():
 # data = read_input()[:1500]
 # normalize_input(data)
 
-# network = Network((30, 3))
-# network = Network((30, 100, 100, 3)) #best for classification
+# network = Network()
+# network.generate((30, 3))
+# network = Network()
+# network.generate((30, 100, 100, 3)) #best for classification
 
-# network = Network((30, 2, 30))
-network = Network((30, 30, 2, 30, 30))
+# network = Network()
+# network.generate((30, 2, 30))
+network = Network()
+network.generate((30, 30, 2, 30, 30))
 
 data = read_input()[:1500]
 normalize_input_linear(data)
@@ -341,7 +353,8 @@ data = [d[0] for d in data]
 
 partial_data = data[0:50] + data[500:550] + data[1000:1050]
 
-network.teach(generate_encoding_data(partial_data), max_cycles=100)
+_, network = network.teach(generate_encoding_data(partial_data), max_cycles=100)
+
 
 xs = []
 ys = []
@@ -382,5 +395,6 @@ def read_iris():
 
 # random.shuffle(iris_data)
 
-# network = Network((4, 4, 4, 3), use_random=True)
+# network = Network()
+# network.generate((4, 4, 4, 3), use_random=True)
 # network.teach(iris_data, max_cycles=10)
