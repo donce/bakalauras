@@ -10,6 +10,8 @@ from numpy import array, dot, vectorize, transpose, mean, std
 import matplotlib.pyplot as pyplot
 
 
+AXIS_LABEL_FONT_SIZE = 20
+
 def sigmoid_function(value):
     return 1.0 / (1.0 + pow(math.e, -value))
 vectorized_sigmoid_function = vectorize(sigmoid_function)
@@ -187,6 +189,8 @@ class Network(object):
                 print 'stopping because cycles number reached'
                 break
         print len(errors)
+        pyplot.xlabel('Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
+        pyplot.ylabel('Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
         pyplot.plot(errors)
         pyplot.show()
 
@@ -347,6 +351,8 @@ for d in partial_data:
     xs.append(x)
     ys.append(y)
 
+pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
 pyplot.plot(xs[:50], ys[:50], 'ro')
 pyplot.plot(xs[50:100], ys[50:100], 'go')
 pyplot.plot(xs[100:150], ys[100:150], 'bo')

@@ -92,6 +92,11 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 \TODO{dimensiškumo mažinimas}
 \TODO{tyrimo tikslai?}
 
+
+\TODO{Šaltiniai:}
+
+\cite{298007} \cite{857823} \cite{857823} \cite{1007668}
+
 \section{Dirbtinių neuronų tinklas}
 
 Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą užduotį arba užduotis.
@@ -110,8 +115,8 @@ Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungt
 
 Dirbtinis neuronas generuoja išeinamąjį signalą pagal tam tikrą modelį.
 Pirmiausia, kiekviena įeinančioji jungtis $k$ turi savo svorį $w_k$ - šis svoris yra padauginamas iš įeinančio signalo dydžio $x_k$.
-Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas skaičius $a$ (\ref{eq:a}~formulė).
-Tada šis skaičius $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
+Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas sužadinimo signalas $a$ (\ref{eq:a}~formulė).
+Tada sužadinimo signalas $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
 Šį funkcija $f$ yra vadinama aktyvacijos funkcija - ją galima keisti pagal tai, kokio tikslo siekiama iš šio dirbtinio neurono.
 Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė (\ref{eq:sigmoid}~formulė).
 Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau norint apmokyti dirbtinį neuronų tinklą, reikia rasti šios funkcijos išvestinę.
@@ -120,8 +125,6 @@ Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, 
 Įeinamosios neurono jungtys numeruojamos nuo 1 iki $k$.
 Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$.
 Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
-
-
 
 \begin{figure}
 	\includegraphics[scale=0.75]{diagrams/1_neuron}
@@ -170,7 +173,7 @@ Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungči�
 Taip atlikus vienų duomenų iš rinkinio apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
 Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
 Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
-Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos (angl.~\textit{Overfitting}).
+Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
 Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
 \TODO{įdėti (angl. Validation group)?}
 
@@ -186,17 +189,35 @@ Be to, galima keisti daugiasluoksnio perceptrono parametrus pritaikant jį konkr
 
 Neuronų tinklą galima nagrinėti kaip grafą, kuriame dirbtiniai neuronai yra grafo viršūnės, o jungtys, jungiančios juos - kryptinės grafo briaunos.
 Jeigu neuronų tinklo grafe būtų bent vienas ciklas, tai reikštų, kad šiame cikle esančiomis jungtimis einantys signalai gali keistis ne kartą - atnaujinus tam tikro neurono išvedimo signalą, ciklu gali pakisti ir šio neurono įvedimo signalas.
-Tada reikėtų vėl atnaujinti šio neurono išvedimo signalą, o tai darant vėl gali pakeisti bet kurį įvedimo signalą ir t.t.
+Tada reikėtų vėl atnaujinti šio neurono išvedimo signalą, o tai darant vėl gali pasikeisti bet kuris ivedimo signalas ir toks pasikeitimų ciklas gali kartotis labai daug kartų arba net ir niekada nesibaigti.
 Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{feedforward}).
 Pagal apibrėžimą, jeigu tinklo grafe nėra nei vieno ciklo, tinklas yra pirmyn skleidžiamas.
 
 Tai, kad daugiasluoksnis perceptronas yra skleidžiamas pirmyn, suteikia nemažai privalumų.
-Norint apdorojant tam tikrą neuroną, privalu žinoti visus įeinančiųjų jungčių signalų dydžius, o tai reiškia, kad jau turi būti apdoroti visi neuronai, kurių išeinamosios jungtys įeina į apdorojamąjį neuroną.
-Grafe be ciklų rasti tokią seką, kuria būtų galima apdoroti tinklo neuronus nėra sunku - šį užduotis yra plačiai žinoma ir vadinama topologiniu rikiavimu.
-Yra žinoma, kad beciklinį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
-Šį sąvybė palengvina neuroninio tinklo apdorojimą.
+Norint apdoroti tam tikrą neuroną, privalu žinoti visus įeinančiųjų jungčių signalų dydžius, o tai reiškia, kad jau turi būti apdoroti visi neuronai, kurių išeinamosios jungtys įeina į apdorojamąjį neuroną.
+Grafe be ciklų rasti tokią neuronų seką, kuria būtų galima apdoroti tinklo neuronus nėra sunku - šį užduotis yra plačiai žinoma ir vadinama topologiniu rikiavimu.
+Yra žinoma, kad beciklį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
+Šį savybė palengvina neuroninio tinklo apdorojimą.
+
+Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais.
+Tinklas yra sudarytas iš perceptronų grupių, kurios yra vadinamos sluoksniais.
+Visi neuronų sluoksniai yra išsidėstę iš eilės, nuo kairės į dešinę.
+Kiekvieno sluoksnio visi neuronai turi išeinamąsias jungtis į visus neuronus iš sekančio sluoksnio, esančio dešinėje.
+Išimtis paskutinis sluoksnis - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
+
+Tokia neuronų organizacija į sluoksnius dar palengvina tinklo veikimą - signalus siųsti galima sluoksnis po sluoksnio, pradedant pirmuoju, kuris gauna problemos duomenis, siunčiant signalus visomis jungtimis antrąjam sluoksniui.
+Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus trečiąjam ir t.t., kol galiausiai rezultatai gaunami paskutiniame sluoksnyje.
+
+Savybė, kad kiekvieno sluoksnio, išskyrus paskutinio, visi neuronai turi išeinamąsias jungtis į visus sekančio sluoksnio neuronus taip pat yra naudinga - žinant tai, nereikia turėti jokio tinklo grafo, kadangi užtenka žinoti kiekvieno sluoksnio neuronus bei jungčių svorius.
+Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti suprastintas.
+Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
+Išanalizavus \TODO{finish}
+
+\TODO{MATRIX CALCULATIONS}
+
 
 \TODO{LAYERS}
+\TODO{matricų operacijos}
 
 Tai reiškia, kad grafą galima išrikiuoti topologiškai, t.y. susidaryti tokią viršūnių seką, kuria galėsime apdoroti dirbtinį neuroninį tinklą.
 
@@ -226,33 +247,14 @@ Visi tinklo dirbtiniai neuronai veikia pagal anksčiau aprašytą modelį -
 \TODO{110 iš knygos}
 
 
-\section{Dimensiškumo mažinimas}
+\TODO{Perkelti statinės struktūros aprašymą (pateiktą žemiau):}
+
+Prieš pradedant neuroninio tinklo apmokymą, visa jo struktūra yra statiškai aprašoma - parenkama, kiek sluoksnių jis turi.
+Taip pat aprašoma, kiek kiekvienas sluoksnis turi neuronų, kokios aktyvacijos funkcijos yra naudojamos, kaip duomenys yra paduodami ir panašiai.
+Visa tai kažkiek suvaržo neuroninio tinklo galimybes mokytis - prireikus išmokti sudėtingesnius duomenis, turima neuroninio tinklo struktūra gali to tiesiog nemokėti.
+Dėl to konkretus neuroninis tiklas turi tam tikras ribas, iki kurių gali tobulėti.
 
 
-Klasifikavimo problema
-
-Galimi sprendimai:
-
-	* statistinis sprendimas
-	* neuroniniai tinklai
-		* veikimas
-		* apmokymas
-		* validavimas?
-		* Klasifikavimas požymių išskyrimui
-		* Dimensiškumo mažinimas -> Klasifikavimas
-
-\subsection{Statistinis sprendimas}
-
-Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{Linear discriminant analysis}).
-
-\url{http://en.wikipedia.org/wiki/Linear_discriminant_analysis#Face_recognition}
-
-\TODO{Pavyzdinio rezultato paveiksliukas}
-
-\TODO{Minusai - tiesinė priklausomybė (evernote: idėjos)}
-
-
-\includegraphics[width=\linewidth]{pics/classification}
 
 \section{Duomenys}
 
@@ -316,18 +318,113 @@ Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
 
 \TODO{rezultatų palyginimas?}
 
+\section{Duomenų grupės/Duomenų apmokymas/...}
+
+\TODO{nuspręsti poskyrio pavadinimą}
+
+Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių mokymui naudojamų duomenų.
+Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
+Kadangi mokymui naudoti yra naudojama baigtinė aibė įrašų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
+Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
+
+Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašas, kurios pirmiausia būna natūraliai ignoruojamos.
+Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
+Atliekant daugybę itaracijų su tais pačiais mokymo duomenimis, neuroninis tinklas nebeturi kur tobulėti, kaip tik prisitaikyti prie šių anomalijų, kadangi ir jos didina neuroninio tinklo klaidą.
+Tada neuroninio tinklo struktūra keičiasi taip, kad apimtų ir šią anomaliją, tačiau dėl to kenčia likusios populiacijos rezultatai.
+
+Kita priežąstis, dėl kurios įvyksta persitakymas, yra lokalių minimumų problema.
+Prieš pradedant neuroninio tinklo apmokymą, visi neuronų jungčių svoriai yra parenkami atsitiktinai.
+Dėl to gaunamas atsitiktinis neuroninis tinklas, kuris jau pateikia tam tikrus atsakymus.
+Tikėtina, kad jo pateikiami atsakymai yra labai prasti ir gali būti pagerinti, kadangi tai visiškai naujas atsitiktinai sukurtas tinklas, dar nieko nežinantis apie tiriamą problemą.
+Dėl to mokymo metu jis tobulėja, mažindamas mokymo duomenų pateikiamą klaidą.
+Problema kyla dėl to, kad neuroninio tinklo tobulėjimas vyksta mažais žingsniais, iš dabartinių turimų svorių juos truputį pakeičiant taip, kad atsakymas pagerėtų.
+O kadangi visas mokymas prasideda nuo atsitiktinai sugeneruotų duomenų, todėl pats mokymas bus ne artėjimas prie idealaus tinklo, o prie panašaus į atsitiktinį tinklą, kuris veiktų geriau, nei dabar.
+Tačiau kartais norint pasiekti gerų rezultatų, gali prireikti drąstiškai pakeisti daugybę tinklo svorių.
+Visgi to tinklas padaryti negali, nes vienu metu jis analizuoja tik vieną duomenų įrašą, neatsižvelgiant apie kitus, todėl rimtesni pakeitimai sugadintų neuroninį tinklą sprendžiant tiriamą problemą.
+Dėl to apmokomas tinklas turi ribas, iki kiek gali iš tikro gali tobulėti - ši riba ir yra vadinama lokaliu minimumu.
+Artėdamas prie lokalaus minimumo, tinklas taip stipriai prisiderina prie mokymui panaudotų duomenų, kad jo struktūros teikiami rezultatai taip pat pradeda blogėti tiriamajai problemos populiacijai.
+
+Paskutinė persitaikymo priežąstis, kuri šiek tiek paaiškina prieš tai buvusias priežąstis, yra ta, kad neuroninis tinklas vėlesnėse iteracijose per daug siekia tobulumo.
+Dažnai maža neuroninio tinklo pateikiama klaida nereiškia blogo atsakymo.
+Klasifikavimo uždavinyje atsakymas yra grupė, kuriai analizuojamas įrašas priklauso.
+Tačiau jo pateikiamo atsakymo formatas skiriasi - atsakyme yra gaunama, kiek šis įrašas turi kiekvienos grupės savybių.
+Iš šio tinklo pateikiamo atsakymo rezultatas gaunamas išrenkant grupę, kuri yra būdingiausia įrašui.
+Dėl to atsakymas būtų idealus, jeigu analizuojamas įrašas būtų 100\% priklausomas grupei, kuriai jis priklauso, ir 0\% kitoms.
+Tačiau dažnai netgi patys duomenys gali būti tokios prigimties, kad nors jie ir priklauso vienai konkrečiai grupei, visgi turi ir kitų grupių savybių.
+Dėl to siekis, kad kiekvienas mokymo duomenų įrašas būtų pripažintas kaip 0\% priklausomas kitoms grupėms, šiek tiek kenkia tinklo tobulėjimui - nors ir pasiekiamas teisingas atsakymas, visgi bandoma jį vis tobulint, siekiant pasiekti 0\% ir 100\% priklausomybę atitinkamoms grupėms.
+Čia ir įvyksta persitaikymas, nes po tam tikro iteracijų skaičiaus neuroninis tinklas tiek bando pasiekti minimalią galima klaidą, kad jo rezultatas su likusia problemos duomenų populiacija pradeda kristi.
+
+Norint gauti neuroninį tinklą, kuris efektyviai spręstų ne tik mokymui parinktus duomenis, bet ir visą problemos populiaciją, reikia vengti persitaikymo.
+Tą galima padaryti naudojant validacijos rinkinį(angl.~\textit{validation set}).
+Apmokymui reikia parinkti ne tik apmokymui naudojamą rinkinį, bet taip pat ir validacijos rinkinį.
+Šie duomenų rinkiniai turi neturėti bendrų įrašų, priešingu atveju validacija nebus veiksminga.
+Taip pat tiek apmokymo, tiek validacijos rinkiniuose turėtų būti kuo įvairesnių ir skirtingesnių įrašų - jie turi apimti įvairius skirtingus duomenų variantus tam, kad neuroninis tinklas juos išmoktų bei kad validacija būtų efektyvi.
+Turint apmokymo ir validacijos rinkinius, apmokymas vyksta įprastai - tinklas mokomas spręsti po vieną įrašą.
+Tačiau vietoj to, kad tinklo progresas būtų sekamas pagal tai, kaip gerai ji sprendžia apmokymo rinkinį, yra panaudojamas validacijos rinkinys.
+Po kiekvienos apmokymo iteracijos, neuroniniui tinklui yra duodami validacijos rinkinio įrašai.
+Juos neuroninis tinklas turi išspręsti, tačiau be mokymosi žingsnio, nes kitaip validacijos rinkinys netektų prasmės.
+Gavus validacijos grupės atsakymų klaidą, ją galima naudoti stebint neuroninio tinklo progresą.
+Paprastai mokymo pradžioje validacijos grupės klaida mažėja, tačiau po tam tikro iteracijų skaičiaus ši klaida pradeda didėti, nors apmokymo rinkinio gaunama klaida vis dar mažėja.
+Būtent šioje vietoje ir prasideda persitaikymas, todėl vos pasiekus šią ribą arba dar po kelių iteracijų nuo jos geriausia neurono apmokymą nutraukti.
 
 
-\section{Dimensiškumo mažinimas neuroniniu tinklu}
+Mokymo rinkinys
+Validacijos rinkinys (Normavimas vyksta kartu)
+
+\TODO{paieškoti lokalių minimumų straipsnių}
 
 
-\TODO{įžanga}
+
+
+\section{Dimensiškumo mažinimas}
+
+Klasifikavimo problema
+
+Galimi sprendimai:
+
+	* statistinis sprendimas
+	* neuroniniai tinklai
+		* veikimas
+		* apmokymas
+		* validavimas?
+		* Klasifikavimas požymių išskyrimui
+		* Dimensiškumo mažinimas -> Klasifikavimas
+
+\subsection{Tiesinė diskriminantinė analizė}
+
+Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{Linear discriminant analysis}).
+
+\TODO{Aprašyti veikimą}
+
+Pagrindinis šio metodo suvaržymas yra tai, kad kiekvienas naujas parametras yra gaunamas sudėjus originalių parametrų reikšmes, padaugintas iš atitinkamų koeficientų.
+Tai reiškia, kad naujieji parametrai turi tiesinę priklausomybę nuo senųjų, todėl toks dimensijų mažinimas yra labai elementarus.
+Jeigu norima sukurti naują parametrą, kurio išvedimas yra sudėtingesnis, to padaryti naudojant šį metodą nepavyks.
+Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
+
+\TODO{statistinis dimensijų mažinimas - tiesinis (linear), o neuroniniai tinklai geba atlikti sudėtingesnias transformacijas.}
+
+\TODO{paaiškinti, kaip veikia tiesinis - kiekviena nauja savybė gaunama iš originalių savybių su tam tikrais apskaičiuojamais koeficientais.}
+
+
+\url{http://en.wikipedia.org/wiki/Linear_discriminant_analysis#Face_recognition}
+
+\TODO{Pavyzdinio rezultato paveiksliukas}
+
+\TODO{matlab, python script}
+
+
+\TODO{SVD? \url{http://en.wikipedia.org/wiki/Singular_value_decomposition}}
+
+
+\includegraphics[width=\linewidth]{pics/classification}
+
+\subsection{Dimensiškumo mažinimas neuroniniu tinklu}
 
 Dimensiškumo mažinimui taip pat buvo panaudotas neuroninis tinklas.
 Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tiklą, kurio pirmąjame ir paskutinimae sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
 Tokio neuroninio tinklo užduotis nėra tiesiog sumažinti dimensijų skaičių - tai daroma netiesiogiai.
 Šiam tinklui perduodant tam tikrus $M$ dimensijų turinčius duomenis, iš jo tikimasi, kad išeities neuronuose susiformuos rezultatas, lygus pradiniams duomenims - tai yra neuronų tinklas šių duomenų nepakeis.
-Ši užduotis paprastai nebūtų sunki, jeigu visi vidiniai turėtų bent $N$ dimensijų - tada pateikiami duomenys galėtų būti tiesiog perkeliami iš vieno neuronų sluoksnio į kitą nepakeisti.
+Ši užduotis būtų paprasta, jeigu visi vidiniai turėtų bent $N$ dimensijų - tada pateikiami duomenys galėtų būti tiesiog perkeliami iš vieno neuronų sluoksnio į kitą nepakeisti.
 Tačiau kompresijos sluoksnis turi tik $M$ neuronų - vadinasi, duomenis reikės tam tikru būdu pertvarkyti, kad jie galėtų būti perduodami per šį sluoksnį prarandant kuo mažiau savybių.
 Būtent čia ir įvyksta dimensiškumo mažinimas - neuroninis tinklas yra apmokomas pateikti kuo panašesnius duomenis į pradinius, ko pasekoje kompresijos sluoksnyje su $M$ neuronų yra gaunami duomenys, turintys mažiau dimensijų.
 Norint sumažinti tam tikro duomens dimensijas, užtenka šį duomenį paduoti apmokytui neuroniniui tinklui ir pažiūrėti, kokie duomenys susidarė kompresijos sluoksnyje.
@@ -340,6 +437,9 @@ Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo
 \TODO{diagrama su dimensijų mažinimo neuroniniu tinku (kompresijos, dekompresijos pusės; N, M neuronų; rezultatas toks pat kaip duomenys)}
 
 
+\includegraphics[scale=0.40]{pics/dimensionality_reduction_progress}
+\includegraphics[scale=0.40]{pics/dimensionality_reduction_result}
+
 
 \sectionnonum{Rezultatai ir išvados}
 Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
@@ -348,6 +448,13 @@ išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
 rekomendacijos, akcentuojamos naujovės). Rezultatai ir išvados pateikiami
 sunumeruotų (gali būti hierarchiniai) sąrašų pavidalu. Darbo rezultatai turi
 atitikti darbo tikslą.
+
+\TODO{Suprogramuotas neuroninis tinklas}
+\TODO{Išanalizuoti duomenys}
+\TODO{Išbandyti skirtingi dimensiškumo mažinimo metodai}
+\TODO{Išbandyti skirtingi klasifikavimo metodai}
+\TODO{Išbandyti skirtingi dimensiškumo mažinimo ir klasifikavimo apjungimo metodai}
+
 
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
