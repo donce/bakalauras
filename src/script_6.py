@@ -155,9 +155,7 @@ class Network(object):
         for layer in xrange(1, self.layers):
             velocities[layer] = velocities[layer] * self.momentum_coefficient - self.learning_rate * deltas[layer]
             self.biases[layer] += velocities[layer]
-            for i in xrange(self.layer_neurons(layer)):
-                for j in xrange(self.layer_neurons(layer-1)):
-                    self.weights[layer][i][j] += velocities[layer][i][0] * self.activations[layer-1][j][0]
+            self.weights[layer] += dot(velocities[layer], transpose(self.activations[layer-1]))
 
         for j in xrange(self.layer_neurons(output_layer)):
             output = result[j][0]
@@ -350,7 +348,7 @@ def read_input():
 
 # network = Network()
 # network.generate((30, 2, 30))
-network = Network(learning_rate=0.5, momentum_coefficient=0.2)
+network = Network(learning_rate=0.2, momentum_coefficient=0.1)
 network.generate((30, 30, 2, 30, 30))
 
 data = read_input()[:1500]
@@ -359,7 +357,7 @@ data = [d[0] for d in data]
 
 partial_data = data[0:50] + data[500:550] + data[1000:1050]
 
-_, network = network.teach(generate_encoding_data(partial_data), max_cycles=100)
+_, network = network.teach(generate_encoding_data(partial_data), max_cycles=1000)
 
 
 xs = []
