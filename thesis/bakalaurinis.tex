@@ -211,7 +211,7 @@ Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus treči�
 Savybė, kad kiekvieno sluoksnio, išskyrus paskutinio, visi neuronai turi išeinamąsias jungtis į visus sekančio sluoksnio neuronus taip pat yra naudinga - žinant tai, nereikia turėti jokio tinklo grafo, kadangi užtenka žinoti kiekvieno sluoksnio neuronus bei jungčių svorius.
 Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti suprastintas.
 Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
-Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktivacijos funkciją pritaikyti visai matricai.
+Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
 Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
 
 
@@ -236,6 +236,51 @@ Dėl to konkretus neuroninis tiklas turi tam tikras ribas, iki kurių gali tobul
 \TODO{parašyti}
 
 \section{Duomenys}
+
+\subsubsection{Momento koeficientas}
+
+Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
+Neuroninių tinklų mokymo principas yra apmokyti jį mokant vieno pavyzdžio vienu metu.
+Pavyzdžio duomenys būna paduodami tinklui, gaunamas konkretus atsakymas, kuris yra sulyginamas su teisingu atsakymu.
+Pagal tai, koks buvo gautas atsakymas ir koks yra teisingas atsakymas, apskaičiuojama, kaip reikia pakeisti tinklo svorius, kad kitą kartą būtų gautas atsakymas, panašesnis į teisingą.
+Tai pasiekiama kiekvienam tinklo svoriui apskaičiavus, kaip ir kiek jį reikia pakeisti (padidinti ar pamažinti svorį).
+Tuomet koeficientas yra pakeičiamas pagal tai, kaip tuo metu jo pakeitimas pakeistų analizuojamo pavyzdžio atsakymą.
+
+Momento koeficiento metodas veikia panašiai, tačiau šiek tiek praplečia svorių keitimą.
+Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
+Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
+Panašiai veikia momento koeficientas - analizuojant, kaip reikia pakeisti svorius, šie dydžiai nėra tiesiog pritaikomi šiuo metu, tačiau jie yra panaudojami kaip greitis.
+Kiekvienam parametrui išsaugomas kitimo greitis, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti parametro dydį.
+Šis turimas greitis kiekvienos iteracijos metu yra pritaikomas kaip pokytis parametrui keisti.
+
+Toks parametrų keitimo metodas suteikia kelis privalumus.
+Pirmiausia, mokymo procesas pagreitėja - jei kelias iteracijas parametrą reikia keisti ta pačia linkme, naudojant šį metodą prireiks mažiau iteracijų, kadangi pakeitimas sumuosis ir kaskart panaudojamas vis didesnis pakeitimo žingsnis.
+To pasiekti vien padidinus mokymo koeficientą nepavyks, kadangi didelis mokymo koeficientas atliks didelius pakeitimus net ir ten, kur jų nereikia.
+Tuo tarpu momentinis metodas iš pradžių pradės mokymą mažais žingsniais ir jeigu mokymo kryptis pasikeis, taip pat ir koeficiento kitimo greitis pradės keistis.
+
+Taip pat šis metodas leidžia išvengti lokalių minimumų.
+Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį parametro keitimo žingsnį, patekimas į lokalų minimumą nesugebės greitai pakeisti mokymo krypties.
+Žinoma, tai turės įtakos parametro keitimo žingsniui, tačiau jeigu lokalus minimumas yra iš tikro lokalus ir gan nereikšmingas, tada turimas parametro keitimo žingsnis leis kurį laiką tęsti parametro keitimą į tą pusę, į kurią jis buvo keičiamas senesnėse iteracijose.
+
+Tinklo apmokymui naudojamas apmokymo rinkinys, sudarytas iš kelių (dažniausiai daugybės) skirtingų įrašų.
+Naudojant paprastą apmokymo metodą, kiekvieno įrašo apmokymas yra atskiras procesas.
+Naudojant momento koeficientą, parametrų keitimo tendencijos tarp skirtingų įrašų išlieka.
+Tai suteikia tam tikro pranašumo, kadangi labai išsiskiriantys ar nevisai korektiški įrašai, kurių paprastai yra nedaug, mažiau neigiamai paveiks tinklą.
+Taip yra todėl, kad jie keis ne pačias parametro reikšmes, bet greitį, kuris yra priklausomas ir nuo senesnių kitų įrašų iteracijų.
+Tai gali padėti išvengti tinklo pakeitimo tokia linkme, kuri kitiems įrašams gali stipriai pabloginti rezultatą - pavyzdžiui, patekimo į lokalų minimumą.
+
+\begin{equation}
+\delta
+\end{equation}
+
+
+\TODO{function}
+
+%http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4579193&url=http%3A%2F%2Fieeexplore.ieee.org%2Fiel5%2F4569827%2F4579133%2F04579193.pdf%3Farnumber%3D4579193
+\TODO{}
+
+\TODO{keitimo žigsnis/greitis - suvienodinti savokas?}
+
 
 \subsection{Vilkdagių duomenys}
 

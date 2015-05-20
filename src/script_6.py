@@ -36,11 +36,11 @@ class Network(object):
         activations [layer][j][0] float - outputing value after applying activation function
         inputs [layer][0][j] float - sum of inputs received
     """
-    inputs = []
-    activations = []
+    inputs = None
+    activations = None
 
-    weights = []
-    biases = []
+    weights = None
+    biases = None
 
     learning_rate = None
     momentum_coefficient = None
@@ -48,6 +48,11 @@ class Network(object):
     def __init__(self, learning_rate=0.5, momentum_coefficient=0.0):
         self.learning_rate = learning_rate
         self.momentum_coefficient = momentum_coefficient
+
+        self.inputs = []
+        self.activations = []
+        self.weights = []
+        self.biases = []
 
     def generate(self, layer_neurons, use_random=True):
         for layer, neurons in enumerate(layer_neurons):
@@ -140,7 +145,6 @@ class Network(object):
         self.set_input_data(inputs)
         self.feed_forward()
 
-
         result = self.get_output()
 
         total_error = 0
@@ -169,7 +173,12 @@ class Network(object):
 
     def run_encoding(self, data, encoding_layer):
         self.run(data, data)
-        return transpose(self.activations[encoding_layer])[0]
+        return numpy_copy(transpose(self.activations[encoding_layer])[0])
+
+    def run_classification(self, data):
+        self.set_input_data(data)
+        self.feed_forward()
+        return self.get_output().argmax()
 
     def teach(self, data, allowed_error=0.01, max_cycles=None, cycles=None):
         best_network = self
@@ -331,7 +340,7 @@ def read_input():
     data = []
     f = open('../data/CR1')
     for nr, line in enumerate(f.readlines()):
-        type = nr / 50
+        type = nr / 500
         input = map(int, line.strip().split())
         type_output = [1.0 if i == type else 0.0 for i in range(3)]
         data.append((input, type_output))
@@ -348,25 +357,32 @@ def read_input():
 
 # network = Network()
 # network.generate((30, 2, 30))
+
 network = Network(learning_rate=0.2, momentum_coefficient=0.1)
 network.generate((30, 30, 2, 30, 30))
 
 data = read_input()[:1500]
 normalize_input_linear(data)
-data = [d[0] for d in data]
 
 partial_data = data[0:50] + data[500:550] + data[1000:1050]
 
-_, network = network.teach(generate_encoding_data(partial_data), max_cycles=1000)
+compress_partial_data = [d[0] for d in partial_data]
+
+_, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
 
 
 xs = []
 ys = []
 
-for d in partial_data:
-    x, y = network.run_encoding(d, 2)
-    xs.append(x)
-    ys.append(y)
+compressed_partial_data = []
+
+for i, d in enumerate(compress_partial_data):
+    r = network.run_encoding(d, 2)
+    xs.append(r[0])
+    ys.append(r[1])
+    compressed_partial_data.append((r, partial_data[i][1]))
+
+# TODO: use compressed_partial_data
 
 pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
 pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
@@ -375,6 +391,24 @@ pyplot.plot(xs[50:100], ys[50:100], 'go')
 pyplot.plot(xs[100:150], ys[100:150], 'bo')
 pyplot.show()
 
+
+# import pickle
+# pickle.dump(compressed_partial_data, open('data.txt', 'w'))
+# compressed_partial_data = pickle.load(open('data.txt'))
+
+cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9)
+cls_network.generate((2, 2, 2, 3))
+_, cls_network = cls_network.teach(compressed_partial_data, max_cycles=1000)
+
+total = len(compressed_partial_data)
+correct = 0
+for d, expected in compressed_partial_data:
+    result = cls_network.run_classification(d)
+    expected_result = array(expected).argmax()
+    if result == expected_result:
+        correct += 1
+
+print 'result {}/{}'.format(correct, total)
 
 def read_iris():
     iris_data = []
