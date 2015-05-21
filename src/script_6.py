@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Single layer perceptron using sigmoid activation function.
 AND and OR in one network, using two output neurons.
@@ -8,8 +9,11 @@ from datetime import datetime
 
 from numpy import array, zeros, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
+import matplotlib
 import matplotlib.pyplot as pyplot
 
+
+matplotlib.rc('font', family='Arial')
 
 AXIS_LABEL_FONT_SIZE = 20
 
@@ -142,6 +146,7 @@ class Network(object):
         self.feed_forward()
 
         if desired_result is not None:
+            assert self.layer_neurons(self.layers-1) == len(desired_result)
             total_error = 0
             result = self.get_output()
             for a in xrange(self.layer_neurons(self.layers-1)):
@@ -225,11 +230,12 @@ class Network(object):
                 print 'stopping because cycles number reached'
                 break
         print len(errors)
-        pyplot.xlabel('Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
-        pyplot.ylabel('Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
-        pyplot.plot(errors)
+        pyplot.xlabel(u'Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
+        pyplot.ylabel(u'Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
+        pyplot.plot(errors, label=u'Mokymosi klaida')
         if validation_data:
-            pyplot.plot(validation_errors)
+            pyplot.plot(validation_errors, label=u'Validacijos klaida')
+        pyplot.legend()
         pyplot.savefig(figname(self.name), format='pdf')
         pyplot.show()
 
@@ -381,17 +387,24 @@ network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression
 # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
 network.generate((30, 30, 2, 30, 30))
 # network.generate((30, 60, 90, 2, 90, 60, 30))
-compression_layer = 3
+compression_layer = 2
 
 data = read_input()[:1500]
 normalize_input_linear(data)
 
-partial_data = data[0:50] + data[500:550] + data[1000:1050]
+partial_data_group_size = 50
+partial_data = data[0:0+partial_data_group_size] + data[500:500+partial_data_group_size] + data[1000:1000+partial_data_group_size]
+validation_data_group_size = 20
+validation_data = data[0+partial_data_group_size:0+partial_data_group_size+validation_data_group_size] + \
+    data[500+partial_data_group_size:500+partial_data_group_size+validation_data_group_size] + \
+    data[1000+partial_data_group_size:1000+partial_data_group_size+validation_data_group_size]
 
 compress_partial_data = [d[0] for d in partial_data]
+compress_validation_data = [d[0] for d in validation_data]
 
-_, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
-# _, network = network.teach(generate_encoding_data(compress_partial_data), validation_data=generate_encoding_data(compress_partial_data), max_cycles=10)
+# _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
+_, network = network.teach(generate_encoding_data(compress_partial_data),
+                           validation_data=generate_encoding_data(compress_validation_data), max_cycles=100)
 
 
 xs = []
