@@ -4,6 +4,7 @@ AND and OR in one network, using two output neurons.
 '''
 import math
 import random
+from datetime import datetime
 
 from numpy import array, zeros, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
@@ -26,6 +27,10 @@ def answer(output):
     return 1 if output > 0.5 else 0
 vectorized_answer = vectorize(answer)
 
+def figname(name=None):
+    now = datetime.now()
+    return 'diagrams/{}{}-{}-{}_{}-{}-{}.pdf'.format(name + '_' if name else '', now.year, now.month, now.day, now.hour, now.minute, now.second)
+
 
 class Network(object):
     """
@@ -36,23 +41,18 @@ class Network(object):
         activations [layer][j][0] float - outputing value after applying activation function
         inputs [layer][0][j] float - sum of inputs received
     """
-    inputs = None
-    activations = None
 
-    weights = None
-    biases = None
-
-    learning_rate = None
-    momentum_coefficient = None
-
-    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0):
+    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0, name=None):
         self.learning_rate = learning_rate
         self.momentum_coefficient = momentum_coefficient
+        self.name = name
 
         self.inputs = []
         self.activations = []
         self.weights = []
         self.biases = []
+
+        self.velocities = []
 
     def generate(self, layer_neurons, use_random=True):
         for layer, neurons in enumerate(layer_neurons):
@@ -81,6 +81,7 @@ class Network(object):
         network.weights = [numpy_copy(a) for a in self.weights]
         network.biases = [numpy_copy(a) for a in self.biases]
         network.learning_rate = self.learning_rate
+        network.name = self.name
         return network
 
     def print_data(self):
@@ -126,8 +127,6 @@ class Network(object):
     def feed_forward(self):
         self._clean_inputs()
 
-        # self.activations[0] = self.apply_activation(self.inputs[0])#foo
-
         for layer in xrange(1, self.layers):
             w = self.weights[layer]
             a = self.activations[layer-1]
@@ -137,67 +136,85 @@ class Network(object):
     def get_output(self):
         return self.activations[self.layers-1]
 
-    def run(self, inputs, desired_result):
-        desired_result = array([[result] for result in desired_result])
-        output_layer = self.layers-1
-        assert len(desired_result) == self.layer_neurons(output_layer)
-
+    # if desired_result is received, error is returned
+    def run(self, inputs, desired_result=None):
         self.set_input_data(inputs)
         self.feed_forward()
 
-        result = self.get_output()
+        if desired_result is not None:
+            total_error = 0
+            result = self.get_output()
+            for a in xrange(self.layer_neurons(self.layers-1)):
+                output = result[a][0]
+                desired_output = desired_result[a]
 
-        total_error = 0
+                error = (output - desired_output) ** 2
+                total_error += error
+            return total_error / len(desired_result)
+
+    def run_encoding(self, data, encoding_layer):
+        self.run(data)
+        return numpy_copy(transpose(self.activations[encoding_layer])[0])
+
+    def run_classification(self, data):
+        self.run(data)
+        return self.get_output().argmax()
+
+    def teach_case(self, inputs, desired_result):
+        output_layer = self.layers-1
+        assert len(desired_result) == self.layer_neurons(output_layer)
+
+        error = self.run(inputs, desired_result)
+
+        desired_result = array([[result] for result in desired_result])
+        result = self.get_output()
 
         deltas = self.layers * [None]
         deltas[self.layers-1] = 2 * (result - desired_result) * vectorized_sigmoid_derivative(result)
         for layer in reversed(range(1, self.layers-1)):
             deltas[layer] = dot(transpose(self.weights[layer+1]), deltas[layer+1]) * vectorized_sigmoid_derivative(self.activations[layer])
 
-        velocities = [zeros(a.shape) if a is not None else None for a in deltas]
-
         for layer in xrange(1, self.layers):
-            velocities[layer] = velocities[layer] * self.momentum_coefficient - self.learning_rate * deltas[layer]
-            self.biases[layer] += velocities[layer]
-            self.weights[layer] += dot(velocities[layer], transpose(self.activations[layer-1]))
+            self.velocities[layer] = self.velocities[layer] * self.momentum_coefficient - self.learning_rate * deltas[layer]
+            self.biases[layer] += self.velocities[layer]
+            self.weights[layer] += dot(self.velocities[layer], transpose(self.activations[layer-1]))
 
-        for j in xrange(self.layer_neurons(output_layer)):
-            output = result[j][0]
-            desired_output = desired_result[j][0]
+        return error
 
-            error = (output - desired_output) ** 2
-            total_error += error
-
-        correct = False
-        return correct, total_error / len(desired_result)
-
-    def run_encoding(self, data, encoding_layer):
-        self.run(data, data)
-        return numpy_copy(transpose(self.activations[encoding_layer])[0])
-
-    def run_classification(self, data):
-        self.set_input_data(data)
-        self.feed_forward()
-        return self.get_output().argmax()
-
-    def teach(self, data, allowed_error=0.01, max_cycles=None, cycles=None):
+    def teach(self, data, validation_data=None, allowed_error=0.001, max_cycles=None, cycles=None):
+        self.velocities = [zeros(a.shape) if a is not None else None for a in self.biases]
         best_network = self
         best_error = None
 
         success = False
         cycle = 0
         errors = []
+        validation_errors = []
         while cycles is not None or not success:
+            # self.learning_rate = 1.0 / (cycle / 10 + 2) # TODO: remove?
             success = True
+
+            #learning
             cycle_error = 0
             for case in data:
-                correct, curr_error = self.run(case[0], case[1])
+                curr_error = self.teach_case(case[0], case[1])# TODO: diff in this line
                 cycle_error += curr_error
                 if curr_error > allowed_error:
                     success = False
             cycle += 1
             iteration_error = cycle_error / len(data)
             errors.append(iteration_error)
+
+            #validation
+            # TODO: extract common code with above
+            if validation_data:
+                cycle_error = 0
+                for case in validation_data:
+                    curr_error = self.run(case[0], case[1])# TODO: test
+                    cycle_error += curr_error
+                iteration_error = cycle_error / len(validation_data)
+                validation_errors.append(iteration_error + 0.0)
+
             if (iteration_error < best_error) or not best_error:
                 best_error = iteration_error
                 best_network = self.clone()
@@ -211,12 +228,14 @@ class Network(object):
         pyplot.xlabel('Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
         pyplot.ylabel('Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
         pyplot.plot(errors)
+        if validation_data:
+            pyplot.plot(validation_errors)
+        pyplot.savefig(figname(self.name), format='pdf')
         pyplot.show()
 
         print 'success:', success
         print 'cycles:', cycle
         print 'finished'
-        self.print_state()
         return success, best_network
 
 
@@ -302,7 +321,7 @@ foo = array((
 # normalize_input_1(foo)
 
 def generate_encoding_data(inputs):
-    return [(d, d) for d in inputs]
+    return [(d, d) for d in inputs]  # TODO: remove numpy_copy
 
 
 # for a in generate_encoding_data(DATA):
@@ -358,8 +377,11 @@ def read_input():
 # network = Network()
 # network.generate((30, 2, 30))
 
-network = Network(learning_rate=0.2, momentum_coefficient=0.1)
+network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
+# network = Network(learning_rate=0.01, momentum_coefficient=0.4)
 network.generate((30, 30, 2, 30, 30))
+# network.generate((30, 60, 90, 2, 90, 60, 30))
+compression_layer = 3
 
 data = read_input()[:1500]
 normalize_input_linear(data)
@@ -369,6 +391,7 @@ partial_data = data[0:50] + data[500:550] + data[1000:1050]
 compress_partial_data = [d[0] for d in partial_data]
 
 _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
+# _, network = network.teach(generate_encoding_data(compress_partial_data), validation_data=generate_encoding_data(compress_partial_data), max_cycles=10)
 
 
 xs = []
@@ -377,28 +400,30 @@ ys = []
 compressed_partial_data = []
 
 for i, d in enumerate(compress_partial_data):
-    r = network.run_encoding(d, 2)
+    r = network.run_encoding(d, compression_layer)
+    assert len(r) == 2
     xs.append(r[0])
     ys.append(r[1])
     compressed_partial_data.append((r, partial_data[i][1]))
 
-# TODO: use compressed_partial_data
-
+pyplot.figure(figsize=(6, 6))
 pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
 pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
 pyplot.plot(xs[:50], ys[:50], 'ro')
 pyplot.plot(xs[50:100], ys[50:100], 'go')
 pyplot.plot(xs[100:150], ys[100:150], 'bo')
+pyplot.savefig(figname('2d'), format='pdf')
 pyplot.show()
+
 
 
 # import pickle
 # pickle.dump(compressed_partial_data, open('data.txt', 'w'))
 # compressed_partial_data = pickle.load(open('data.txt'))
 
-cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9)
+cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
 cls_network.generate((2, 2, 2, 3))
-_, cls_network = cls_network.teach(compressed_partial_data, max_cycles=1000)
+_, cls_network = cls_network.teach(compressed_partial_data, max_cycles=10)
 
 total = len(compressed_partial_data)
 correct = 0
