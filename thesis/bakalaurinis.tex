@@ -175,7 +175,7 @@ Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent keli
 Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
 Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
 Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
-\TODO{įdėti (angl. Validation group)?}
+\TODO{įdėti (angl.~\textit{Validation group})?}
 
 \TODO{error'o skaičiavimas?}
 
@@ -183,14 +183,14 @@ Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau 
 
 \subsection{Daugiasluoksnis perceptronas}
 
-Daugiasluoksnis perceptronas - tai tam tikromis savybėmis pasižymintis dirbtinių neuronų tinklas.
+Daugiasluoksnis perceptronas (angl.~\textit{Multilayer perceptron}) - tai tam tikromis savybėmis pasižymintis dirbtinių neuronų tinklas.
 Tai viena populiariausių dirbtinių neuroninių tinklų rūšis, kadangi savybės, kuriomis šis tinklas pasižymi, leidžia padaryti tam tikras skaičiavimo optimizacijas bei pakankamai lengvai realizuoti veikiantį neuroninį tinklą.
 Be to, galima keisti daugiasluoksnio perceptrono parametrus pritaikant jį konkrečiai sprendžiamai problemai.
 
 Neuronų tinklą galima nagrinėti kaip grafą, kuriame dirbtiniai neuronai yra grafo viršūnės, o jungtys, jungiančios juos - kryptinės grafo briaunos.
 Jeigu neuronų tinklo grafe būtų bent vienas ciklas, tai reikštų, kad šiame cikle esančiomis jungtimis einantys signalai gali keistis ne kartą - atnaujinus tam tikro neurono išvedimo signalą, ciklu gali pakisti ir šio neurono įvedimo signalas.
 Tada reikėtų vėl atnaujinti šio neurono išvedimo signalą, o tai darant vėl gali pasikeisti bet kuris ivedimo signalas ir toks pasikeitimų ciklas gali kartotis labai daug kartų arba net ir niekada nesibaigti.
-Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{feedforward}).
+Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{Feedforward}).
 Pagal apibrėžimą, jeigu tinklo grafe nėra nei vieno ciklo, tinklas yra pirmyn skleidžiamas.
 
 Tai, kad daugiasluoksnis perceptronas yra skleidžiamas pirmyn, suteikia nemažai privalumų.
@@ -199,11 +199,23 @@ Grafe be ciklų rasti tokią neuronų seką, kuria būtų galima apdoroti tinklo
 Yra žinoma, kad beciklį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
 Šį savybė palengvina neuroninio tinklo apdorojimą.
 
-Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais.
+
+\begin{figure}
+	\includegraphics[scale=0.75]{diagrams/2_neural_network}
+	\caption{Daugiasluoksnis perceptronas}
+	\label{fig:neural_network}
+\end{figure}
+
+Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais (žr. \ref{fig:neural_network} paveiksliuką).
 Tinklas yra sudarytas iš perceptronų grupių, kurios yra vadinamos sluoksniais.
 Visi neuronų sluoksniai yra išsidėstę iš eilės, nuo kairės į dešinę.
 Kiekvieno sluoksnio visi neuronai turi išeinamąsias jungtis į visus neuronus iš sekančio sluoksnio, esančio dešinėje.
 Išimtis paskutinis sluoksnis - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
+
+Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{Input layer}).
+Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{Hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
+Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos.
+Paskutinysis sluoksnis, naudojamas rezultatų suformavimui, vadinamas išvesties sluoksniu.
 
 Tokia neuronų organizacija į sluoksnius dar palengvina tinklo veikimą - signalus siųsti galima sluoksnis po sluoksnio, pradedant pirmuoju, kuris gauna problemos duomenis, siunčiant signalus visomis jungtimis antrąjam sluoksniui.
 Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus trečiąjam ir t.t., kol galiausiai rezultatai gaunami paskutiniame sluoksnyje.
@@ -211,10 +223,9 @@ Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus treči�
 Savybė, kad kiekvieno sluoksnio, išskyrus paskutinio, visi neuronai turi išeinamąsias jungtis į visus sekančio sluoksnio neuronus taip pat yra naudinga - žinant tai, nereikia turėti jokio tinklo grafo, kadangi užtenka žinoti kiekvieno sluoksnio neuronus bei jungčių svorius.
 Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti suprastintas.
 Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
-Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
+Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{eq:a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
 Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
 
-\includegraphics[scale=0.75]{diagrams/2_neural_network}
 
 \TODO{dirbtinio neurono paveiksliukas}
 
