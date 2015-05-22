@@ -46,10 +46,11 @@ class Network(object):
         inputs [layer][0][j] float - sum of inputs received
     """
 
-    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0, name=None):
+    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0, name=None, show_result=True):
         self.learning_rate = learning_rate
         self.momentum_coefficient = momentum_coefficient
         self.name = name
+        self.show_result = show_result
 
         self.inputs = []
         self.activations = []
@@ -237,7 +238,8 @@ class Network(object):
             pyplot.plot(validation_errors, label=u'Validacijos klaida')
         pyplot.legend()
         pyplot.savefig(figname(self.name), format='pdf')
-        pyplot.show()
+        if self.show_result:
+            pyplot.show()
 
         print 'success:', success
         print 'cycles:', cycle
@@ -372,82 +374,6 @@ def read_input():
     f.close()
     return data
 
-# data = read_input()[:1500]
-# normalize_input(data)
-
-# network = Network()
-# network.generate((30, 3))
-# network = Network()
-# network.generate((30, 100, 100, 3)) #best for classification
-
-# network = Network()
-# network.generate((30, 2, 30))
-
-network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
-# network = Network(learning_rate=0.01, momentum_coefficient=0.4)
-network.generate((30, 30, 2, 30, 30))
-# network.generate((30, 60, 90, 2, 90, 60, 30))
-compression_layer = 2
-
-data = read_input()[:1500]
-normalize_input_linear(data)
-
-partial_data_group_size = 50
-partial_data = data[0:0+partial_data_group_size] + data[500:500+partial_data_group_size] + data[1000:1000+partial_data_group_size]
-validation_data_group_size = 20
-validation_data = data[0+partial_data_group_size:0+partial_data_group_size+validation_data_group_size] + \
-    data[500+partial_data_group_size:500+partial_data_group_size+validation_data_group_size] + \
-    data[1000+partial_data_group_size:1000+partial_data_group_size+validation_data_group_size]
-
-compress_partial_data = [d[0] for d in partial_data]
-compress_validation_data = [d[0] for d in validation_data]
-
-# _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
-_, network = network.teach(generate_encoding_data(compress_partial_data),
-                           validation_data=generate_encoding_data(compress_validation_data), max_cycles=100)
-
-
-xs = []
-ys = []
-
-compressed_partial_data = []
-
-for i, d in enumerate(compress_partial_data):
-    r = network.run_encoding(d, compression_layer)
-    assert len(r) == 2
-    xs.append(r[0])
-    ys.append(r[1])
-    compressed_partial_data.append((r, partial_data[i][1]))
-
-pyplot.figure(figsize=(6, 6))
-pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-pyplot.plot(xs[:50], ys[:50], 'ro')
-pyplot.plot(xs[50:100], ys[50:100], 'go')
-pyplot.plot(xs[100:150], ys[100:150], 'bo')
-pyplot.savefig(figname('2d'), format='pdf')
-pyplot.show()
-
-
-
-# import pickle
-# pickle.dump(compressed_partial_data, open('data.txt', 'w'))
-# compressed_partial_data = pickle.load(open('data.txt'))
-
-cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
-cls_network.generate((2, 2, 2, 3))
-_, cls_network = cls_network.teach(compressed_partial_data, max_cycles=10)
-
-total = len(compressed_partial_data)
-correct = 0
-for d, expected in compressed_partial_data:
-    result = cls_network.run_classification(d)
-    expected_result = array(expected).argmax()
-    if result == expected_result:
-        correct += 1
-
-print 'result {}/{}'.format(correct, total)
-
 def read_iris():
     iris_data = []
     types = {}
@@ -463,6 +389,81 @@ def read_iris():
         iris_data.append((input, types[type]))
     f.close()
     return iris_data
+
+
+# data = read_input()[:1500]
+# normalize_input(data)
+
+# network = Network()
+# network.generate((30, 3))
+# network = Network()
+# network.generate((30, 100, 100, 3)) #best for classification
+
+# network = Network()
+# network.generate((30, 2, 30))
+
+
+data = read_input()[:1500]
+normalize_input_linear(data)
+
+partial_data_group_size = 50
+partial_data = data[0:0+partial_data_group_size] + data[500:500+partial_data_group_size] + data[1000:1000+partial_data_group_size]
+validation_data_group_size = 20
+validation_data = data[0+partial_data_group_size:0+partial_data_group_size+validation_data_group_size] + \
+    data[500+partial_data_group_size:500+partial_data_group_size+validation_data_group_size] + \
+    data[1000+partial_data_group_size:1000+partial_data_group_size+validation_data_group_size]
+
+compress_partial_data = [d[0] for d in partial_data]
+compress_validation_data = [d[0] for d in validation_data]
+
+for dimensions in range(2, 3):
+    print 'dimensions:', dimensions
+
+    network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
+    # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
+    network.generate((30, 30, dimensions, 30, 30))
+    # network.generate((30, 60, 90, 2, 90, 60, 30))
+    compression_layer = 2
+
+    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
+    _, network = network.teach(generate_encoding_data(compress_partial_data),
+                               validation_data=generate_encoding_data(compress_validation_data), max_cycles=100)
+
+    xs = []
+    ys = []
+
+    compressed_partial_data = []
+
+    for i, d in enumerate(compress_partial_data):
+        r = network.run_encoding(d, compression_layer)
+        assert len(r) == dimensions
+        xs.append(r[0])
+        ys.append(r[1])
+        compressed_partial_data.append((r, partial_data[i][1]))
+
+    pyplot.figure(figsize=(6, 6))
+    pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+    pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
+    pyplot.plot(xs[:50], ys[:50], 'ro')
+    pyplot.plot(xs[50:100], ys[50:100], 'go')
+    pyplot.plot(xs[100:150], ys[100:150], 'bo')
+    pyplot.savefig(figname('2d'), format='pdf')
+    pyplot.show()
+
+    cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
+    cls_network.generate((2, 2, 2, 3))
+    _, cls_network = cls_network.teach(compressed_partial_data, max_cycles=100)
+
+    total = len(compressed_partial_data)
+    correct = 0
+    for d, expected in compressed_partial_data:
+        result = cls_network.run_classification(d)
+        expected_result = array(expected).argmax()
+        if result == expected_result:
+            correct += 1
+
+    print 'result {}/{}'.format(correct, total)
+
 
 
 
