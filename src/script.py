@@ -6,6 +6,7 @@ AND and OR in one network, using two output neurons.
 import math
 import random
 from datetime import datetime
+from time import time
 
 from numpy import array, zeros, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
@@ -240,11 +241,13 @@ class Network(object):
         pyplot.savefig(figname(self.name), format='pdf')
         if self.show_result:
             pyplot.show()
+        else:
+            pyplot.close()
 
         print 'success:', success
-        print 'cycles:', cycle
-        print 'finished'
-        return success, best_network
+        # print 'cycles:', cycle
+        # print 'finished'
+        return best_error, best_network
 
 
 OR = (
@@ -416,43 +419,59 @@ validation_data = data[0+partial_data_group_size:0+partial_data_group_size+valid
 compress_partial_data = [d[0] for d in partial_data]
 compress_validation_data = [d[0] for d in validation_data]
 
-for dimensions in range(2, 3):
+#values
+vx = []
+vy = []
+
+start_time = time()
+
+for dimensions in range(1, 30):
+    print '-----------------------------------------'
     print 'dimensions:', dimensions
 
-    network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
+    print 'compression...'
+    network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
     # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
     network.generate((30, 30, dimensions, 30, 30))
-    # network.generate((30, 60, 90, 2, 90, 60, 30))
     compression_layer = 2
 
-    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=100)
-    _, network = network.teach(generate_encoding_data(compress_partial_data),
-                               validation_data=generate_encoding_data(compress_validation_data), max_cycles=100)
+    _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)
+    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
+    #                            validation_data=generate_encoding_data(compress_validation_data))
 
-    xs = []
-    ys = []
+    # TODO: 3d points distrubution?
+    # xs = []
+    # ys = []
 
     compressed_partial_data = []
 
     for i, d in enumerate(compress_partial_data):
         r = network.run_encoding(d, compression_layer)
         assert len(r) == dimensions
-        xs.append(r[0])
-        ys.append(r[1])
+        # xs.append(r[0])
+        # ys.append(r[1])
         compressed_partial_data.append((r, partial_data[i][1]))
 
-    pyplot.figure(figsize=(6, 6))
-    pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-    pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-    pyplot.plot(xs[:50], ys[:50], 'ro')
-    pyplot.plot(xs[50:100], ys[50:100], 'go')
-    pyplot.plot(xs[100:150], ys[100:150], 'bo')
-    pyplot.savefig(figname('2d'), format='pdf')
-    pyplot.show()
+    # pyplot.figure(figsize=(6, 6))
+    # pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+    # pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
+    # pyplot.plot(xs[:50], ys[:50], 'ro')
+    # pyplot.plot(xs[50:100], ys[50:100], 'go')
+    # pyplot.plot(xs[100:150], ys[100:150], 'bo')
+    # pyplot.savefig(figname('2d'), format='pdf')
+    # pyplot.show()
 
-    cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
-    cls_network.generate((2, 2, 2, 3))
-    _, cls_network = cls_network.teach(compressed_partial_data, max_cycles=100)
+    print 'classification...'
+    # cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
+    cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification', show_result=False)
+    # cls_network.generate((2, 2, 2, 3))
+    # cls_network.generate((dimensions, dimensions, dimensions, 3))
+    cls_network.generate((dimensions, 30, 30, 3))
+    best_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
+    # best_error = 0.5
+    print 'best_error:', best_error
+    vx.append(dimensions)
+    vy.append(1.0 - best_error)
 
     total = len(compressed_partial_data)
     correct = 0
@@ -464,6 +483,17 @@ for dimensions in range(2, 3):
 
     print 'result {}/{}'.format(correct, total)
 
+elapsed_time = time() - start_time
+print 'Elapsed time: {}s'.format(elapsed_time)
+
+dimfig = pyplot.figure(figsize=(20, 12))
+axis = pyplot.gca()
+axis.set_xticks(vx)
+pyplot.xlabel(u'Dimensijų skaičius', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.ylabel(u'1 - mokymosi klaida', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.plot(vx, vy, marker='.')
+pyplot.savefig(figname('dimensions'), format='pdf')
+pyplot.show()
 
 
 
