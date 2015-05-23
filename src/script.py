@@ -188,7 +188,7 @@ class Network(object):
 
         return error
 
-    def teach(self, data, validation_data=None, allowed_error=0.001, max_cycles=None, cycles=None):
+    def teach(self, data, validation_data=None, allowed_error=0.0001, max_cycles=None, cycles=None):
         self.velocities = [zeros(a.shape) if a is not None else None for a in self.biases]
         best_network = self
         best_error = None
@@ -423,65 +423,74 @@ compress_validation_data = [d[0] for d in validation_data]
 vx = []
 vy = []
 
+best_vx = []
+best_vy = []
+
 start_time = time()
 
 for dimensions in range(1, 30):
-    print '-----------------------------------------'
-    print 'dimensions:', dimensions
+    best_iterations_error = 1
+    for iteration in range(5):
+        print '-----------------------------------------'
+        print 'dimensions:', dimensions
 
-    print 'compression...'
-    network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
-    # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
-    network.generate((30, 30, dimensions, 30, 30))
-    compression_layer = 2
+        print 'compression...'
+        network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
+        # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
+        network.generate((30, 30, dimensions, 30, 30))
+        compression_layer = 2
 
-    _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)
-    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
-    #                            validation_data=generate_encoding_data(compress_validation_data))
+        _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)
+        # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
+        #                            validation_data=generate_encoding_data(compress_validation_data))
 
-    # TODO: 3d points distrubution?
-    # xs = []
-    # ys = []
+        # TODO: 3d points distrubution?
+        # xs = []
+        # ys = []
 
-    compressed_partial_data = []
+        compressed_partial_data = []
 
-    for i, d in enumerate(compress_partial_data):
-        r = network.run_encoding(d, compression_layer)
-        assert len(r) == dimensions
-        # xs.append(r[0])
-        # ys.append(r[1])
-        compressed_partial_data.append((r, partial_data[i][1]))
+        for i, d in enumerate(compress_partial_data):
+            r = network.run_encoding(d, compression_layer)
+            assert len(r) == dimensions
+            # xs.append(r[0])
+            # ys.append(r[1])
+            compressed_partial_data.append((r, partial_data[i][1]))
 
-    # pyplot.figure(figsize=(6, 6))
-    # pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-    # pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-    # pyplot.plot(xs[:50], ys[:50], 'ro')
-    # pyplot.plot(xs[50:100], ys[50:100], 'go')
-    # pyplot.plot(xs[100:150], ys[100:150], 'bo')
-    # pyplot.savefig(figname('2d'), format='pdf')
-    # pyplot.show()
+        # pyplot.figure(figsize=(6, 6))
+        # pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+        # pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
+        # pyplot.plot(xs[:50], ys[:50], 'ro')
+        # pyplot.plot(xs[50:100], ys[50:100], 'go')
+        # pyplot.plot(xs[100:150], ys[100:150], 'bo')
+        # pyplot.savefig(figname('2d'), format='pdf')
+        # pyplot.show()
 
-    print 'classification...'
-    # cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
-    cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification', show_result=False)
-    # cls_network.generate((2, 2, 2, 3))
-    # cls_network.generate((dimensions, dimensions, dimensions, 3))
-    cls_network.generate((dimensions, 30, 30, 3))
-    best_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
-    # best_error = 0.5
-    print 'best_error:', best_error
-    vx.append(dimensions)
-    vy.append(1.0 - best_error)
+        print 'classification...'
+        # cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
+        cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification', show_result=False)
+        # cls_network.generate((2, 2, 2, 3))
+        # cls_network.generate((dimensions, dimensions, dimensions, 3))
+        cls_network.generate((dimensions, 30, 30, 3))
+        best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
+        best_iterations_error = min(best_iterations_error, best_current_error)
+        print 'best_current_error:', best_current_error
+        vx.append(dimensions)
+        vy.append(1.0 - best_current_error)
 
-    total = len(compressed_partial_data)
-    correct = 0
-    for d, expected in compressed_partial_data:
-        result = cls_network.run_classification(d)
-        expected_result = array(expected).argmax()
-        if result == expected_result:
-            correct += 1
+        total = len(compressed_partial_data)
+        correct = 0
+        for d, expected in compressed_partial_data:
+            result = cls_network.run_classification(d)
+            expected_result = array(expected).argmax()
+            if result == expected_result:
+                correct += 1
 
-    print 'result {}/{}'.format(correct, total)
+        print 'result {}/{}'.format(correct, total)
+    print 'best_iterations_error', best_iterations_error
+    best_vx.append(dimensions)
+    best_vy.append(1.0 - best_iterations_error)
+
 
 elapsed_time = time() - start_time
 print 'Elapsed time: {}s'.format(elapsed_time)
@@ -491,7 +500,9 @@ axis = pyplot.gca()
 axis.set_xticks(vx)
 pyplot.xlabel(u'Dimensijų skaičius', fontsize=AXIS_LABEL_FONT_SIZE)
 pyplot.ylabel(u'1 - mokymosi klaida', fontsize=AXIS_LABEL_FONT_SIZE)
-pyplot.plot(vx, vy, marker='.')
+pyplot.plot(vx, vy, 'ro', label=u'Visi rezultatai')
+pyplot.plot(best_vx, best_vy, label=u'Geriausi rezultatai')
+pyplot.legend()
 pyplot.savefig(figname('dimensions'), format='pdf')
 pyplot.show()
 
