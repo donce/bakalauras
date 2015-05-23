@@ -472,6 +472,46 @@ Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo
 
 \TODO{diagrama su dimensijų mažinimo neuroniniu tinku (kompresijos, dekompresijos pusės; N, M neuronų; rezultatas toks pat kaip duomenys)}
 
+\section{Klasifikavimas mažinant dimensiškumą}
+
+Norint išsiaiškinti, ar galima pasiekti geresnius klasifikavimo rezultatus prieš tai sumažinant duomenų dimensiškumą, buvo atliktas tyrimas.
+Kadangi tiriamus duomenis sudaro 30 dimensijų, buvo bandoma sumažinti dimensijas iki visų galimų dimensijų dydžių - nuo 1 iki 29.
+Norint išsiaiškinti klasifikavimo efektyvumą pasirinkus į kiek dimensijų bus kompresuojami duomenys, atliekamas eksperimentas.
+
+Eksperimento metu pirmiausia sukuriamas ir apmokomas daugiasluoksnis perceptronas, skirtas kompresuoti duomenis į pasirinktą dimensijų skaičių.
+Šį perceptroną sudaro 5 sluoksniai - įvedimo, išvedimo bei 3 paslėptieji sluoksniai.
+Įvedimo, išvedimo bei 2 paslėptieji sluoksniai turi po 30 neuronų.
+Trečiasis paslėptasis sluoksnis, esantys tinklo viduryje, turi tiek neuronų, į kiek dimensijų norima sukompresuoti duomenis - pagal anksčiau aprašytą metodą šiame sluoksnyje ir yra gaunami sukompresuoti duomenys.
+Šis sluoksnis tada yra apmokomas 300 kartų iteruojant per visus mokymo rinkinio įrašus.
+Apmokius tinklą, duomenys yra sukompresuojami pasinaudojant geriausią mokymo metu pasiektą rezultatą.
+
+\TODO{pridėti kompresijos tinklo schemą?}
+
+\TODO{pridėti ref į kompresijos tinklo aprašymą vietoje "pagal anksčiau aprašytą"}
+
+Gavus sukompresuotus duomenis, pradedamas klasifikavimas.
+Pirmiausia sukuriamas klasifikavimui skirtas daugiasluoksnis perceptronas.
+Šį perceptroną sudaro 4 sluoksniai.
+Pirmiausia įvesties sluoksnis, turintis tiek neuronų, kiek dimensijų turi sukompresuoti duomenys.
+Tada du paslėpti sluoksniai, turintys po 30 neuronų.
+Galiausiai, išvesties sluoksnis, turintis tiek neuronų, kiek yra skirtingų galimų klasių.
+Kadangi šio eksperimento metu buvo analizuojami duomenys iš 3 skirtingų klasių, todėl išvesties sluoksnis turėjo 3 neuronus.
+Šis tinklas buvo apmokomas panaudojant iš kompresijos tinklo gautais kompresuotais duomenimis.
+Apmokymas vyko 400 kartų, kaskart mokymo metu panaudojant visus mokymo rinkinio įrašus.
+Baigus apmokymą, gaunamas rezultatas - klasifikavimo klaida.
+
+\TODO{pridėti klasifikavimo tinklo schemą?}
+
+Kiekvienam galimam dimensijų skaičiui, į kurį norima sutraukti duomenis, šis eksperimentas buvo atliktas po 5 kartus.
+Taip buvo užtikrinama, kad gauti rezultatai bus patikimesni, kadangi kai kuriais atvejais atsitiktinai sugeneruoto perceptrono struktūra gali būti labai nepalanki ir gali būti gaunamas prastas rezultatas, neparodantis, kiek visgi toks kompresijos mažinimas gali padėti klasifikavimui.
+
+\TODO{aprašyti, kaip išrinkti duomenys - kiek, kokios grupės, kas buvo naudojama apmokymui ir pan}	
+
+
+\begin{figure}
+	\includegraphics[scale=0.32]{../src/diagrams/dimensions_2015-5-22_19-37-11}
+	\caption{Klasifikavimo mažinant dimensijas rezultatai}
+\end{figure}
 
 \includegraphics[scale=0.40]{pics/dimensionality_reduction_progress}
 \includegraphics[scale=0.40]{pics/dimensionality_reduction_result}
@@ -501,10 +541,9 @@ atitikti darbo tikslą.
 % necituoti savo kursinio darbo, nes tai nėra oficialus literatūros šaltinis.
 % Jei tokių nuorodų reikia, pateikti jas tekste.
 
-% \sectionnonum{Sąvokų apibrėžimai}
-\sectionnonum{Sutartinis terminų žodynas}
-Sąvokų apibrėžimai ir santrumpų sąrašas sudaromas tada, kai darbo tekste
-vartojami specialūs paaiškinimo reikalaujantys terminai ir rečiau sutinkamos
-santrumpos.
+% \sectionnonum{Sutartinis terminų žodynas}
+% Sąvokų apibrėžimai ir santrumpų sąrašas sudaromas tada, kai darbo tekste
+% vartojami specialūs paaiškinimo reikalaujantys terminai ir rečiau sutinkamos
+% santrumpos.
 
 \end{document}
