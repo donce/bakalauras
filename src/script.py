@@ -7,11 +7,13 @@ import math
 import random
 from datetime import datetime
 from time import time
+import pickle
 
 from numpy import array, zeros, dot, vectorize, transpose, mean, std, copy as numpy_copy
 
 import matplotlib
 import matplotlib.pyplot as pyplot
+from mpl_toolkits.mplot3d import Axes3D # for 3d graphs
 
 
 matplotlib.rc('font', family='Arial')
@@ -409,9 +411,9 @@ def read_iris():
 data = read_input()[:1500]
 normalize_input_linear(data)
 
-partial_data_group_size = 50
+partial_data_group_size = 500
 partial_data = data[0:0+partial_data_group_size] + data[500:500+partial_data_group_size] + data[1000:1000+partial_data_group_size]
-validation_data_group_size = 20
+validation_data_group_size = 0
 validation_data = data[0+partial_data_group_size:0+partial_data_group_size+validation_data_group_size] + \
     data[500+partial_data_group_size:500+partial_data_group_size+validation_data_group_size] + \
     data[1000+partial_data_group_size:1000+partial_data_group_size+validation_data_group_size]
@@ -428,9 +430,16 @@ best_vy = []
 
 start_time = time()
 
+ITERATIONS_COUNT = 5
+
+
+# 3d
+
+
+
 for dimensions in range(1, 30):
     best_iterations_error = 1
-    for iteration in range(5):
+    for iteration in range(ITERATIONS_COUNT):
         print '-----------------------------------------'
         print 'dimensions:', dimensions
 
@@ -440,53 +449,72 @@ for dimensions in range(1, 30):
         network.generate((30, 30, dimensions, 30, 30))
         compression_layer = 2
 
-        _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)
+        _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)# TODO: ~500 cycles?
         # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
         #                            validation_data=generate_encoding_data(compress_validation_data))
 
-        # TODO: 3d points distrubution?
-        # xs = []
-        # ys = []
+        draw_points = True
+        points = [[] for i in xrange(dimensions)]
 
-        compressed_partial_data = []
+        compressed_data = []
 
         for i, d in enumerate(compress_partial_data):
             r = network.run_encoding(d, compression_layer)
             assert len(r) == dimensions
-            # xs.append(r[0])
-            # ys.append(r[1])
-            compressed_partial_data.append((r, partial_data[i][1]))
+            # if draw_points:
+            #     for d in xrange(dimensions):
+            #         points[d].append(r[d])
+            compressed_data.append((r, partial_data[i][1]))
 
-        # pyplot.figure(figsize=(6, 6))
-        # pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-        # pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-        # pyplot.plot(xs[:50], ys[:50], 'ro')
-        # pyplot.plot(xs[50:100], ys[50:100], 'go')
-        # pyplot.plot(xs[100:150], ys[100:150], 'bo')
-        # pyplot.savefig(figname('2d'), format='pdf')
-        # pyplot.show()
+        compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
+
+        #drawing compressed points
+        # if draw_points and dimensions in [2, 3]:
+        #     fig = pyplot.figure(figsize=(6, 6))
+        #     if dimensions == 2:
+        #         pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+        #         pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
+        #         pyplot.plot(points[0][:500], points[1][:500], 'ro')
+        #         pyplot.plot(points[0][500:1000], points[1][500:1000], 'go')
+        #         pyplot.plot(points[0][1000:1500], points[1][1000:1500], 'bo')
+        #     if dimensions == 3:
+        #         ax = fig.add_subplot(111, projection='3d')
+        #         ax.set_xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
+        #         ax.set_ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
+        #         ax.set_zlabel('z', fontsize=AXIS_LABEL_FONT_SIZE)
+        #         ax.scatter(points[0][:500], points[1][:500], points[2][:500], c='r')
+        #         ax.scatter(points[0][500:1000], points[1][500:1000], points[2][500:1000], c='g')
+        #         ax.scatter(points[0][1000:1500], points[1][1000:1500], points[2][1000:1500], c='b')
+        #     pyplot.savefig(figname('points'), format='pdf')
+        #     pyplot.show()
 
         print 'classification...'
-        # cls_network = Network(learning_rate=0.1, momentum_coefficient=0.9, name='classification')
         cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification', show_result=False)
-        # cls_network.generate((2, 2, 2, 3))
-        # cls_network.generate((dimensions, dimensions, dimensions, 3))
         cls_network.generate((dimensions, 30, 30, 3))
         best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
-        best_iterations_error = min(best_iterations_error, best_current_error)
-        print 'best_current_error:', best_current_error
-        vx.append(dimensions)
-        vy.append(1.0 - best_current_error)
+        # print 'best_current_error:', best_current_error
+        # vx.append(dimensions)
+        # vy.append(1.0 - best_current_error)
 
-        total = len(compressed_partial_data)
+        curr_global_cls_error = 0.0
+        for inputs, desired_result in compressed_data:
+            curr_global_cls_error += cls_network.run(inputs, desired_result)
+        curr_global_cls_error /= len(compressed_data)
+        vx.append(dimensions)
+        vy.append(1.0 - curr_global_cls_error)
+        best_iterations_error = min(best_iterations_error, curr_global_cls_error)
+
+        '''
+        total = len(compressed_data)
         correct = 0
-        for d, expected in compressed_partial_data:
+        for d, expected in compressed_data:
             result = cls_network.run_classification(d)
             expected_result = array(expected).argmax()
             if result == expected_result:
                 correct += 1
 
         print 'result {}/{}'.format(correct, total)
+        '''
     print 'best_iterations_error', best_iterations_error
     best_vx.append(dimensions)
     best_vy.append(1.0 - best_iterations_error)

@@ -472,6 +472,29 @@ Tokiame apmokytame neuroniniame tinkle visi sluoksniai, esantys kairėje nuo kom
 Būtent per šiuos sluoksnius einant signalams ir yra sudaromas mažiau dimensijų turintis duomuo.
 Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo panašesnis į pateiktus duomenis, todėl galima teikti, kad sluoksniai, esantys dešinėje nuo kompresijos sluoksnio, yra naudojami pradinių duomenų atstatymui.
 
+Turimi duomenų dimensiškumas buvo sumažintas šiuo būdu.
+Kadangi duomenys turi 30 dimensijų, duomenų dimensijos buvo mažinamos iki [1; 29] dimensijų.
+Pateikiami dvimačių (\ref{fig:2d_points}~pav.) ir trimačių (\ref{fig:3d_points}~pav.) duomenų dimensiškumo rezultatai - paimta po 500 įrašų iš 3 grupių, kurios atvaizduotos skirtingomis spalvomis.
+Iš pateiktų rezultatų matosi, kad dvimačiai duomenys susigrupavę ne taip gerai, kaip trimačiai.
+Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2 praranda didesnę dalį duomenų nei mažinant iki 3 dimensijų.
+Didesnių dimensijų rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
+
+\begin{figure}
+	\includegraphics[scale=0.5]{pics/points_2d}
+	\includegraphics[scale=0.5]{pics/points_2d_progress}
+	\caption{Dvimačiai duomenys}
+	\label{fig:2d_points}
+\end{figure}
+
+
+\begin{figure}
+	\includegraphics[scale=0.5]{pics/points_3d}
+	\includegraphics[scale=0.5]{pics/points_3d_progress}
+	\caption{Trimačiai duomenys}
+	\label{fig:3d_points}
+\end{figure}
+
+
 \TODO{diagrama su dimensijų mažinimo neuroniniu tinku (kompresijos, dekompresijos pusės; N, M neuronų; rezultatas toks pat kaip duomenys)}
 
 \section{Klasifikavimas mažinant dimensiškumą}
