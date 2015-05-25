@@ -430,7 +430,7 @@ best_vy = []
 
 start_time = time()
 
-ITERATIONS_COUNT = 5
+ITERATIONS_COUNT = 1
 
 
 # 3d
@@ -443,28 +443,34 @@ for dimensions in range(1, 30):
         print '-----------------------------------------'
         print 'dimensions:', dimensions
 
-        print 'compression...'
-        network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
-        # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
-        network.generate((30, 30, dimensions, 30, 30))
-        compression_layer = 2
+        pickle_filename = 'compressed/{}.data'.format(dimensions)
+        try:
+            best_compression_error, compressed_data = pickle.loads(open(pickle_filename).read())
+        except IOError:
+            print 'compression...'
+            network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=True)
+            # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
+            network.generate((30, 30, dimensions, 30, 30))
+            compression_layer = 2
 
-        _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=300)# TODO: ~500 cycles?
-        # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
-        #                            validation_data=generate_encoding_data(compress_validation_data))
+            best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)# TODO: ~500 cycles?
+            # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
+            #                            validation_data=generate_encoding_data(compress_validation_data))
 
-        draw_points = True
-        points = [[] for i in xrange(dimensions)]
+            draw_points = True
+            points = [[] for i in xrange(dimensions)]
 
-        compressed_data = []
+            compressed_data = []
 
-        for i, d in enumerate(compress_partial_data):
-            r = network.run_encoding(d, compression_layer)
-            assert len(r) == dimensions
-            # if draw_points:
-            #     for d in xrange(dimensions):
-            #         points[d].append(r[d])
-            compressed_data.append((r, partial_data[i][1]))
+            for i, d in enumerate(compress_partial_data):
+                r = network.run_encoding(d, compression_layer)
+                assert len(r) == dimensions
+                # if draw_points:
+                #     for d in xrange(dimensions):
+                #         points[d].append(r[d])
+                compressed_data.append((r, partial_data[i][1]))
+
+            pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
 
         compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
 
