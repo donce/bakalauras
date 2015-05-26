@@ -243,26 +243,34 @@ Taip pat aprašoma, kiek kiekvienas sluoksnis turi neuronų, kokios aktyvacijos 
 Visa tai kažkiek suvaržo neuroninio tinklo galimybes mokytis - prireikus išmokti sudėtingesnius duomenis, turima neuroninio tinklo struktūra gali to tiesiog nemokėti.
 Dėl to konkretus neuroninis tiklas turi tam tikras ribas, iki kurių gali tobulėti.
 
-\subsection{Neuroninio tinklo apmokymas}
+\subsection{Neuroninio tinklo apmokymas} \label{network-learning}
 
-\TODO{parašyti}
-
-\section{Duomenys}
-
-\subsubsection{Momento koeficientas}
-
-Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
 Neuroninių tinklų mokymo principas yra apmokyti jį mokant vieno pavyzdžio vienu metu.
 Pavyzdžio duomenys būna paduodami tinklui, gaunamas konkretus atsakymas, kuris yra sulyginamas su teisingu atsakymu.
 Pagal tai, koks buvo gautas atsakymas ir koks yra teisingas atsakymas, apskaičiuojama, kaip reikia pakeisti tinklo svorius, kad kitą kartą būtų gautas atsakymas, panašesnis į teisingą.
 Tai pasiekiama kiekvienam tinklo svoriui apskaičiavus, kaip ir kiek jį reikia pakeisti (padidinti ar pamažinti svorį).
 Tuomet koeficientas yra pakeičiamas pagal tai, kaip tuo metu jo pakeitimas pakeistų analizuojamo pavyzdžio atsakymą.
 
-Momento koeficiento metodas veikia panašiai, tačiau šiek tiek praplečia svorių keitimą.
+\TODO{sutvarkyti pastraipą (ji perkelta iš momento koeficiento)}
+
+\TODO{parašyti}
+\ref{eq:learning}
+
+\begin{equation}\label{eq:learning}
+w' = w - \eta\frac{\partial C}{\partial w}
+\end{equation}
+
+
+\subsection{Momento koeficientas}
+
+Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
+Ji remiasi \ref{network-learning} poskiryje aprašytu mokymu, tačiau šiek tiek praplečia svorių keitimą.
+Svoriai keičiami ne pagal \ref{eq:learning} formulę, o pagal jos plėtinį \ref{eq:moment-2} formulėje.
+
 Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
 Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
 Panašiai veikia momento koeficientas - analizuojant, kaip reikia pakeisti svorius, šie dydžiai nėra tiesiog pritaikomi šiuo metu, tačiau jie yra panaudojami kaip greitis.
-Kiekvienam parametrui išsaugomas kitimo greitis, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti parametro dydį.
+Kiekvienam parametrui išsaugomas kitimo greitis, aprašytas \ref{eq:moment-1} formulėje, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti parametro dydį.
 Šis turimas greitis kiekvienos iteracijos metu yra pritaikomas kaip pokytis parametrui keisti.
 
 Toks parametrų keitimo metodas suteikia kelis privalumus.
@@ -281,8 +289,12 @@ Tai suteikia tam tikro pranašumo, kadangi labai išsiskiriantys ar nevisai kore
 Taip yra todėl, kad jie keis ne pačias parametro reikšmes, bet greitį, kuris yra priklausomas ir nuo senesnių kitų įrašų iteracijų.
 Tai gali padėti išvengti tinklo pakeitimo tokia linkme, kuri kitiems įrašams gali stipriai pabloginti rezultatą - pavyzdžiui, patekimo į lokalų minimumą.
 
-\begin{equation}
-\delta
+\begin{equation} \label{eq:moment-1}
+v' = \mu v - \eta \frac{\partial C}{\partial w}
+\end{equation}
+
+\begin{equation} \label{eq:moment-2}
+w' = w + v'
 \end{equation}
 
 
@@ -292,6 +304,9 @@ Tai gali padėti išvengti tinklo pakeitimo tokia linkme, kuri kitiems įrašams
 \TODO{}
 
 \TODO{keitimo žigsnis/greitis - suvienodinti savokas?}
+
+
+\section{Duomenys}
 
 
 \subsection{Vilkdagių duomenys}
