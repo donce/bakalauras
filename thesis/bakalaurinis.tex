@@ -545,16 +545,68 @@ Baigus apmokymą, gaunamas rezultatas - klasifikavimo klaida.
 Kiekvienam galimam dimensijų skaičiui, į kurį norima sutraukti duomenis, šis eksperimentas buvo atliktas po 5 kartus.
 Taip buvo užtikrinama, kad gauti rezultatai bus patikimesni, kadangi kai kuriais atvejais atsitiktinai sugeneruoto perceptrono struktūra gali būti labai nepalanki ir gali būti gaunamas prastas rezultatas, neparodantis, kiek visgi toks kompresijos mažinimas gali padėti klasifikavimui.
 
-\TODO{aprašyti, kaip išrinkti duomenys - kiek, kokios grupės, kas buvo naudojama apmokymui ir pan}	
+\subsection{Pirmasis eksperimentas}
 
+\TODO{geresnis pavadinimas}
+
+
+Pirmiausia šis eksperimentas buvo atliktas su daliniais duomenimis.
+Iš kiekvienos grupės paimta po 50 įrašų, kurie buvo naudojami eksperimentuose tiek apmokymui, tiek ir pačiam tinklo klaidos skaičiavimui.
+Taip buvo pasielgta norint išsiaiškinti perceptronų galimybes - kadangi visi duomenys, kurie naudojami klaidos skaičiavime, yra naudojami taip pat ir apmokant, neuroniniui tinklui nelieka nežinomų duomenų.
+Pirmiausia šie duomenys buvo panaudoti apmokant kompresijos tinklą, kuris po to buvo panaudotas šiems duomenims sukompresuoti.
+Tada šie sumažinto dimensiškumo duomenys buvo panaudoti klasifikavimo tinklo apmokymui.
+Apmokius klasifikavimo tinklą, gaunama klaida.
+Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultatai, pavaizduoti \ref{fig:experiment-1}~pav.
 
 \begin{figure}
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-23_15-50-6}
 	\caption{Klasifikavimo mažinant dimensijas rezultatai}
+	\label{fig:experiment-1}
 \end{figure}
 
-\includegraphics[scale=0.40]{pics/dimensionality_reduction_progress}
-\includegraphics[scale=0.40]{pics/dimensionality_reduction_result}
+Iš rezultatų matosi, kad klasifikavimo tinklas gerai geba susidoroti su tokiais mažais duomenimis - rezultatai labai netoli vieneto, tai yra, klaida beveik lygi nuliui.
+Išimtis tyrimuose su mažais dimensijų skaičiais - kai dimensijų yra mažai, neuronų tinklas nesugeba suklasifikuoti sukompresuotų duomenų.
+Tai parodo, kad norint mažinti dimensijų skaičių iki labai mažo, prarandama šiek tiek informacijos apie duomenis.
+Dėl to juos klasifikuoti pasidaro sunkiau.
+Todėl norint padidinti klasifikavimo efektyvumą, reikia mažinti dimensijas bent iki keturių.
+
+
+\TODO{aprašyti, kaip išrinkti duomenys - kiek, kokios grupės, kas buvo naudojama apmokymui ir pan}
+
+\subsection{Antrasis eksperimentas}
+
+\TODO{geresnis pavadinimas}
+
+Sekančiame atliktame eksperimente buvo panaudoti visi įrašai iš tiriamų grupių - 500 įrašų iš 3 grupių.
+Kompresijos perceptrono apmokymui buvo panaudoti visi šie įrašai, kadangi tikslas yra kuo tiksliau ir autentiškiau sukompresuoti visus duomenis, o ne paruošti tinklą, kuris gebėtų kompresuoti dar tinklui nematytus duomenis.
+Apmokius kompresijos tinklą, gaunami kompresuoti duomenys.
+Tada iš kiekvienos grupės atsitiktinai pasirenkama po 50 įrašų, kurie naudojami klasifikavimo perceptrono apmokymui.
+Apmokius perceptroną, jo klaida skaičiuojama su visais duomenimis, o ne tik naudotais mokymo metu.
+Taip dauguma įrašų perceptronui yra nauji, todėl taip ištiriama, kaip gerai perceptronas sugebėjo išmokti duomenų savybes iš mažų mokymo grupių.
+Gauti rezultatai, pavaizduoti \ref{fig:experiment-2}~pav.
+
+Iš šių rezultatų matosi, kad su dimensijų skaičias, mažesniais nei 13, klasifikavimo perceptronas gauna šiek tiek didesnę klaidą nei su likusiais dimensijų skaičiais.
+Taip turbūt atsitinka dėl panašių priežąsčių, kaip ir pirmame tyrime su dimensijų skaičiais nuo vieno iki trijų - kompresija praranda dalį svarbios duomenų informacijos.
+To nesimato pirmame eksperimente, kadangi skirtumai gan maži - blogiausias tyrimas pasiektas su 5 dimensijomis, kurio metu gauta klaida apie $1 - 0.965 = 0.035$.
+Tuo tarpu praeitame eksperimente, kuriame buvo ištirti dar mažesni dimensijų skaičiai, blogiausias tyrimas pasiektas su viena dimensija, kurio klaida apie $1 - 0.943 = 0.057$ beveik dvigubai didesnė.
+Tai didelis skirtumas žinant, kad pirmame eksperimente klaidos skaičiavimui buvo naudojami visi apmokymui naudoti duomenys.
+
+Optimaliausias šio eksperimento dimensijų skaičius - 18.
+
+\TODO{Apie didesnes, optimalias dimensijas, palyginant su nekompresuotais}
+
+
+\TODO{~18 koord. optimalu}
+
+
+
+\begin{figure}
+	\includegraphics[scale=0.32]{pics/dimensions_2015-5-26_21-13-6}
+	\caption{Klasifikavimo mažinant dimensijas rezultatai}
+	\label{fig:experiment-2}
+\end{figure}
+
+
 
 
 \sectionnonum{Rezultatai ir išvados}
