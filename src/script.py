@@ -309,7 +309,6 @@ def normalize_gaussian(data):
     stds = std(inputs, 0)
     for line in data:
         for j in range(len(line[0])):
-            print j
             if stds[j] != 0:
                 line[0][j] = float(line[0][j] - means[j]) / stds[j]
             else:
@@ -409,7 +408,7 @@ def read_iris():
 
 
 data = read_input()[:1500]
-normalize_input_linear(data)
+normalize_gaussian(data)
 
 partial_data_group_size = 500
 partial_data = data[0:0+partial_data_group_size] + data[500:500+partial_data_group_size] + data[1000:1000+partial_data_group_size]
@@ -430,14 +429,10 @@ best_vy = []
 
 start_time = time()
 
-ITERATIONS_COUNT = 1
+ITERATIONS_COUNT = 5
 
 
-# 3d
-
-
-
-for dimensions in range(1, 30):
+for dimensions in range(4, 30+1):
     best_iterations_error = 1
     for iteration in range(ITERATIONS_COUNT):
         print '-----------------------------------------'
@@ -448,7 +443,7 @@ for dimensions in range(1, 30):
             best_compression_error, compressed_data = pickle.loads(open(pickle_filename).read())
         except IOError:
             print 'compression...'
-            network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=True)
+            network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
             # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
             network.generate((30, 30, dimensions, 30, 30))
             compression_layer = 2
@@ -470,6 +465,7 @@ for dimensions in range(1, 30):
                 #         points[d].append(r[d])
                 compressed_data.append((r, partial_data[i][1]))
 
+            normalize_gaussian(compressed_data)
             pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
 
         compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
