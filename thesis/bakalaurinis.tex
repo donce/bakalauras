@@ -471,6 +471,8 @@ Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
 
 \includegraphics[width=\linewidth]{pics/classification}
 
+\TODO{pašalinti diagramą?}
+
 \subsection{Dimensiškumo mažinimas neuroniniu tinklu}
 
 Dimensiškumo mažinimui taip pat buvo panaudotas neuroninis tinklas.
@@ -482,6 +484,13 @@ Tačiau kompresijos sluoksnis turi tik $M$ neuronų - vadinasi, duomenis reikės
 Būtent čia ir įvyksta dimensiškumo mažinimas - neuroninis tinklas yra apmokomas pateikti kuo panašesnius duomenis į pradinius, ko pasekoje kompresijos sluoksnyje su $M$ neuronų yra gaunami duomenys, turintys mažiau dimensijų.
 Norint sumažinti tam tikro duomens dimensijas, užtenka šį duomenį paduoti apmokytui neuroniniui tinklui ir pažiūrėti, kokie duomenys susidarė kompresijos sluoksnyje.
 Nuskaičius šių neuronų reikšmes ir bus gaunamas duomuo, turintis mažiau dimensijų.
+
+\begin{figure}
+	\includegraphics[scale=0.75]{diagrams/compression_perceptron}
+	\caption{Dimensiškumo mažinimo perceptrono struktūra}
+\end{figure}
+
+\TODO{ref į šią diagramą bei aprašyti naudojantis šia diagrama}
 
 Tokiame apmokytame neuroniniame tinkle visi sluoksniai, esantys kairėje nuo kompresijos sluoksnio, yra naudojami dimensiškumo mažinimui.
 Būtent per šiuos sluoksnius einant signalams ir yra sudaromas mažiau dimensijų turintis duomuo.
@@ -509,9 +518,6 @@ Didesnių dimensijų rezultatų vizualiai pavaizduoti nepavyksta dėl natūrali�
 	\label{fig:3d_points}
 \end{figure}
 
-
-\TODO{diagrama su dimensijų mažinimo neuroniniu tinku (kompresijos, dekompresijos pusės; N, M neuronų; rezultatas toks pat kaip duomenys)}
-
 \section{Klasifikavimas mažinant dimensiškumą}
 
 Norint išsiaiškinti, ar galima pasiekti geresnius klasifikavimo rezultatus prieš tai sumažinant duomenų dimensiškumą, buvo atliktas tyrimas.
@@ -524,8 +530,6 @@ Eksperimento metu pirmiausia sukuriamas ir apmokomas daugiasluoksnis perceptrona
 Trečiasis paslėptasis sluoksnis, esantys tinklo viduryje, turi tiek neuronų, į kiek dimensijų norima sukompresuoti duomenis - pagal anksčiau aprašytą metodą šiame sluoksnyje ir yra gaunami sukompresuoti duomenys.
 Šis sluoksnis tada yra apmokomas 300 kartų iteruojant per visus mokymo rinkinio įrašus.
 Apmokius tinklą, duomenys yra sukompresuojami pasinaudojant geriausią mokymo metu pasiektą rezultatą.
-
-\TODO{pridėti kompresijos tinklo schemą?}
 
 \TODO{pridėti ref į kompresijos tinklo aprašymą vietoje "pagal anksčiau aprašytą"}
 
