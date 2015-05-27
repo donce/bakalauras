@@ -473,7 +473,7 @@ Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
 
 \TODO{pašalinti diagramą?}
 
-\subsection{Dimensiškumo mažinimas neuroniniu tinklu}
+\subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
 Dimensiškumo mažinimui taip pat buvo panaudotas neuroninis tinklas.
 Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tiklą, kurio pirmąjame ir paskutinimae sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
@@ -527,16 +527,14 @@ Norint išsiaiškinti klasifikavimo efektyvumą pasirinkus į kiek dimensijų bu
 Eksperimento metu pirmiausia sukuriamas ir apmokomas daugiasluoksnis perceptronas, skirtas kompresuoti duomenis į pasirinktą dimensijų skaičių.
 Šį perceptroną sudaro 5 sluoksniai - įvedimo, išvedimo bei 3 paslėptieji sluoksniai.
 Įvedimo, išvedimo bei 2 paslėptieji sluoksniai turi po 30 neuronų.
-Trečiasis paslėptasis sluoksnis, esantys tinklo viduryje, turi tiek neuronų, į kiek dimensijų norima sukompresuoti duomenis - pagal anksčiau aprašytą metodą šiame sluoksnyje ir yra gaunami sukompresuoti duomenys.
+Trečiasis paslėptasis sluoksnis, esantys tinklo viduryje, turi tiek neuronų, į kiek dimensijų norima sukompresuoti duomenis - pagal \ref{dimensionality-reduction-perceptron} poskyryje aprašytą metodą šiame sluoksnyje ir yra gaunami sukompresuoti duomenys.
 Šis sluoksnis tada yra apmokomas 300 kartų iteruojant per visus mokymo rinkinio įrašus.
 Apmokius tinklą, duomenys yra sukompresuojami pasinaudojant geriausią mokymo metu pasiektą rezultatą.
-
-\TODO{pridėti ref į kompresijos tinklo aprašymą vietoje "pagal anksčiau aprašytą"}
 
 Gavus sukompresuotus duomenis, pradedamas klasifikavimas.
 Pirmiausia sukuriamas klasifikavimui skirtas daugiasluoksnis perceptronas.
 Šį perceptroną sudaro 4 sluoksniai.
-Pirmiausia įvesties sluoksnis, turintis tiek neuronų, kiek dimensijų turi sukompresuoti duomenys.
+Pirmasis - įvesties sluoksnis, turintis tiek neuronų, kiek dimensijų turi sukompresuoti duomenys.
 Tada du paslėpti sluoksniai, turintys po 30 neuronų.
 Galiausiai, išvesties sluoksnis, turintis tiek neuronų, kiek yra skirtingų galimų klasių.
 Kadangi šio eksperimento metu buvo analizuojami duomenys iš 3 skirtingų klasių, todėl išvesties sluoksnis turėjo 3 neuronus.
@@ -544,10 +542,9 @@ Kadangi šio eksperimento metu buvo analizuojami duomenys iš 3 skirtingų klasi
 Apmokymas vyko 400 kartų, kaskart mokymo metu panaudojant visus mokymo rinkinio įrašus.
 Baigus apmokymą, gaunamas rezultatas - klasifikavimo klaida.
 
-\TODO{pridėti klasifikavimo tinklo schemą?}
-
 Kiekvienam galimam dimensijų skaičiui, į kurį norima sutraukti duomenis, šis eksperimentas buvo atliktas po kelis kartus.
 Taip buvo užtikrinama, kad gauti rezultatai bus patikimesni, kadangi kai kuriais atvejais atsitiktinai sugeneruoto perceptrono struktūra gali būti labai nepalanki ir gali būti gaunamas prastas rezultatas, neparodantis, kiek visgi toks kompresijos mažinimas gali padėti klasifikavimui.
+
 
 \subsection{Kompresuotų duomenų klasifikavimo perceptronų galimybių eksperimentas}
 
@@ -567,12 +564,10 @@ Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultata
 
 Iš rezultatų matosi, kad klasifikavimo tinklas gerai geba susidoroti su tokiais mažais duomenimis - rezultatai labai netoli vieneto, tai yra, klaida beveik lygi nuliui.
 Išimtis tyrimuose su mažais dimensijų skaičiais - kai dimensijų yra mažai, neuronų tinklas nesugeba suklasifikuoti sukompresuotų duomenų.
-Tai parodo, kad norint mažinti dimensijų skaičių iki labai mažo, prarandama šiek tiek informacijos apie duomenis.
+Tai parodo, kad mažinant dimensijų skaičių iki labai mažo, prarandama dalis informacijos apie duomenis.
 Dėl to juos klasifikuoti pasidaro sunkiau.
-Todėl norint padidinti klasifikavimo efektyvumą, reikia mažinti dimensijas bent iki keturių.
+Todėl norint padidinti klasifikavimo efektyvumą, dimensijų skaičių galima mažinti daugiausiai iki keturių.
 
-
-\TODO{aprašyti, kaip išrinkti duomenys - kiek, kokios grupės, kas buvo naudojama apmokymui ir pan}
 
 \subsection{Kompresuotų duomenų klasifikavimo eksperimentas}
 
@@ -591,8 +586,7 @@ To nesimato pirmame eksperimente, kadangi skirtumai gan maži - blogiausias tyri
 Tuo tarpu praeitame eksperimente, kuriame buvo ištirti dar mažesni dimensijų skaičiai, blogiausias tyrimas pasiektas su viena dimensija, kurio klaida apie $1 - 0.943 = 0.057$ beveik dvigubai didesnė.
 Tai didelis skirtumas žinant, kad pirmame eksperimente klaidos skaičiavimui buvo naudojami visi apmokymui naudoti duomenys.
 Geriausi rezultatai gauti $[14; 29]$ dimensijų skaičiaus intervale.
-Šio eksperimento metu optimaliausias dimensijų skaičius - 18.
-
+Šio eksperimento metu patikimiausiai atrodo rezultatai su 18 dimensijų, todėl šis dimensijų skaičius buvo pasirinktas palyginimui.
 
 \begin{figure}
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-27_6-18-5}
@@ -604,8 +598,7 @@ Geriausi rezultatai gauti $[14; 29]$ dimensijų skaičiaus intervale.
 \subsection{Originalių ir kompresuotų duomenų klasifikavimo palyginimas}
 
 Buvo atliktas klasifikavimo efektyvumo palyginimas naudojant originalius 30-ties dimensijų bei kompresuotus 18-os dimensijų duomenis.
-Palyginimui buvo naudojami tie patys duomenys - po 500 įrašų iš kiekvienos grupės.
-Apmokymui buvo naudojama tik dalis įrašų - po 50 įrašų iš visų grupių, o validacijai - visi įrašai.
+Palyginimui buvo naudojami tie patys duomenys - po 500 įrašų iš kiekvienos grupės, ir tik po 50 iš jų naudojami apmokymui (validacijai buvo panaudoti visi 500 įrašų iš kiekvienos grupės).
 Gautas rezultatai pavaizduotas \ref{fig:dim-comparisons}~pav.
 
 \begin{figure}
