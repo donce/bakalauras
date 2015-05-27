@@ -203,15 +203,15 @@ class Network(object):
         validation_errors = []
         while cycles is not None or not success:
             # self.learning_rate = 1.0 / (cycle / 10 + 2) # TODO: remove?
-            success = True
+            success = False  # TODO: fix success?
 
             #learning
             cycle_error = 0
             for case in data:
                 curr_error = self.teach_case(case[0], case[1])# TODO: diff in this line
                 cycle_error += curr_error
-                if curr_error > allowed_error:
-                    success = False
+                # if curr_error > allowed_error:
+                #     success = False
             cycle += 1
             iteration_error = cycle_error / len(data)
             errors.append(iteration_error)
@@ -467,19 +467,37 @@ def get_compressed_data(dimensions, compress_partial_data):
         pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
     return best_compression_error, compressed_data
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+
 # TODO: comparison of networks in one diagram
-'''
+temp_errors = []
 for dimensions in [18, 30]:
     best_compressed_error, compressed_data = get_compressed_data(dimensions, compress_partial_data)
     compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
-    compressed_validation_data = compressed_data[50:70] + compressed_data[550:570] + compressed_data[1050:1070]
+    compressed_validation_data = compressed_data#compressed_data[50:500] + compressed_data[550:1000] + compressed_data[1050:1500]
 
     cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification')
-    cls_network.generate((dimensions, 30, 30, 3))
-    best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=100, validation_data=compressed_validation_data)  # TODO: 400
-    cls_network.draw_last_errors(show=True)
+    cls_network.generate((dimensions, 100, 100, 100, 100, 3))
+    best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=40, validation_data=compressed_validation_data)  # TODO: 400
+    temp_errors.append((cls_network.last_errors, cls_network.last_validation_errors))
+
+pyplot.xlabel(u'Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.ylabel(u'Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.plot(temp_errors[0][0], label=u'18D mokymosi klaida', c='#339900')
+pyplot.plot(temp_errors[0][1], label=u'18D validacijos klaida', c='#00FF00')
+pyplot.plot(temp_errors[1][0], label=u'30D mokymosi klaida', c='#330099')
+pyplot.plot(temp_errors[1][1], label=u'30D validacijos klaida', c='#0000FF')
+pyplot.legend()
+pyplot.savefig(figname('dim_comparisons'), format='pdf')
+pyplot.show()
+
 exit(0)
-'''
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
 
 ITERATIONS_COUNT = 1
 
