@@ -49,11 +49,10 @@ class Network(object):
         inputs [layer][0][j] float - sum of inputs received
     """
 
-    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0, name=None, show_result=True):
+    def __init__(self, learning_rate=0.5, momentum_coefficient=0.0, name=None):
         self.learning_rate = learning_rate
         self.momentum_coefficient = momentum_coefficient
         self.name = name
-        self.show_result = show_result
 
         self.inputs = []
         self.activations = []
@@ -61,6 +60,9 @@ class Network(object):
         self.biases = []
 
         self.velocities = []
+
+        self.last_errors = []
+        self.last_validation_errors = []
 
     def generate(self, layer_neurons, use_random=True):
         for layer, neurons in enumerate(layer_neurons):
@@ -233,24 +235,26 @@ class Network(object):
             if cycles >= cycle:
                 print 'stopping because cycles number reached'
                 break
-        print len(errors)
-        pyplot.xlabel(u'Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
-        pyplot.ylabel(u'Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
-        pyplot.plot(errors, label=u'Mokymosi klaida')
-        if validation_data:
-            pyplot.plot(validation_errors, label=u'Validacijos klaida')
-        pyplot.legend()
-        pyplot.savefig(figname(self.name), format='pdf')
-        if self.show_result:
-            pyplot.show()
-        else:
-            pyplot.close()
+        best_network.last_errors = errors
+        best_network.last_validation_errors = validation_errors
 
         print 'success:', success
         # print 'cycles:', cycle
         # print 'finished'
         return best_error, best_network
 
+    def draw_last_errors(self, show=True):
+        pyplot.xlabel(u'Mokymo iteracija', fontsize=AXIS_LABEL_FONT_SIZE)
+        pyplot.ylabel(u'Klaida', fontsize=AXIS_LABEL_FONT_SIZE)
+        pyplot.plot(self.last_errors, label=u'Mokymosi klaida')
+        if self.last_validation_errors:
+            pyplot.plot(self.last_validation_errors, label=u'Validacijos klaida')
+        pyplot.legend()
+        pyplot.savefig(figname(self.name), format='pdf')
+        if show:
+            pyplot.show()
+        else:
+            pyplot.close()
 
 OR = (
     ((0, 0), (0,)),
@@ -429,7 +433,6 @@ best_vy = []
 
 start_time = time()
 
-ITERATIONS_COUNT = 1
 
 def get_compressed_data(dimensions, compress_partial_data):
     pickle_filename = 'compressed/{}.data'.format(dimensions)
@@ -437,12 +440,13 @@ def get_compressed_data(dimensions, compress_partial_data):
         best_compression_error, compressed_data = pickle.loads(open(pickle_filename).read())
     except IOError:
         print 'compression...'
-        network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression', show_result=False)
+        network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
         # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
         network.generate((30, 30, dimensions, 30, 30))
         compression_layer = 2
 
         best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)# TODO: ~500 cycles?
+        network.draw_last_errors(show=False)
         # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
         #                            validation_data=generate_encoding_data(compress_validation_data))
 
@@ -463,9 +467,23 @@ def get_compressed_data(dimensions, compress_partial_data):
         pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
     return best_compression_error, compressed_data
 
-
-# for dimensions in range(4, 30+1):
+# TODO: comparison of networks in one diagram
+'''
 for dimensions in [18, 30]:
+    best_compressed_error, compressed_data = get_compressed_data(dimensions, compress_partial_data)
+    compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
+    compressed_validation_data = compressed_data[50:70] + compressed_data[550:570] + compressed_data[1050:1070]
+
+    cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification')
+    cls_network.generate((dimensions, 30, 30, 3))
+    best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=100, validation_data=compressed_validation_data)  # TODO: 400
+    cls_network.draw_last_errors(show=True)
+exit(0)
+'''
+
+ITERATIONS_COUNT = 1
+
+for dimensions in range(4, 30+1):
     best_iterations_error = 1
     for iteration in range(ITERATIONS_COUNT):
         print '-----------------------------------------'
@@ -495,9 +513,10 @@ for dimensions in [18, 30]:
         #     pyplot.show()
 
         print 'classification...'
-        cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification', show_result=False)
+        cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification')
         cls_network.generate((dimensions, 30, 30, 3))
         best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
+        cls_network.draw_last_errors(show=False)
         # print 'best_current_error:', best_current_error
         # vx.append(dimensions)
         # vy.append(1.0 - best_current_error)
