@@ -429,7 +429,7 @@ best_vy = []
 
 start_time = time()
 
-ITERATIONS_COUNT = 5
+ITERATIONS_COUNT = 30
 
 
 for dimensions in range(4, 30+1):
