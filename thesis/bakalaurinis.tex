@@ -221,7 +221,7 @@ Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir papra
 Projektuojant daugiasluoksnį perceptroną konkrečiam uždaviniui, reikia parinkti jo struktūrą.
 Reikia nuspręsti, kiek neuronų sluoksnių bus, kiek kiekviename sluoksnyje bus neuronų, kokios aktyvacijos funkcijos bus naudojamos, kaip duomenys yra paduodami, kokiu formatu iš tinklo gaunami rezultatai.
 Norint efektyviai spręsti konkretų uždavinį, labai svarbu parinkti tinkamą struktūrą.
-Nuo parinktos struktūros priklauso daugiasluoksnis perceptronas galimybės mokytis - parinkus blogą struktūra, tinklas gali nesugebėti išmokti sudėtingesnių duomenų atvejų.
+Nuo parinktos struktūros priklauso daugiasluoksnis perceptronas galimybės mokytis - parinkus blogą struktūrą, tinklas gali nesugebėti išmokti sudėtingesnių duomenų atvejų.
 
 
 
@@ -232,75 +232,84 @@ Nuo parinktos struktūros priklauso daugiasluoksnis perceptronas galimybės moky
 
 \TODO{įžangos sakinį pergalvoti}
 %Neuronų tinklo pateiktas atsakymas nebūtinai yra teisingas - neuronų tinklas suprojektuotas taip, kad jį būtų galima tobulinti pagal daromas klaidas.
-Neuroniui tinklui pateiktus neteisingą atsakymą, vykdomas tinklo mokymas.
+Daugiasluoksnis perceptronas suprojektuotas taip, kad pagal mokymui naudojamus duomenis jis galėtų būti keičiamas ir jo pateikiami atsakymai panašėtų į teisingus.
+%Pagal tinklo pateiktą rezultatą ir iš anksto žinomo rezultato skirtumus keičiami jungčių svoriai taip, kad kitą kartą būtų gaunamas atsakymas, artimesnis teisingui.
+%Neuroniui tinklui pateiktus neteisingą atsakymą, vykdomas tinklo mokymas.
 Vienas populiariausių mokymo metodikų, kuri yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{Backpropogation}).
 Tam, kad būtų galima apmokyti neuronų tinklą spręsti konkrečią problemą, reikia turėti nemažą šios problemos pavyzdinių duomenų rinkinį bei iš anksto žinoti kiekvienų duomenų teisingą atsakymą.
 Mokymas vyksta pažingsniui, vienu metu neuroninui tinklui pateikiant vienus duomenis iš turimo duomenų rinkinio.
 Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
 Šis gautas atsakymas yra sulyginamas su teisingu, iš anksto žinomu atsakymu.
 Pagal tai, kaip neurininio tinklo pateiktas atsakymas skiriasi nuo teisingojo, neuroninis tinklas būna pertvarkomas.
-Pertvarkymas vyksta nagrinėjant neuroninį tinklą priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
+Pertvarkymas vyksta nagrinėjant neuroninį tinklą pradedant nuo paskutinio sluoksnio ir baigiant pirmuoju - t.y. priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
 Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungčių svoriai $w_k$ (įskaitant ir $w_0$, kuris naudojamas kaip papildomas parametras) būna pakeičiami taip, kad neuroninis tinklas gautų panašesnį atsakymą į teisingąjį.
 
-Taip atlikus vienų duomenų iš rinkinio apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
-Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
-Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
-Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
-Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
-\TODO{įdėti (angl.~\textit{Validation group})?}
+Lyginant tinklo pateiktą atsakymą su teisingu, būna apskaičiuojama atsakymo klaida, pateikta \ref{eq:error}~formulėje.
+Čia $r$ - teisingo, iš anksto žinomo atsakymo vektorius, $a$ - neurono pateikto atsakymo vektorius, o N - vektorių dydis.
 
-\TODO{error'o skaičiavimas?}
-
-\TODO{backpropogation?}
-
-
-
-
-
-Neuroninių tinklų mokymo principas yra apmokyti jį mokant vieno pavyzdžio vienu metu.
-Pavyzdžio duomenys būna paduodami tinklui, gaunamas konkretus atsakymas, kuris yra sulyginamas su teisingu atsakymu.
-Pagal tai, koks buvo gautas atsakymas ir koks yra teisingas atsakymas, apskaičiuojama, kaip reikia pakeisti tinklo svorius, kad kitą kartą būtų gautas atsakymas, panašesnis į teisingą.
-Tai pasiekiama kiekvienam tinklo svoriui apskaičiavus, kaip ir kiek jį reikia pakeisti (padidinti ar pamažinti svorį).
-Tuomet koeficientas yra pakeičiamas pagal tai, kaip tuo metu jo pakeitimas pakeistų analizuojamo pavyzdžio atsakymą.
-
-\TODO{sutvarkyti pastraipą (ji perkelta iš momento koeficiento)}
-
-\TODO{parašyti}
-\ref{eq:learning}
-
-\begin{equation}\label{eq:learning}
-w' = w - \eta\frac{\partial C}{\partial w}
+\begin{equation} \label{eq:error}
+E = \frac{1}{N} \sum_{k=1}^N (r_k - a_k)^2
 \end{equation}
 
+Ši klaida parodo, kiek atsakymas yra klaidingas.
+Didesnė klaida reikškia neteisingesnį atsakymą, todėl apmokant tinklą tikslas yra minimizuoti šią klaidą.
+Tai pasiekiama analizuojant, kaip kiekvienas jungčių svoris prisideda prie klaidos - apskaičiuojamos klaidos išvestinės pagal kiekvieną svorį ir svoriai yra keičiami taip, kad klaida mažėtų (\ref{eq:learning}~formulė).
+Šioje formulėje yra panaudojamas $\eta$ mokymo koeficientas - jis nulemia, kaip greitai tinklas mokosi.
+Parinkus per mažą mokymo koeficientą, mokymo procesas bus lėtas ir geram apmokymui reikės daug iteracijų, o perinkus per didelį - mokymo metu tinklo svoriai bus per daug keičiami ir taip nesugebės efektyviai tobulėti.
+Mokymo koeficientas parenkamas priklausomai nuo konkrečios sprendžiamos užduoties bei tinklo struktūros.
+Dažniausiai jis parenkamas bandymų metu, išbandant įvairius dydžius.
+
+\begin{equation}\label{eq:learning}
+w' = w - \eta\frac{\partial E}{\partial w}
+\end{equation}
+
+Taip atlikus vienų rinkinio duomenų apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
+Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
+Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
+
+
+%Neuroninių tinklų mokymo principas yra apmokyti jį mokant vieno pavyzdžio vienu metu.
+%Pavyzdžio duomenys būna paduodami tinklui, gaunamas konkretus atsakymas, kuris yra sulyginamas su teisingu atsakymu.
+%Pagal tai, koks buvo gautas atsakymas ir koks yra teisingas atsakymas, apskaičiuojama, kaip reikia pakeisti tinklo svorius, kad kitą kartą būtų gautas atsakymas, panašesnis į teisingą.
+%Tai pasiekiama kiekvienam tinklo svoriui apskaičiavus, kaip ir kiek jį reikia pakeisti (padidinti ar pamažinti svorį).
+%Tuomet koeficientas yra pakeičiamas pagal tai, kaip tuo metu jo pakeitimas pakeistų analizuojamo pavyzdžio atsakymą.
 
 
 \subsection{Neuroninio tinklo persitaikymas}
 
+\TODO{fix: kartojasi su paskutinio skyriaus pabaiga}
+
+%Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
+%Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
+
+
+Apmokant neuroninį tinklą, gan svarbu yra nuspręsti, kada apmokymą reikia nutraukti, kadangi per daug mokyti neuroninį tinklą taip pat nėra naudinga.
 Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių mokymui naudojamų duomenų.
 Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
-Kadangi mokymui naudoti yra naudojama baigtinė aibė įrašų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
+Kadangi mokymui yra naudojama baigtinė aibė duomenų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
 Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
 
 Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
-Atliekant daugybę itaracijų su tais pačiais mokymo duomenimis, neuroninis tinklas nebeturi kur tobulėti, kaip tik prisitaikyti prie šių anomalijų, kadangi ir jos didina neuroninio tinklo klaidą.
-Tada neuroninio tinklo struktūra keičiasi taip, kad apimtų ir šią anomaliją, tačiau dėl to kenčia likusios populiacijos rezultatai.
+Atliekant daugybę itaracijų su tais pačiais mokymo duomenimis, neuroninis tinklas pasiekia tokį atsakymų tikslumą, kad norint dar bent kiek patobulėti, reikia prisitaikyti prie šių anomalijų, kadangi ir jos didina neuroninio tinklo klaidą.
+Tada neuroninio tinklo struktūra keičiasi taip, kad apimtų ir šią anomaliją, tačiau dėl to kenčia likusios problemos populiacijos, neįeinančios į apmokymo rinkinį, rezultatai.
 
 Kita priežąstis, dėl kurios įvyksta persitakymas, yra lokalių minimumų problema.
 Prieš pradedant neuroninio tinklo apmokymą, visi neuronų jungčių svoriai yra parenkami atsitiktinai.
 Dėl to gaunamas atsitiktinis neuroninis tinklas, kuris jau pateikia tam tikrus atsakymus.
 Tikėtina, kad jo pateikiami atsakymai yra labai prasti ir gali būti pagerinti, kadangi tai visiškai naujas atsitiktinai sukurtas tinklas, dar nieko nežinantis apie tiriamą problemą.
 Dėl to mokymo metu jis tobulėja, mažindamas mokymo duomenų pateikiamą klaidą.
-Problema kyla dėl to, kad neuroninio tinklo tobulėjimas vyksta mažais žingsniais, iš dabartinių turimų svorių juos truputį pakeičiant taip, kad atsakymas pagerėtų.
+Problema kyla dėl to, kad neuroninio tinklo tobulėjimas vyksta mažais žingsniais, iš dabartinių turimų svorių juos keičiant po truputį taip, kad atsakymas pagerėtų.
 O kadangi visas mokymas prasideda nuo atsitiktinai sugeneruotų duomenų, todėl pats mokymas bus ne artėjimas prie idealaus tinklo, o prie panašaus į atsitiktinį tinklą, kuris veiktų geriau, nei dabar.
-Tačiau kartais norint pasiekti gerų rezultatų, gali prireikti drąstiškai pakeisti daugybę tinklo svorių.
+Tačiau kartais norint pasiekti gerų rezultatų, gali prireikti drąstiškai pakeisti daugybę tinklo svorių vienu metu.
 Visgi to tinklas padaryti negali, nes vienu metu jis analizuoja tik vieną duomenų įrašą, neatsižvelgiant apie kitus, todėl rimtesni pakeitimai sugadintų neuroninį tinklą sprendžiant tiriamą problemą.
-Dėl to apmokomas tinklas turi ribas, iki kiek gali iš tikro gali tobulėti - ši riba ir yra vadinama lokaliu minimumu.
+Dėl to apmokomas tinklas turi ribas, iki kiek iš tikro gali tobulėti - ši riba ir yra vadinama lokaliu minimumu.
 Artėdamas prie lokalaus minimumo, tinklas taip stipriai prisiderina prie mokymui panaudotų duomenų, kad jo struktūros teikiami rezultatai taip pat pradeda blogėti tiriamajai problemos populiacijai.
 
 Paskutinė persitaikymo priežąstis, kuri šiek tiek paaiškina prieš tai buvusias priežąstis, yra ta, kad neuroninis tinklas vėlesnėse iteracijose per daug siekia tobulumo.
 Dažnai maža neuroninio tinklo pateikiama klaida nereiškia blogo atsakymo.
 Klasifikavimo uždavinyje atsakymas yra grupė, kuriai analizuojamas įrašas priklauso.
+\TODO{pridėti ref į klasifikavimo tinklo aprašymą?}
 Tačiau jo pateikiamo atsakymo formatas skiriasi - atsakyme yra gaunama, kiek šis įrašas turi kiekvienos grupės savybių.
 Iš šio tinklo pateikiamo atsakymo rezultatas gaunamas išrenkant grupę, kuri yra būdingiausia įrašui.
 Dėl to atsakymas būtų idealus, jeigu analizuojamas įrašas būtų 100\% priklausomas grupei, kuriai jis priklauso, ir 0\% kitoms.
@@ -308,8 +317,8 @@ Tačiau dažnai netgi patys duomenys gali būti tokios prigimties, kad nors jie 
 Dėl to siekis, kad kiekvienas mokymo duomenų įrašas būtų pripažintas kaip 0\% priklausomas kitoms grupėms, šiek tiek kenkia tinklo tobulėjimui - nors ir pasiekiamas teisingas atsakymas, visgi bandoma jį vis tobulint, siekiant pasiekti 0\% ir 100\% priklausomybę atitinkamoms grupėms.
 Čia ir įvyksta persitaikymas, nes po tam tikro iteracijų skaičiaus neuroninis tinklas tiek bando pasiekti minimalią galima klaidą, kad jo rezultatas su likusia problemos duomenų populiacija pradeda kristi.
 
-Norint gauti neuroninį tinklą, kuris efektyviai spręstų ne tik mokymui parinktus duomenis, bet ir visą problemos populiaciją, reikia vengti persitaikymo.
-Tą galima padaryti naudojant validacijos rinkinį(angl.~\textit{validation set}).
+Norint gauti neuroninį tinklą, kuris teisingai spręstų ne tik mokymui parinktus duomenis, bet ir likusią problemos duomenų populiaciją, reikia vengti persitaikymo.
+Tą galima padaryti naudojant validacijos rinkinį (angl.~\textit{Validation set}).
 Apmokymui reikia parinkti ne tik apmokymui naudojamą rinkinį, bet taip pat ir validacijos rinkinį.
 Šie duomenų rinkiniai turi neturėti bendrų įrašų, priešingu atveju validacija nebus veiksminga.
 Taip pat tiek apmokymo, tiek validacijos rinkiniuose turėtų būti kuo įvairesnių ir skirtingesnių įrašų - jie turi apimti įvairius skirtingus duomenų variantus tam, kad neuroninis tinklas juos išmoktų bei kad validacija būtų efektyvi.
@@ -317,13 +326,9 @@ Turint apmokymo ir validacijos rinkinius, apmokymas vyksta įprastai - tinklas m
 Tačiau vietoj to, kad tinklo progresas būtų sekamas pagal tai, kaip gerai ji sprendžia apmokymo rinkinį, yra panaudojamas validacijos rinkinys.
 Po kiekvienos apmokymo iteracijos, neuroniniui tinklui yra duodami validacijos rinkinio įrašai.
 Juos neuroninis tinklas turi išspręsti, tačiau be mokymosi žingsnio, nes kitaip validacijos rinkinys netektų prasmės.
-Gavus validacijos grupės atsakymų klaidą, ją galima naudoti stebint neuroninio tinklo progresą.
-Paprastai mokymo pradžioje validacijos grupės klaida mažėja, tačiau po tam tikro iteracijų skaičiaus ši klaida pradeda didėti, nors apmokymo rinkinio gaunama klaida vis dar mažėja.
+Gavus validacijos rinkinio atsakymų klaidą, ją galima naudoti stebint neuroninio tinklo progresą.
+Paprastai mokymo pradžioje validacijos rinkinio klaida mažėja kartu su mokymo rinkinio klaida, tačiau po tam tikro iteracijų skaičiaus ši klaida gali pradėti didėti, nors apmokymo rinkinio gaunama klaida vis dar mažėja.
 Būtent šioje vietoje ir prasideda persitaikymas, todėl vos pasiekus šią ribą arba dar po kelių iteracijų nuo jos geriausia neurono apmokymą nutraukti.
-
-
-Mokymo rinkinys
-Validacijos rinkinys (Normavimas vyksta kartu)
 
 \TODO{paieškoti lokalių minimumų straipsnių}
 
