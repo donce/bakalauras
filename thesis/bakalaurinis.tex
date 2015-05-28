@@ -56,9 +56,13 @@ nurodomi darbo raktiniai žodžiai.
 % Vienas terminas gali susidėti iš kelių žodžių.
 \raktiniaizodziai{raktinis žodis 1, raktinis žodis 2, raktinis žodis 3, raktinis žodis 4, raktinis žodis 5}   
 
+\raktiniaizodziai{Diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamatys duomenys}
+
 \sectionnonumnocontent{Summary}
 Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
 \keywords{keyword 1, keyword 2, keyword 3, keyword 4, keyword 5}
+
+\keywords{Multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
 
 \tableofcontents
 
@@ -99,9 +103,9 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 
 \section{Dirbtinių neuronų tinklas}
 
-Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą užduotį arba užduotis.
-Dirbtinis neuronų tinklas gavęs pradinius užduoties duomenis, juos apdoroja ir taip gaunamas tam tikras atsakymas.
-Šis atsakymas nebūtinai yra teisingas - neuronų tinklai suprojektuoti taip, kad galėtų būti mokomi kai gauna neteisingą atsakymą.
+Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą konkrečią užduotį.
+Gavęs pradinius užduoties duomenis, dirbtinis neuronų tinklas juos apdoroja ir taip gaunamas tam tikras atsakymas.
+Šis atsakymas nebūtinai turi būti teisingas - neuronų tinklai suprojektuoti taip, kad galėtų būti mokomi iš padarytų klaidų tam, kad kitą kartą gautų teisingesnį atsakymą.
 
 \subsection{Dirbtinis neuronas}
 
@@ -113,24 +117,20 @@ Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungt
 Šiuos signalus neuronas apjungia ir pertvarko, ir taip sugeneruojamas dirbtinio neurono išeinamasis signalas.
 Šis išeinamasis signalas gali būti siunčiamas daugybei kitų neuronų - dešinėje esančios jungtys yra neurono išeinamojo signalo jungtys, kuriomis ir yra siunčiamas išeinamasis signalas.
 
-Dirbtinis neuronas generuoja išeinamąjį signalą pagal tam tikrą modelį.
-Pirmiausia, kiekviena įeinančioji jungtis $k$ turi savo svorį $w_k$ - šis svoris yra padauginamas iš įeinančio signalo dydžio $x_k$.
-Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas sužadinimo signalas $a$ (\ref{eq:a}~formulė).
-Tada sužadinimo signalas $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
-Šį funkcija $f$ yra vadinama aktyvacijos funkcija - ją galima keisti pagal tai, kokio tikslo siekiama iš šio dirbtinio neurono.
-Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė (\ref{eq:sigmoid}~formulė).
-Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau norint apmokyti dirbtinį neuronų tinklą, reikia rasti šios funkcijos išvestinę.
-Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, kurios ne tik tinkamai pertvarko signalą išvedimui, tačiau ir kurios išvestinės yra paprastos.
-
-Įeinamosios neurono jungtys numeruojamos nuo 1 iki $k$.
-Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$.
-Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
-
 \begin{figure}
 	\includegraphics[scale=0.75]{diagrams/1_neuron}
 	\caption{Dirbtinis neuronas}
 	\label{fig:neuron}
 \end{figure}
+
+Dirbtinis neuronas generuoja išeinamąjį signalą pagal tam tikrą modelį.
+Skaičiuojant neurono generuojamą signalą, kiekvienos įeinančiosios jungties $k$, turinčios svorį $w_k$ ir ja sklindantį signalą $x_k$ dydžio, šie du dydžiai yra sudauginami.
+Tada visos šios signalų dydžių ir svorių sandaugos yra susumuojamos - taip gaunamas sužadinimo signalas $a$ (\ref{eq:a}~formulė).
+Tada sužadinimo signalas $a$ yra paduodamas kaip argumentas tam tikrai funkcijai $f$ ir gaunamas neurono išeities signalas $y = f(a)$.
+Šį funkcija $f$ yra vadinama aktyvacijos funkcija - ją galima pasirinkti pagal tai, kokio tikslo siekiama iš šio dirbtinio neurono.
+Populiariausios aktyvacijos funkcijos - slenkstinė, tiesinė, hiperbolinis tangentas bei sigmoidinė, esanti \ref{eq:sigmoid}~formulėje.
+Iš esmės akvyvacijos funkcija gali būti bet kokia funkcija, tačiau vėliau norint apmokyti dirbtinį neuronų tinklą, reikia rasti šios funkcijos išvestinę.
+Dėl šios priežasties dažniausiai pasirenkamos tokios aktyvacijos funkcijos, kurios ne tik tinkamai pertvarko signalą išvedimui, tačiau ir kurios išvestinės yra paprastos.
 
 \begin{equation} \label{eq:a}
 a = \sum_{k=1}^N w_kx_k
@@ -140,9 +140,14 @@ a = \sum_{k=1}^N w_kx_k
 f(a) = \frac{1}{1 + e^{-a}}
 \end{equation}
 
+Įeinamosios neurono jungtys numeruojamos nuo 1 iki $k$.
+Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$.
+Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
+Šis papildomas narys leidžia koreguoti neurono generuojamą signalą nepriklausomai nuo įeinančių jungčių signalų.
 
 
-\subsection{Dirbtiniai neuronai/tinklas?}
+
+\subsection{Dirbtinių neuronų tinklas}
 
 \TODO{finish}
 
@@ -151,7 +156,7 @@ Per kiekvieną jungtį gali eiti signalas, kuris perduoda vieno neurono išeinam
 Kiekvienas neuronas gali turėti bet kokį skaičių įeinančių ir bet kokį skaičių išeinančių jungčių.
 
 Kai kurios jungtys gali būti prijungtos tik prie vieno neurono.
-Jungtys, kurios įeina į neuroną tačiau neišeina iš jokio neurono, naudojamos duomenų perdavimui - šiomis jungtimis neuronų tinklui perduodami signalai, atitinkantys duomenis.
+Jungtys, kurios įeina į neuroną tačiau neišeina iš jokio neurono, gali būti naudojamos duomenų perdavimui - šiomis jungtimis neuronų tinklui perduodami signalai, atitinkantys duomenis.
 Jungtys, išeinančios iš neurono tačiau neįeinančios į jokį neuroną, naudojamos rezultato gavimui - kai per visą neuroninį tinklą pereina signalai, būtent šiose jungtyse ir yra gaunamas pateiktus duomenis atitinkantis atsakymas.
 
 Dirbtinio neuronų tinklo užduotis - pagal pateikiamus duomenis sugeneruoti atsakymą.
@@ -160,26 +165,6 @@ Neuronai, prijungti prie šių jungčių, gauna šiuos pradinius signalus, juos 
 Taip signalai sklinda tolyn ir visi tinklo neuronai būna apdorojami tol, kol galiausiai rezultatas būna gaunamas tam skirtose jungtyse.
 
 
-Neuronų tinklo pateiktas atsakymas nebūtinai yra teisingas - neuronų tinklas suprojektuotas taip, kad jį būtų galima tobulinti pagal daromas klaidas.
-Vienas populiariausių būdų, kuris yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{Backpropogation}).
-Tam, kad būtų galima apmokyti neuronų tinklą spręsti konkrečią problemą, reikia turėti nemažą šios problemos pavyzdinių duomenų rinkinį bei iš anksto žinoti kiekvienų duomenų teisingą atsakymą.
-Mokymas vyksta pažingsniui, vienu metu neuroninui tinklui pateikiant vienus duomenis iš turimo duomenų rinkinio.
-Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
-Šis gautas atsakymas yra sulyginamas su teisingu, iš anksto žinomu atsakymu.
-Pagal tai, kaip neurininio tinklo pateiktas atsakymas skiriasi nuo teisingojo, neuroninis tinklas būna pertvarkomas.
-Pertvarkymas vyksta nagrinėjant neuroninį tinklą priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
-Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungčių svoriai $w_k$ (įskaitant ir $w_0$, kuris naudojamas kaip papildomas parametras) būna pakeičiami taip, kad neuroninis tinklas gautų panašesnį atsakymą į teisingąjį.
-
-Taip atlikus vienų duomenų iš rinkinio apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
-Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
-Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
-Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
-Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
-\TODO{įdėti (angl.~\textit{Validation group})?}
-
-\TODO{error'o skaičiavimas?}
-
-\TODO{backpropogation?}
 
 \subsection{Daugiasluoksnis perceptronas}
 
@@ -199,7 +184,6 @@ Grafe be ciklų rasti tokią neuronų seką, kuria būtų galima apdoroti tinklo
 Yra žinoma, kad beciklį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
 Šį savybė palengvina neuroninio tinklo apdorojimą.
 
-
 \begin{figure}
 	\includegraphics[scale=0.75]{diagrams/2_neural_network}
 	\caption{Daugiasluoksnis perceptronas}
@@ -210,11 +194,12 @@ Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais (žr. \ref{fi
 Tinklas yra sudarytas iš perceptronų grupių, kurios yra vadinamos sluoksniais.
 Visi neuronų sluoksniai yra išsidėstę iš eilės, nuo kairės į dešinę.
 Kiekvieno sluoksnio visi neuronai turi išeinamąsias jungtis į visus neuronus iš sekančio sluoksnio, esančio dešinėje.
-Išimtis paskutinis sluoksnis - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
+Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{Output layer}) - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
 
 Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{Input layer}).
 Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{Hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
-Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos.
+Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos ir jo apmokymas sudėtingesnėms užduotims užtruktų daug ilgiau.
+\TODO{įdėti ref į straipsnį apie SLP lėtą mokymasi sunkioms užduotims - iš dėstytojo}
 Paskutinysis sluoksnis, naudojamas rezultatų suformavimui, vadinamas išvesties sluoksniu.
 
 Tokia neuronų organizacija į sluoksnius dar palengvina tinklo veikimą - signalus siųsti galima sluoksnis po sluoksnio, pradedant pirmuoju, kuris gauna problemos duomenis, siunčiant signalus visomis jungtimis antrąjam sluoksniui.
@@ -227,23 +212,50 @@ Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{eq:a} formulėje, gal
 Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
 
 
-\TODO{dirbtinio neurono paveiksliukas}
-
-
 \TODO{citata?}
-
 
 \TODO{110 iš knygos}
 
-
 \TODO{Perkelti statinės struktūros aprašymą (pateiktą žemiau):}
 
-Prieš pradedant neuroninio tinklo apmokymą, visa jo struktūra yra statiškai aprašoma - parenkama, kiek sluoksnių jis turi.
-Taip pat aprašoma, kiek kiekvienas sluoksnis turi neuronų, kokios aktyvacijos funkcijos yra naudojamos, kaip duomenys yra paduodami ir panašiai.
-Visa tai kažkiek suvaržo neuroninio tinklo galimybes mokytis - prireikus išmokti sudėtingesnius duomenis, turima neuroninio tinklo struktūra gali to tiesiog nemokėti.
-Dėl to konkretus neuroninis tiklas turi tam tikras ribas, iki kurių gali tobulėti.
+Projektuojant daugiasluoksnį perceptroną konkrečiam uždaviniui, reikia parinkti jo struktūrą.
+Reikia nuspręsti, kiek neuronų sluoksnių bus, kiek kiekviename sluoksnyje bus neuronų, kokios aktyvacijos funkcijos bus naudojamos, kaip duomenys yra paduodami, kokiu formatu iš tinklo gaunami rezultatai.
+Norint efektyviai spręsti konkretų uždavinį, labai svarbu parinkti tinkamą struktūrą.
+Nuo parinktos struktūros priklauso daugiasluoksnis perceptronas galimybės mokytis - parinkus blogą struktūra, tinklas gali nesugebėti išmokti sudėtingesnių duomenų atvejų.
+
+
 
 \subsection{Neuroninio tinklo apmokymas} \label{network-learning}
+
+
+\TODO{perkelta iš kitur - patirkinti, ar tinka kontekste}
+
+\TODO{įžangos sakinį pergalvoti}
+%Neuronų tinklo pateiktas atsakymas nebūtinai yra teisingas - neuronų tinklas suprojektuotas taip, kad jį būtų galima tobulinti pagal daromas klaidas.
+Neuroniui tinklui pateiktus neteisingą atsakymą, vykdomas tinklo mokymas.
+Vienas populiariausių mokymo metodikų, kuri yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{Backpropogation}).
+Tam, kad būtų galima apmokyti neuronų tinklą spręsti konkrečią problemą, reikia turėti nemažą šios problemos pavyzdinių duomenų rinkinį bei iš anksto žinoti kiekvienų duomenų teisingą atsakymą.
+Mokymas vyksta pažingsniui, vienu metu neuroninui tinklui pateikiant vienus duomenis iš turimo duomenų rinkinio.
+Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
+Šis gautas atsakymas yra sulyginamas su teisingu, iš anksto žinomu atsakymu.
+Pagal tai, kaip neurininio tinklo pateiktas atsakymas skiriasi nuo teisingojo, neuroninis tinklas būna pertvarkomas.
+Pertvarkymas vyksta nagrinėjant neuroninį tinklą priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
+Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungčių svoriai $w_k$ (įskaitant ir $w_0$, kuris naudojamas kaip papildomas parametras) būna pakeičiami taip, kad neuroninis tinklas gautų panašesnį atsakymą į teisingąjį.
+
+Taip atlikus vienų duomenų iš rinkinio apmokymą, imami kiti duomenys iš šio rinkinio ir mokymas kartojamas.
+Kiekvienus duomenis iš šio rinkinio rekomenduotina naudoti apmokymui bent kelis kartus, kadangi neuroninis tinklas ne iš karto teisingai išmoksta spręsti problemą su konkrečiais duomenimis.
+Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo parametrai gali būti pakeisti taip, kad neuroninis tinklas nebegebės teisingai išspręsti prieš teisingai išspręstų duomenų.
+Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
+Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
+\TODO{įdėti (angl.~\textit{Validation group})?}
+
+\TODO{error'o skaičiavimas?}
+
+\TODO{backpropogation?}
+
+
+
+
 
 Neuroninių tinklų mokymo principas yra apmokyti jį mokant vieno pavyzdžio vienu metu.
 Pavyzdžio duomenys būna paduodami tinklui, gaunamas konkretus atsakymas, kuris yra sulyginamas su teisingu atsakymu.
@@ -261,126 +273,15 @@ w' = w - \eta\frac{\partial C}{\partial w}
 \end{equation}
 
 
-\subsection{Momento koeficientas}
 
-Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
-Ji remiasi \ref{network-learning} poskiryje aprašytu mokymu, tačiau šiek tiek praplečia svorių keitimą.
-Svoriai keičiami ne pagal \ref{eq:learning} formulę, o pagal jos plėtinį \ref{eq:moment-2} formulėje.
-
-Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
-Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
-Panašiai veikia momento koeficientas - analizuojant, kaip reikia pakeisti svorius, šie dydžiai nėra tiesiog pritaikomi šiuo metu, tačiau jie yra panaudojami kaip greitis.
-Kiekvienam parametrui išsaugomas kitimo greitis, aprašytas \ref{eq:moment-1} formulėje, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti parametro dydį.
-Šis turimas greitis kiekvienos iteracijos metu yra pritaikomas kaip pokytis parametrui keisti.
-
-Toks parametrų keitimo metodas suteikia kelis privalumus.
-Pirmiausia, mokymo procesas pagreitėja - jei kelias iteracijas parametrą reikia keisti ta pačia linkme, naudojant šį metodą prireiks mažiau iteracijų, kadangi pakeitimas sumuosis ir kaskart panaudojamas vis didesnis pakeitimo žingsnis.
-To pasiekti vien padidinus mokymo koeficientą nepavyks, kadangi didelis mokymo koeficientas atliks didelius pakeitimus net ir ten, kur jų nereikia.
-Tuo tarpu momentinis metodas iš pradžių pradės mokymą mažais žingsniais ir jeigu mokymo kryptis pasikeis, taip pat ir koeficiento kitimo greitis pradės keistis.
-
-Taip pat šis metodas leidžia išvengti lokalių minimumų.
-Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį parametro keitimo žingsnį, patekimas į lokalų minimumą nesugebės greitai pakeisti mokymo krypties.
-Žinoma, tai turės įtakos parametro keitimo žingsniui, tačiau jeigu lokalus minimumas yra iš tikro lokalus ir gan nereikšmingas, tada turimas parametro keitimo žingsnis leis kurį laiką tęsti parametro keitimą į tą pusę, į kurią jis buvo keičiamas senesnėse iteracijose.
-
-Tinklo apmokymui naudojamas apmokymo rinkinys, sudarytas iš kelių (dažniausiai daugybės) skirtingų įrašų.
-Naudojant paprastą apmokymo metodą, kiekvieno įrašo apmokymas yra atskiras procesas.
-Naudojant momento koeficientą, parametrų keitimo tendencijos tarp skirtingų įrašų išlieka.
-Tai suteikia tam tikro pranašumo, kadangi labai išsiskiriantys ar nevisai korektiški įrašai, kurių paprastai yra nedaug, mažiau neigiamai paveiks tinklą.
-Taip yra todėl, kad jie keis ne pačias parametro reikšmes, bet greitį, kuris yra priklausomas ir nuo senesnių kitų įrašų iteracijų.
-Tai gali padėti išvengti tinklo pakeitimo tokia linkme, kuri kitiems įrašams gali stipriai pabloginti rezultatą - pavyzdžiui, patekimo į lokalų minimumą.
-
-\begin{equation} \label{eq:moment-1}
-v' = \mu v - \eta \frac{\partial C}{\partial w}
-\end{equation}
-
-\begin{equation} \label{eq:moment-2}
-w' = w + v'
-\end{equation}
-
-
-\TODO{function}
-
-%http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4579193&url=http%3A%2F%2Fieeexplore.ieee.org%2Fiel5%2F4569827%2F4579133%2F04579193.pdf%3Farnumber%3D4579193
-\TODO{}
-
-\TODO{keitimo žigsnis/greitis - suvienodinti savokas?}
-
-
-\section{Duomenys}
-
-
-\subsection{Vilkdagių duomenys}
-
-Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
-Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
-Aprašyta po 50 kiekvienos rūšies vilkdagių.
-Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgis, taurėlapio plotis, vainiklapio ilgis bei vainiklapio plotis.
-Šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
-
-Šie duomenys puikiai tinka klasifikavimo tinklo apmokymui - tinklo tikslas yra kuo mažiau klystant pasakyti, kuriai iš 3 vilkdagių rūšių tam tikra gėlė su tam tikrais parametrais priklauso.
-Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - testavimui.
-Tokiu būdu bus užtikrinama, kad tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
-
-\TODO{nuoroda į vilkdagių duomenis}
-
-\TODO{vilkdagių dimensijų mažinimo ir klasifikavimo diagramos?}
-
-\subsection{Genų duomenys}
-
-\TODO{atnaujinti čia panaudotų duomenų sąvokas kitur (įrašas).}
-
-Duomenis sudaro 12000 genų įrašų.
-Kiekvienas genas aprašytas 30-čia parametrų, apibūdinančių geno savybes.
-Visos parametrų reikšmės yra natūralieji skaičiai.
-Kiekvienas genas priklauso vienai iš 24 grupių.
-Visos genų grupės turi po 500 genų.
-
-
-\subsection{Duomenų normavimas}
-
-Analizuojami duomenų parametrai gali būti labai skirtingi, kadangi jie išreiškia skirtingas savybes, dydžius.
-Skiriasi parametrų mąsteliai - pvz. vieno parametro reikšmės gali kisti intervale $[0; 10]$, o kito $[10^3; 10^9]$.
-Dėl šių skirtumų tokias parametrų reikšmes tiesiai pateikti neuroniniui tinklui nėra praktiška.
-Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikšmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
-Tačiau daug naudingiau būtų visiems parametrams suteikti vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
-Dėl šios priežasties prieš pateikiant duomenis neuroniniui tinklui, juos svarbu normuoti.
-
-Normuojant duomenis, kiekvienas duomenų parametras normuojamas atskirai.
-Norint sunormuotį parametrą, reikia išnagrinėti turimas šio parametro reikšmes bei pakeisti jas naujomis.
-Sunormalizavus duomenis, visi parametrai turėtų turėti beveik lygią svarbą neuroniniui tinklui - jų reikšmių intervalai turėtų būti lygūs.
-Paprasčiausias parametro normavimo metodas - rasti minimalią $p_{min}$ ir maksimalią $p_{max}$ parametro reikšmes ir kiekvieną $i$-tojo įrašo analizuojamo parametro reikšmę $p_i$ pakeisti pagal formulę:
-
-\begin{equation}
-p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
-\end{equation}
-
-Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
-Šis metodas buvo naudojamas tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengvai sugalvojamas metodas.
-Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite{gaussian} šaltinyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
-Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
-
-\begin{equation}
-p_i = \frac{p_i - p_{mean}}{p_{std}}
-\end{equation}
-
-Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
-Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi yra 68\% tikimybė, kad jie bus iš intervalo $[-1; 1]$.
-Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
-
-\TODO{palyginti abiejų normavimų efektyvumą?}
-
-\TODO{rezultatų palyginimas?}
-
-\section{Duomenų grupės/Duomenų apmokymas/...}
-
-\TODO{nuspręsti poskyrio pavadinimą}
+\subsection{Neuroninio tinklo persitaikymas}
 
 Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių mokymui naudojamų duomenų.
 Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
 Kadangi mokymui naudoti yra naudojama baigtinė aibė įrašų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
 Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
 
-Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašas, kurios pirmiausia būna natūraliai ignoruojamos.
+Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
 Atliekant daugybę itaracijų su tais pačiais mokymo duomenimis, neuroninis tinklas nebeturi kur tobulėti, kaip tik prisitaikyti prie šių anomalijų, kadangi ir jos didina neuroninio tinklo klaidą.
 Tada neuroninio tinklo struktūra keičiasi taip, kad apimtų ir šią anomaliją, tačiau dėl to kenčia likusios populiacijos rezultatai.
@@ -428,20 +329,121 @@ Validacijos rinkinys (Normavimas vyksta kartu)
 
 
 
+\subsection{Momento koeficientas}
+
+Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
+Ji remiasi \ref{network-learning} poskiryje aprašytu mokymu, tačiau šiek tiek praplečia svorių keitimą.
+Svoriai keičiami ne pagal \ref{eq:learning} formulę, o pagal jos plėtinį \ref{eq:moment-2} formulėje.
+
+Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
+Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
+Panašiai veikia momento koeficientas - analizuojant, kaip reikia pakeisti svorius, šie dydžiai nėra tiesiog pritaikomi šiuo metu, tačiau jie yra panaudojami kaip greitis.
+Kiekvienam parametrui išsaugomas kitimo greitis, aprašytas \ref{eq:moment-1} formulėje, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti parametro dydį.
+Šis turimas greitis kiekvienos iteracijos metu yra pritaikomas kaip pokytis parametrui keisti.
+
+Toks parametrų keitimo metodas suteikia kelis privalumus.
+Pirmiausia, mokymo procesas pagreitėja - jei kelias iteracijas parametrą reikia keisti ta pačia linkme, naudojant šį metodą prireiks mažiau iteracijų, kadangi pakeitimas sumuosis ir kaskart panaudojamas vis didesnis pakeitimo žingsnis.
+To pasiekti vien padidinus mokymo koeficientą nepavyks, kadangi didelis mokymo koeficientas atliks didelius pakeitimus net ir ten, kur jų nereikia.
+Tuo tarpu momentinis metodas iš pradžių pradės mokymą mažais žingsniais ir jeigu mokymo kryptis pasikeis, taip pat ir koeficiento kitimo greitis pradės keistis.
+
+Taip pat šis metodas leidžia išvengti lokalių minimumų.
+Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį parametro keitimo žingsnį, patekimas į lokalų minimumą nesugebės greitai pakeisti mokymo krypties.
+Žinoma, tai turės įtakos parametro keitimo žingsniui, tačiau jeigu lokalus minimumas yra iš tikro lokalus ir gan nereikšmingas, tada turimas parametro keitimo žingsnis leis kurį laiką tęsti parametro keitimą į tą pusę, į kurią jis buvo keičiamas senesnėse iteracijose.
+
+Tinklo apmokymui naudojamas apmokymo rinkinys, sudarytas iš kelių (dažniausiai daugybės) skirtingų įrašų.
+Naudojant paprastą apmokymo metodą, kiekvieno įrašo apmokymas yra atskiras procesas.
+Naudojant momento koeficientą, parametrų keitimo tendencijos tarp skirtingų įrašų išlieka.
+Tai suteikia tam tikro pranašumo, kadangi labai išsiskiriantys ar nevisai korektiški įrašai, kurių paprastai yra nedaug, mažiau neigiamai paveiks tinklą.
+Taip yra todėl, kad jie keis ne pačias parametro reikšmes, bet greitį, kuris yra priklausomas ir nuo senesnių kitų įrašų iteracijų.
+Tai gali padėti išvengti tinklo pakeitimo tokia linkme, kuri kitiems įrašams gali stipriai pabloginti rezultatą - pavyzdžiui, patekimo į lokalų minimumą.
+
+\begin{equation} \label{eq:moment-1}
+v' = \mu v - \eta \frac{\partial C}{\partial w}
+\end{equation}
+
+\begin{equation} \label{eq:moment-2}
+w' = w + v'
+\end{equation}
+
+\TODO{see commented line}
+%http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4579193&url=http%3A%2F%2Fieeexplore.ieee.org%2Fiel5%2F4569827%2F4579133%2F04579193.pdf%3Farnumber%3D4579193
+
+\TODO{keitimo žigsnis/greitis - suvienodinti savokas?}
+
+
+
+\section{Duomenys}
+
+
+
+\subsection{Vilkdagių duomenys}
+
+Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
+Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
+Aprašyta po 50 kiekvienos rūšies vilkdagių.
+Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgį, taurėlapio plotį, vainiklapio ilgį bei vainiklapio plotį.
+Šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
+
+Šie duomenys puikiai tinka klasifikavimo tinklo apmokymui - tinklo tikslas yra kuo mažiau klystant pasakyti, kuriai iš 3 vilkdagių rūšių tam tikra gėlė su tam tikrais parametrais priklauso.
+Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - validavimui ir testavimui.
+Tokiu būdu galima patikrinti, ar tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
+
+\TODO{nuoroda į vilkdagių duomenis}
+
+\TODO{vilkdagių dimensijų mažinimo ir klasifikavimo diagramos?}
+
+
+
+\subsection{Genų duomenys}
+
+\TODO{atnaujinti čia panaudotų duomenų sąvokas kitur (įrašas).}
+
+Duomenis sudaro 12000 genų įrašų.
+Kiekvienas genas aprašytas 30-čia parametrų, apibūdinančių geno savybes.
+Visos parametrų reikšmės yra natūralieji skaičiai.
+Kiekvienas genas priklauso vienai iš 24 grupių.
+Visos genų grupės turi po 500 genų.
+
+
+
+\subsection{Duomenų normavimas}
+
+Analizuojami duomenų parametrai gali būti labai skirtingi, kadangi jie išreiškia skirtingas savybes, dydžius.
+Skiriasi parametrų mąsteliai - pvz. vieno parametro reikšmės gali kisti intervale $[0; 10]$, o kito $[10^3; 10^9]$.
+Dėl šių skirtumų tokias parametrų reikšmes tiesiai pateikti neuroniniui tinklui nėra praktiška.
+Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikšmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
+Tačiau daug naudingiau būtų visiems parametrams suteikti vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
+Dėl šios priežasties prieš pateikiant duomenis neuroniniui tinklui, juos svarbu normuoti.
+
+Normuojant duomenis, kiekvienas duomenų parametras normuojamas atskirai.
+Norint sunormuotį parametrą, reikia išnagrinėti turimas šio parametro reikšmes bei pakeisti jas naujomis.
+Sunormalizavus duomenis, visi parametrai turėtų turėti beveik lygią svarbą neuroniniui tinklui - jų reikšmių intervalai turėtų būti lygūs.
+Paprasčiausias parametro normavimo metodas - rasti minimalią $p_{min}$ ir maksimalią $p_{max}$ parametro reikšmes ir kiekvieną $i$-tojo įrašo analizuojamo parametro reikšmę $p_i$ pakeisti pagal formulę:
+
+\begin{equation}
+p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
+\end{equation}
+
+Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
+Šis metodas buvo naudojamas tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengvai sugalvojamas metodas.
+Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite{gaussian} šaltinyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
+Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
+
+\begin{equation}
+p_i = \frac{p_i - p_{mean}}{p_{std}}
+\end{equation}
+
+Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
+Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi yra 68\% tikimybė, kad jie bus iš intervalo $[-1; 1]$.
+Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
+
+
 
 \section{Dimensiškumo mažinimas}
 
 Klasifikavimo problema
 
-Galimi sprendimai:
-
-	* statistinis sprendimas
-	* neuroniniai tinklai
-		* veikimas
-		* apmokymas
-		* validavimas?
-		* Klasifikavimas požymių išskyrimui
-		* Dimensiškumo mažinimas -> Klasifikavimas
+\TODO{Dimensiškumo mažinimas požymių išskyrimui(feature extraction)}
 
 \subsection{Tiesinė diskriminantinė analizė}
 
@@ -555,6 +557,8 @@ Pirmiausia šie duomenys buvo panaudoti apmokant kompresijos tinklą, kuris po t
 Tada šie sumažinto dimensiškumo duomenys buvo panaudoti klasifikavimo tinklo apmokymui.
 Apmokius klasifikavimo tinklą, gaunama klaida.
 Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultatai, pavaizduoti \ref{fig:experiment-1}~pav.
+
+\TODO{paaiškinti grafiką}
 
 \begin{figure}
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-23_15-50-6}
