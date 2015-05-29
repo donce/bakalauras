@@ -440,7 +440,7 @@ def compress_data(dimensions, compress_partial_data):
     network.generate((30, 30, dimensions, 30, 30))
     compression_layer = 2
 
-    best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)# TODO: ~500 cycles?
+    best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)
     network.draw_last_errors(show=False)
     # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
     #                            validation_data=generate_encoding_data(compress_validation_data))
@@ -462,7 +462,7 @@ def compress_data(dimensions, compress_partial_data):
     return best_compression_error, compressed_data
 
 
-def get_compressed_data(dimensions, compress_partial_data, recalculate=False):
+def get_compressed_data(dimensions, data, recalculate=False):
     pickle_filename = 'compressed/{}.data'.format(dimensions)
     saved = True
     try:
@@ -470,34 +470,33 @@ def get_compressed_data(dimensions, compress_partial_data, recalculate=False):
     except IOError:
         saved = False
 
-    # TODO: rename these variables
-    best_compression_error = None
+    error = None
     compressed_data = None
 
     def save():
-        pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
+        pickle.dump((error, compressed_data), open(pickle_filename, 'w'))
 
     def load():
         return pickle.loads(file.read())
 
     def compress():
-        return compress_data(dimensions, compress_partial_data)
+        return compress_data(dimensions, data)
 
     if not saved:
-        best_compression_error, compressed_data = compress()
+        error, compressed_data = compress()
         save()
-        return best_compression_error, compressed_data
+        return error, compressed_data
 
     if recalculate:
-        best_compression_error, compressed_data = compress()
-        loaded_error, loaded_data = load()
-        if best_compression_error < loaded_error:
+        error, compressed_data = compress()
+        loaded_error, loaded_compressed_data = load()
+        if error < loaded_error:
             print 'FOUND BETTER!!!'
             save()
         else:
             print 'saved is better..'
-            # best_compression_error, compressed_data = loaded_error, loaded_data
-        return best_compression_error, compressed_data  # returns recalculated no matter it's worse
+            # error, compressed_data = loaded_error, loaded_compressed_data
+        return error, compressed_data  # returns recalculated no matter it's worse
     else:
         return load()
 
