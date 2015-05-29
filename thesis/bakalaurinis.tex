@@ -302,9 +302,8 @@ Artėdamas prie lokalaus minimumo, tinklas taip stipriai prisiderina prie mokymu
 
 Paskutinė persitaikymo priežąstis, kuri šiek tiek paaiškina prieš tai buvusias priežąstis, yra ta, kad neuroninis tinklas vėlesnėse iteracijose per daug siekia tobulumo.
 Dažnai maža neuroninio tinklo pateikiama klaida nereiškia blogo atsakymo.
-Klasifikavimo uždavinyje atsakymas yra grupė, kuriai analizuojamas įrašas priklauso.
-\TODO{pridėti ref į klasifikavimo tinklo aprašymą?}
-Tačiau jo pateikiamo atsakymo formatas skiriasi - atsakyme yra gaunama, kiek šis įrašas turi kiekvienos grupės savybių.
+Klasifikavimo uždavinyje (plačiau apie ją \ref{classification-dimensionality-reduction}~skyriuje) atsakymas yra grupė, kuriai analizuojamas įrašas priklauso.
+Tačiau tinklo pateikiamo atsakymo formatas sudėtingesnis - atsakyme yra gaunama, kiek šis įrašas turi kiekvienos grupės savybių.
 Iš šio tinklo pateikiamo atsakymo rezultatas gaunamas išrenkant grupę, kuri yra būdingiausia įrašui.
 Dėl to atsakymas būtų idealus, jeigu analizuojamas įrašas būtų 100\% priklausomas grupei, kuriai jis priklauso, ir 0\% kitoms.
 Tačiau dažnai netgi patys duomenys gali būti tokios prigimties, kad nors jie ir priklauso vienai konkrečiai grupei, visgi turi ir kitų grupių savybių.
@@ -544,7 +543,7 @@ Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dė
 
 
 
-\section{Klasifikavimas mažinant dimensiškumą}
+\section{Klasifikavimas mažinant dimensiškumą} \label{classification-dimensionality-reduction}
 
 Norint išsiaiškinti, ar galima pasiekti geresnius klasifikavimo rezultatus prieš tai sumažinant duomenų dimensiškumą, buvo atliktas tyrimas.
 Kadangi tiriamus duomenis sudaro 30 dimensijų, buvo bandoma sumažinti dimensijas iki visų galimų dimensijų dydžių - nuo 1 iki 29.
