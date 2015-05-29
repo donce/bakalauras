@@ -425,7 +425,7 @@ p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
 
 Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
 Tai buvo naudojama tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengviausiai suvokiamas metodas.
-Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite{gaussian} šaltinyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
+Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite[817~psl.]{gaussian} straipsnyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
 Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
 
 \begin{equation}
@@ -433,12 +433,8 @@ p_i = \frac{p_i - p_{mean}}{p_{std}}
 \end{equation}
 
 Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
-Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi vidutiniškai 68\% duomenų reikšmių bus intervale $[-1; 1]$.
-Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
-
-\TODO{pridėti dar vieną interalų grupė su 99.x\% tikimybe}
-
-\TODO{add ref for 68\% - the same ref as in previous paragraph}
+Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi \cite[817~psl.]{gaussian} stripsnis teigia, kad vidutiniškai 68\% duomenų reikšmių bus intervale $[-1; 1]$, todėl toks normavimo metodas puikiai tinka neuronams, naudojantiems sigmoidinę aktyvacijos funkciją.
+Bandymų metu šis metodas pasirodė tinkamesnis tiriamai problemai nei prieš tai aprašytasis.
 
 
 
