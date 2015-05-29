@@ -99,7 +99,7 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 
 \TODO{Šaltiniai:}
 
-\cite{298007} \cite{857823} \cite{857823} \cite{1007668} \cite{363467}
+\cite{298007} \cite{857823} \cite{1007668} \cite{363467}
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -272,9 +272,8 @@ Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo svoriai gali 
 %Tuomet koeficientas yra pakeičiamas pagal tai, kaip tuo metu jo pakeitimas pakeistų analizuojamo pavyzdžio atsakymą.
 
 
-\subsection{Neuroninio tinklo persitaikymas}
 
-\TODO{fix: kartojasi su paskutinio skyriaus pabaiga}
+\subsection{Neuroninio tinklo persitaikymas}
 
 %Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
 %Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
@@ -285,6 +284,8 @@ Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių moky
 Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
 Kadangi mokymui yra naudojama baigtinė aibė duomenų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
 Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
+
+\TODO{Atliktas tyrimas \cite[114]{overfitting} aptaria, kodėl }
 
 Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
@@ -448,9 +449,21 @@ Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
 
 \section{Dimensiškumo mažinimas}
 
-Klasifikavimo problema
+Efektyvus dimensiškumo mažinimas šiame tyrime yra labai svarbus, kadangi norint tiksliai ištirti, ar galima pasiekti geresnius klasifikavimo rezultatus mažinant duomenų dimensiškumą, yra kritiškai svarbu kuo tiksliau paruošti kompresuotus duomenis.
 
-\TODO{Dimensiškumo mažinimas požymių išskyrimui(feature extraction)}
+\TODO{feature axtraction}
+
+\TODO{removing redundant information (kaip pasimatė vėlesniuose rezultatuose)}
+
+\TODO{big parsity of date with high-dimensional data - reducing dimensionality can decrease the parsity}
+
+\TODO{ref apie feature extraction for classification}
+
+\TODO{egzistuoja daugybė dimensiškumo mažinimo būdų}
+
+\TODO{aptariami keli metodai}
+
+
 
 \subsection{Tiesinė diskriminantinė analizė}
 
@@ -480,26 +493,25 @@ Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
 
 \subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
-Dimensiškumo mažinimui taip pat buvo panaudotas neuroninis tinklas.
-Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tiklą, kurio pirmąjame ir paskutinimae sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
+Dimensiškumo mažinimui tyrimo metu buvo panaudotas daugiasluoksnis perceptronas (\ref{fig:compression_perceptron}~pav.).
+Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tiklą, kurio pirmajame ir paskutiniajame sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
 Tokio neuroninio tinklo užduotis nėra tiesiog sumažinti dimensijų skaičių - tai daroma netiesiogiai.
 Šiam tinklui perduodant tam tikrus $M$ dimensijų turinčius duomenis, iš jo tikimasi, kad išeities neuronuose susiformuos rezultatas, lygus pradiniams duomenims - tai yra neuronų tinklas šių duomenų nepakeis.
 Ši užduotis būtų paprasta, jeigu visi vidiniai turėtų bent $N$ dimensijų - tada pateikiami duomenys galėtų būti tiesiog perkeliami iš vieno neuronų sluoksnio į kitą nepakeisti.
 Tačiau kompresijos sluoksnis turi tik $M$ neuronų - vadinasi, duomenis reikės tam tikru būdu pertvarkyti, kad jie galėtų būti perduodami per šį sluoksnį prarandant kuo mažiau savybių.
 Būtent čia ir įvyksta dimensiškumo mažinimas - neuroninis tinklas yra apmokomas pateikti kuo panašesnius duomenis į pradinius, ko pasekoje kompresijos sluoksnyje su $M$ neuronų yra gaunami duomenys, turintys mažiau dimensijų.
-Norint sumažinti tam tikro duomens dimensijas, užtenka šį duomenį paduoti apmokytui neuroniniui tinklui ir pažiūrėti, kokie duomenys susidarė kompresijos sluoksnyje.
-Nuskaičius šių neuronų reikšmes ir bus gaunamas duomuo, turintis mažiau dimensijų.
+Norint sumažinti tam tikrų duomenenų dimensijas, užtenka šiuos duomenis paduoti apmokytui neuroniniui tinklui ir pažiūrėti, kokie duomenys susidarė kompresijos sluoksnyje.
+Nuskaičius šių neuronų reikšmes ir bus gaunami duomenys, turintis mažiau dimensijų.
 
 \begin{figure}
 	\includegraphics[scale=0.75]{diagrams/compression_perceptron}
 	\caption{Dimensiškumo mažinimo perceptrono struktūra}
+	\label{fig:compression_perceptron}
 \end{figure}
 
-\TODO{ref į šią diagramą bei aprašyti naudojantis šia diagrama}
-
 Tokiame apmokytame neuroniniame tinkle visi sluoksniai, esantys kairėje nuo kompresijos sluoksnio, yra naudojami dimensiškumo mažinimui.
-Būtent per šiuos sluoksnius einant signalams ir yra sudaromas mažiau dimensijų turintis duomuo.
-Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo panašesnis į pateiktus duomenis, todėl galima teikti, kad sluoksniai, esantys dešinėje nuo kompresijos sluoksnio, yra naudojami pradinių duomenų atstatymui.
+Būtent per šiuos sluoksnius einant signalams ir yra sudaromi mažiau dimensijų turintis duomenys.
+Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo panašesnis į pateiktus duomenis, todėl galima teikti, kad sluoksniai, esantys dešinėje nuo kompresijos sluoksnio, yra naudojami pradinių duomenų dekompresijai.
 
 \begin{figure}
 	\includegraphics[scale=0.25]{pics/compression_dimensions}
@@ -507,14 +519,16 @@ Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo
 	\label{fig:compression_dimensions}
 \end{figure}
 
-\TODO{ref į šituos rezultatus, aprašyti}
-
-Turimi duomenų dimensiškumas buvo sumažintas šiuo būdu.
+Tiriamų duomenų dimensiškumas buvo sumažintas šiuo būdu.
+Buvo paimta po 500 įrašų iš 3 skirtingų grupių.
 Kadangi duomenys turi 30 dimensijų, duomenų dimensijos buvo mažinamos iki [1; 29] dimensijų.
-Pateikiami dvimačių (\ref{fig:2d_points}~pav.) ir trimačių (\ref{fig:3d_points}~pav.) duomenų dimensiškumo rezultatai - paimta po 500 įrašų iš 3 grupių, kurios atvaizduotos skirtingomis spalvomis.
-Iš pateiktų rezultatų matosi, kad dvimačiai duomenys susigrupavę ne taip gerai, kaip trimačiai.
-Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2 praranda didesnę dalį duomenų nei mažinant iki 3 dimensijų.
-Didesnių dimensijų rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
+Gauti rezultatai pavaizduoti \ref{fig:compression_dimensions}~pav.
+Rezultatuose matoma, kaip tiksliai daugiasluoksnis kompresijos perceptronas geba atstatyti pradinius 30 dimensijų duomenis turėdamas sukompresuotus mažiau dimensijų turinčius duomenis.
+Galima pastebėti, kad mažėjant dimensijų skaičiui, atstatyti pradinius duomenis darosi vis sunkiau.
+Visgi mažinant dimensijų skaičių iki tam tikros ribos, kompresijos teisingumas mažėja ganėtinai lėtai.
+Tęsiant dimensijų mažinimą, teisingumas pradeda kristi vis greičiau.
+Iš to galima daryti prielaidą, kad analizuojamuose duomenyse yra pasikartojančios ar tiesiogiai tarpusavyje priklausančios informacijos, kurią galima sukompresuoti į mažiau dimensijų turinčią ir naudingesnę informaciją.
+Tačiau svarbu pasirinkti tinkamą dimensijų skaičių, kadangi pasirinkus per mažai dimensijų, kompresija gali prarasti didelę svarbios informacijos dalį.
 
 \begin{figure}
 	\includegraphics[scale=0.5]{pics/points_2d}
@@ -523,13 +537,17 @@ Didesnių dimensijų rezultatų vizualiai pavaizduoti nepavyksta dėl natūrali�
 	\label{fig:2d_points}
 \end{figure}
 
-
 \begin{figure}
 	\includegraphics[scale=0.5]{pics/points_3d}
 	\includegraphics[scale=0.5]{pics/points_3d_progress}
 	\caption{Trimačiai duomenys}
 	\label{fig:3d_points}
 \end{figure}
+
+Pateikiami dvimačių (\ref{fig:2d_points}~pav.) ir trimačių (\ref{fig:3d_points}~pav.) duomenų kompresijos rezultatai - kairėje pusėje pavaizduoti sukompresuoti duomenys, skirtingų grupių įrašus pavaizduojant skirtingomis spalvomis, o dešinėje - tinklo apmokymo klaidos kitimo diagramos.
+Iš pateiktų rezultatų matosi, kad dvimačiai duomenys susigrupavę ne taip gerai, kaip trimačiai.
+Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2 praranda didesnę dalį duomenų nei mažinant iki 3 dimensijų.
+Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
 
 
 
