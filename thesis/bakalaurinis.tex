@@ -357,9 +357,6 @@ Taip pat šis metodas leidžia išvengti dalies lokalių minimumų.
 Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį svorio keitimo žingsnį, patekimas mažą į lokalų minimumą nesugebės greitai pakeisti svorio keitimo krypties.
 Žinoma, lokalus minimumas turės įtakos svorio keitimo žingsniui, tačiau jeigu šis lokalus minimumas yra pakankamai mažas ir nereikšmingas, tada turimas svorio keitimo žingsnis leis kurį laiką tęsti svorio keitimą į tą pusę, į kurią jis buvo keičiamas senesnėse iteracijose.
 
-\TODO{see commented line - url for reference}
-%http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=4579193&url=http%3A%2F%2Fieeexplore.ieee.org%2Fiel5%2F4569827%2F4579133%2F04579193.pdf%3Farnumber%3D4579193
-
 %Tinklo apmokymui naudojamas apmokymo rinkinys, sudarytas iš kelių (dažniausiai daugybės) skirtingų įrašų.
 %Naudojant paprastą apmokymo metodą, kiekvieno įrašo apmokymas yra atskiras procesas.
 %Naudojant momento koeficientą, svorių keitimo tendencijos tarp skirtingų įrašų išlieka.
@@ -411,8 +408,6 @@ Dėl šių skirtumų tokias parametrų reikšmes tiesiai pateikti neuroniniui ti
 Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikšmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
 Tačiau daug naudingiau būtų visiems parametrams suteikti vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
 Dėl šios priežasties prieš pateikiant duomenis neuroniniui tinklui, juos svarbu normuoti.
-
-\TODO{add ref about normalization - kodėl ji būtina (dėl skirtingų mąstelių)}
 
 Normuojant duomenis, kiekvienas duomenų parametras normuojamas atskirai.
 Norint sunormuotį parametrą, reikia išnagrinėti turimas šio parametro reikšmes bei pakeisti jas naujomis.
@@ -580,6 +575,7 @@ Pirmiausia šie duomenys buvo panaudoti apmokant kompresijos tinklą, kuris po t
 Tada šie sumažinto dimensiškumo duomenys buvo panaudoti klasifikavimo tinklo apmokymui.
 Apmokius klasifikavimo tinklą, gaunama klaida.
 Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultatai, pavaizduoti \ref{fig:experiment-1}~pav.
+Raudoni taškai žymi visų klasifikavimo apmokymų rezultatus, o mėlyna linija išryškina visų dimensijų geriausius apmokymo rezultatus.
 
 \TODO{paaiškinti grafiką}
 
