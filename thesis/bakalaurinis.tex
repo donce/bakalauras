@@ -149,7 +149,7 @@ Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 
 
 \subsection{Dirbtinių neuronų tinklas}
 
-Dirbtinių neuronų tinklas (angl.~\textit{Artificial neural network}) - tai tinklas, kurį sudaro dirbtiniai neuronai bei jungtys, jungiančios kai kuriuos dirbtinius neuronus.
+Dirbtinių neuronų tinklas (angl.~\textit{artificial neural network}) - tai tinklas, kurį sudaro dirbtiniai neuronai bei jungtys, jungiančios kai kuriuos dirbtinius neuronus.
 Per kiekvieną jungtį gali eiti signalas, kuris perduoda vieno neurono išeinamąjį signalą kitam neuronui.
 Kiekvienas neuronas gali turėti bet kokį skaičių įeinančių ir bet kokį skaičių išeinančių jungčių.
 
@@ -166,14 +166,14 @@ Taip signalai sklinda tolyn ir visi tinklo neuronai būna apdorojami tol, kol ga
 
 \subsection{Daugiasluoksnis perceptronas}
 
-Daugiasluoksnis perceptronas (angl.~\textit{Multilayer perceptron}) - tai tam tikromis savybėmis pasižymintis dirbtinių neuronų tinklas.
+Daugiasluoksnis perceptronas (angl.~\textit{multilayer perceptron}) - tai tam tikromis savybėmis pasižymintis dirbtinių neuronų tinklas.
 Tai viena populiariausių dirbtinių neuroninių tinklų rūšis, kadangi savybės, kuriomis šis tinklas pasižymi, leidžia padaryti tam tikras skaičiavimo optimizacijas bei pakankamai lengvai realizuoti veikiantį neuroninį tinklą.
 Be to, galima keisti daugiasluoksnio perceptrono parametrus pritaikant jį konkrečiai sprendžiamai problemai.
 
 Neuronų tinklą galima nagrinėti kaip grafą, kuriame dirbtiniai neuronai yra grafo viršūnės, o jungtys, jungiančios juos - kryptinės grafo briaunos.
 Jeigu neuronų tinklo grafe būtų bent vienas ciklas, tai reikštų, kad šiame cikle esančiomis jungtimis einantys signalai gali keistis ne kartą - atnaujinus tam tikro neurono išvedimo signalą, ciklu gali pakisti ir šio neurono įvedimo signalas.
 Tada reikėtų vėl atnaujinti šio neurono išvedimo signalą, o tai darant vėl gali pasikeisti bet kuris ivedimo signalas ir toks pasikeitimų ciklas gali kartotis labai daug kartų arba net ir niekada nesibaigti.
-Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{Feedforward}).
+Tai apsunkina dirbtinių neuronų veikimą, todėl dažniausiai naudojami neuronų tinklai, kuriais signalai skleidžiami pirmyn (angl.~\textit{feedforward}).
 Pagal apibrėžimą, jeigu tinklo grafe nėra nei vieno ciklo, tinklas yra pirmyn skleidžiamas.
 
 Tai, kad daugiasluoksnis perceptronas yra skleidžiamas pirmyn, suteikia nemažai privalumų.
@@ -192,10 +192,10 @@ Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais (žr. \ref{fi
 Tinklas yra sudarytas iš perceptronų grupių, kurios yra vadinamos sluoksniais.
 Visi neuronų sluoksniai yra išsidėstę iš eilės, nuo kairės į dešinę.
 Kiekvieno sluoksnio visi neuronai turi išeinamąsias jungtis į visus neuronus iš sekančio sluoksnio, esančio dešinėje.
-Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{Output layer}) - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
+Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{output layer}) - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
 
-Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{Input layer}).
-Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{Hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
+Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{input layer}).
+Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
 Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos ir jo apmokymas sudėtingesnėms užduotims užtruktų daug ilgiau.
 \TODO{įdėti ref į straipsnį apie SLP lėtą mokymasi sunkioms užduotims - iš dėstytojo}
 Paskutinysis sluoksnis, naudojamas rezultatų suformavimui, vadinamas išvesties sluoksniu.
@@ -230,7 +230,7 @@ Nuo parinktos struktūros priklauso daugiasluoksnis perceptronas galimybės moky
 Daugiasluoksnis perceptronas suprojektuotas taip, kad pagal mokymui naudojamus duomenis jis galėtų būti keičiamas ir jo pateikiami atsakymai panašėtų į teisingus.
 %Pagal tinklo pateiktą rezultatą ir iš anksto žinomo rezultato skirtumus keičiami jungčių svoriai taip, kad kitą kartą būtų gaunamas atsakymas, artimesnis teisingui.
 %Neuroniui tinklui pateiktus neteisingą atsakymą, vykdomas tinklo mokymas.
-Vienas populiariausių mokymo metodikų, kuri yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{Backpropogation}).
+Vienas populiariausių mokymo metodikų, kuri yra naudojamas šiame darbe - atgalinė propogacija (angl.~\textit{backpropogation}).
 Tam, kad būtų galima apmokyti neuronų tinklą spręsti konkrečią problemą, reikia turėti nemažą šios problemos pavyzdinių duomenų rinkinį bei iš anksto žinoti kiekvienų duomenų teisingą atsakymą.
 Mokymas vyksta pažingsniui, vienu metu neuroninui tinklui pateikiant vienus duomenis iš turimo duomenų rinkinio.
 Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
@@ -281,7 +281,7 @@ Atliktame tyrime \cite[114~psl.]{overfitting} aptariama, kodėl per daug mokant 
 Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių mokymui naudojamų duomenų.
 Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
 Kadangi mokymui yra naudojama baigtinė aibė duomenų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
-Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
+Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
 
 Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
@@ -311,7 +311,7 @@ Dėl to siekis, kad kiekvienas mokymo duomenų įrašas būtų pripažintas kaip
 Čia ir įvyksta persitaikymas, nes po tam tikro iteracijų skaičiaus neuroninis tinklas tiek bando pasiekti minimalią galima klaidą, kad jo rezultatas su likusia problemos duomenų populiacija pradeda kristi.
 
 Norint gauti neuroninį tinklą, kuris teisingai spręstų ne tik mokymui parinktus duomenis, bet ir likusią problemos duomenų populiaciją, reikia vengti persitaikymo.
-Tą galima padaryti naudojant validacijos rinkinį (angl.~\textit{Validation set}).
+Tą galima padaryti naudojant validacijos rinkinį (angl.~\textit{validation set}).
 Apmokymui reikia parinkti ne tik apmokymui naudojamą rinkinį, bet taip pat ir validacijos rinkinį.
 Šie duomenų rinkiniai turi neturėti bendrų įrašų, priešingu atveju validacija nebus veiksminga.
 Taip pat tiek apmokymo, tiek validacijos rinkiniuose turėtų būti kuo įvairesnių ir skirtingesnių įrašų - jie turi apimti įvairius skirtingus duomenų variantus tam, kad neuroninis tinklas juos išmoktų bei kad validacija būtų efektyvi.
@@ -378,7 +378,7 @@ Be to, reikalingi daug dimensijų turintys duomenys, kurių dimensiškumą būt�
 
 \subsection{Vilkdagių duomenys}
 
-Programuojant daugiasluoksnį perceptroną, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
+Programuojant daugiasluoksnį perceptroną, testavimui buvo panaudoti vilkdagių (angl.~\textit{iris flower}) duomenys.
 Tai plačiai taikomi ir viešai prieinami duomenys, aprašantys 3 rūšių vilkdagius.
 Aprašyta po 50 kiekvienos rūšies vilkdagių.
 Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgį, taurėlapio plotį, vainiklapio ilgį bei vainiklapio plotį.
@@ -420,7 +420,7 @@ p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
 
 Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
 Tai buvo naudojama tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengviausiai suvokiamas metodas.
-Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite[817~psl.]{gaussian} straipsnyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
+Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite[817~psl.]{gaussian} straipsnyje - Gauso normavimas (angl.~\textit{gaussian Normalization}).
 Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
 
 \begin{equation}
@@ -453,7 +453,7 @@ Efektyvus dimensiškumo mažinimas šiame tyrime yra labai svarbus, kadangi nori
 
 \subsection{Tiesinė diskriminantinė analizė}
 
-Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{Linear discriminant analysis}).
+Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{linear discriminant analysis}).
 
 \TODO{Aprašyti veikimą}
 
@@ -602,6 +602,7 @@ Apmokius perceptroną, jo klaida skaičiuojama su visais duomenimis, o ne tik na
 Taip dauguma įrašų perceptronui yra nauji, todėl taip ištiriama, kaip gerai perceptronas sugebėjo išmokti duomenų savybes iš mažų mokymo grupių.
 Eksperimentas buvo atliktas kiekvienam dimensijų skaičiui po 30 kartų, norint užtikrinti kuo mažesnį atsitiktinumą.
 Gauti rezultatai, pavaizduoti \ref{fig:experiment-2}~pav.
+Raudoni taškai žymi visų klasifikavimo validacijų rezultatus, o mėlyna linija išryškina visų dimensijų geriausius validacijos rezultatus.
 
 Iš šių rezultatų matosi, kad su pakankamai mažais dimensijų skaičiais (mažesniais nei 13), klasifikavimo perceptronas gauna šiek tiek didesnę klaidą nei su likusiais dimensijų skaičiais.
 Taip turbūt atsitinka dėl panašių priežasčių, kaip ir pirmame tyrime su dimensijų skaičiais nuo vieno iki trijų - kompresija praranda dalį svarbios duomenų informacijos.
