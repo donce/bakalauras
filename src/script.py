@@ -433,45 +433,80 @@ best_vy = []
 
 start_time = time()
 
+def compress_data(dimensions, compress_partial_data):
+    print 'compression...'
+    network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
+    # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
+    network.generate((30, 30, dimensions, 30, 30))
+    compression_layer = 2
 
-def get_compressed_data(dimensions, compress_partial_data):
-    pickle_filename = 'compressed/{}.data'.format(dimensions)
-    try:
-        best_compression_error, compressed_data = pickle.loads(open(pickle_filename).read())
-    except IOError:
-        print 'compression...'
-        network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
-        # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
-        network.generate((30, 30, dimensions, 30, 30))
-        compression_layer = 2
+    best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)# TODO: ~500 cycles?
+    network.draw_last_errors(show=False)
+    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
+    #                            validation_data=generate_encoding_data(compress_validation_data))
 
-        best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)# TODO: ~500 cycles?
-        network.draw_last_errors(show=False)
-        # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
-        #                            validation_data=generate_encoding_data(compress_validation_data))
+    draw_points = True
+    points = [[] for i in xrange(dimensions)]
 
-        draw_points = True
-        points = [[] for i in xrange(dimensions)]
+    compressed_data = []
 
-        compressed_data = []
+    for i, d in enumerate(compress_partial_data):
+        r = network.run_encoding(d, compression_layer)
+        assert len(r) == dimensions
+        # if draw_points:
+        #     for d in xrange(dimensions):
+        #         points[d].append(r[d])
+        compressed_data.append((r, partial_data[i][1]))
 
-        for i, d in enumerate(compress_partial_data):
-            r = network.run_encoding(d, compression_layer)
-            assert len(r) == dimensions
-            # if draw_points:
-            #     for d in xrange(dimensions):
-            #         points[d].append(r[d])
-            compressed_data.append((r, partial_data[i][1]))
-
-        normalize_gaussian(compressed_data)
-        pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
+    normalize_gaussian(compressed_data)
     return best_compression_error, compressed_data
+
+
+def get_compressed_data(dimensions, compress_partial_data, recalculate=False):
+    pickle_filename = 'compressed/{}.data'.format(dimensions)
+    saved = True
+    try:
+        file = open(pickle_filename)
+    except IOError:
+        saved = False
+
+    # TODO: rename these variables
+    best_compression_error = None
+    compressed_data = None
+
+    def save():
+        pickle.dump((best_compression_error, compressed_data), open(pickle_filename, 'w'))
+
+    def load():
+        return pickle.loads(file.read())
+
+    def compress():
+        return compress_data(dimensions, compress_partial_data)
+
+    if not saved:
+        best_compression_error, compressed_data = compress()
+        save()
+        return best_compression_error, compressed_data
+
+    if recalculate:
+        best_compression_error, compressed_data = compress()
+        loaded_error, loaded_data = load()
+        if best_compression_error < loaded_error:
+            print 'FOUND BETTER!!!'
+            save()
+        else:
+            print 'saved is better..'
+            # best_compression_error, compressed_data = loaded_error, loaded_data
+        return best_compression_error, compressed_data  # returns recalculated no matter it's worse
+    else:
+        return load()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # TODO: comparison of networks in one diagram
+'''
 temp_errors = []
 for dimensions in [18, 30]:
     best_compressed_error, compressed_data = get_compressed_data(dimensions, compress_partial_data)
@@ -494,7 +529,40 @@ pyplot.savefig(figname('dim_comparisons'), format='pdf')
 pyplot.show()
 
 exit(0)
+'''
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Compression
+
+ITERATIONS_COUNT = 1
+
+for dimensions in range(1, 29+1):
+    best_iterations_error = 1
+    for iteration in range(ITERATIONS_COUNT):
+        print '-----------------------------------------'
+        print 'dimensions:', dimensions
+
+        best_compressed_error, compressed_data = get_compressed_data(dimensions, compress_partial_data, recalculate=True)
+
+        vx.append(dimensions)
+        vy.append(1.0 - best_compressed_error)
+        best_iterations_error = min(best_iterations_error, best_compressed_error)
+
+    print 'best_iterations_error', best_iterations_error
+    best_vx.append(dimensions)
+    best_vy.append(1.0 - best_iterations_error)
+
+dimfig = pyplot.figure(figsize=(20, 12))
+axis = pyplot.gca()
+axis.set_xticks(vx)
+pyplot.xlabel(u'Dimensijų skaičius', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.ylabel(u'1 - mokymosi klaida', fontsize=AXIS_LABEL_FONT_SIZE)
+pyplot.plot(vx, vy, 'ro', label=u'Kompresijos tinklų rezultatai')
+pyplot.plot(best_vx, best_vy, label=u'Pagalbinė linija')
+pyplot.legend(loc=4)
+pyplot.savefig(figname('dimensions'), format='pdf')
+pyplot.show()
 
 # ----------------------------------------------------------------------------------------------------------------------
 
