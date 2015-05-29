@@ -99,7 +99,7 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 
 \TODO{Šaltiniai:}
 
-\cite{298007} \cite{857823} \cite{1007668} \cite{363467}
+\cite{298007} \cite{1007668} \cite{363467}
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -278,14 +278,12 @@ Taip pat apmokant tinklą su vienais duomenimis, neuroninio tinklo svoriai gali 
 %Tačiau per daug mokyti neuroninį tinklą taip pat nerekomenduotina, kadangi vėliau tinklas per daug prisitaiko prie jam apmokyti naudojamo duomenų rinkinio, o ne prie problemos.
 %Nors ir gali pasirodyti, kad neuroninio tinklo pateikiami rezultatai vis labiau ir labiau panašėja į teisingus, tačiau išbandžius šį neuroninį tinklą su kitu šios problemos duomenų rinkiniu galima įsitikinti, kad rezultatai po kurio laiko pradeda blogėti.
 
-
-Apmokant neuroninį tinklą, gan svarbu yra nuspręsti, kada apmokymą reikia nutraukti, kadangi per daug mokyti neuroninį tinklą taip pat nėra naudinga.
+Apmokant neuroninį tinklą gan svarbu nuspręsti, kada apmokymą reikia nutraukti, kadangi per daug mokyti neuroninį tinklą taip pat nėra naudinga.
+Atliktame tyrime \cite[114~psl.]{overfitting} aptariama, kodėl per daug mokant daugiasluoksnį perceptroną siekiant minimizuoti mokymo klaidą rezultatai su kitais, mokymui nepanaudotais duomenimis, gali pablogėti.
 Neuroniniai tinklai mokymo procese yra linkę prisitaikyti prie konkrečių mokymui naudojamų duomenų.
 Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, kokios klaidos gaunamos naudojant mokymui parinktus duomenis.
 Kadangi mokymui yra naudojama baigtinė aibė duomenų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
 Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{Overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
-
-\TODO{Atliktas tyrimas \cite[114]{overfitting} aptaria, kodėl }
 
 Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
