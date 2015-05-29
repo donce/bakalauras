@@ -99,7 +99,7 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 
 \TODO{Šaltiniai:}
 
-\cite{298007} \cite{1007668} \cite{363467}
+\cite{298007} \cite{1007668} \cite{363467} \cite[289~psl.]{price-dimensionality-reduction}
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -148,8 +148,6 @@ Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 
 
 
 \subsection{Dirbtinių neuronų tinklas}
-
-\TODO{finish}
 
 Dirbtinių neuronų tinklas (angl.~\textit{Artificial neural network}) - tai tinklas, kurį sudaro dirbtiniai neuronai bei jungtys, jungiančios kai kuriuos dirbtinius neuronus.
 Per kiekvieną jungtį gali eiti signalas, kuris perduoda vieno neurono išeinamąjį signalą kitam neuronui.
@@ -379,7 +377,7 @@ Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį svorio keitimo žin
 \subsection{Vilkdagių duomenys}
 
 Programuojant daugiasluoksnį perceptroną, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
-Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
+Tai plačiai taikomi ir viešai prieinami duomenys, aprašantys 3 rūšių vilkdagius.
 Aprašyta po 50 kiekvienos rūšies vilkdagių.
 Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgį, taurėlapio plotį, vainiklapio ilgį bei vainiklapio plotį.
 Taigi šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
@@ -388,21 +386,15 @@ Taigi šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 
 Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - validavimui ir testavimui.
 Tokiu būdu galima patikrinti, ar tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
 
-\TODO{nuoroda į vilkdagių duomenis?}
 
 
+\subsection{Biomedicininiai duomenys}
 
-\subsection{Genų duomenys}
-
-\TODO{atnaujinti čia panaudotų duomenų sąvokas kitur (įrašas).}
-
-Duomenis sudaro 12000 genų įrašų.
-Kiekvienas genas aprašytas 30-čia parametrų, apibūdinančių geno savybes.
-Visos parametrų reikšmės yra natūralieji skaičiai.
-Kiekvienas genas priklauso vienai iš 24 grupių.
-Visos genų grupės turi po 500 genų.
-
-\TODO{plačiau aprašyti duomenų kilmę, pridėti refų}
+Tyrimui buvo naudojami biomedicininiai chromosomų duomenys, naudoti \cite[289~psl.]{price-dimensionality-reduction} tyrime.
+Kiekvieną chromosomą aprašo 30 parametrų.
+Visos chromosomos priklauso vienai iš 24 grupių, ir kiekvienoje grupėje yra po 500 chromosomų, taigi visus duomenis sudaro 12000 chromosomų.
+Chromosomų parametrų reikšmės yra natūralieji skaičiai.
+Šie duomenys tinkami tiriamajai problemai, kadangi jie yra klasifikuojami, turi nemažai parametrų bei kiekvienoje grupėje yra pakankamai duomenų.
 
 
 
