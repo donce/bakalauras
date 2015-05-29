@@ -379,19 +379,17 @@ Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį svorio keitimo žin
 
 \subsection{Vilkdagių duomenys}
 
-Programuojant neuroninius tinklus, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
+Programuojant daugiasluoksnį perceptroną, testavimui buvo panaudoti vilkdagių (angl.~\textit{Iris flower}) duomenys.
 Tai plačiai taikomi ir viešai pasiekiami duomenys, aprašantys 3 rūšių vilkdagius.
 Aprašyta po 50 kiekvienos rūšies vilkdagių.
 Kiekvienas vilkdagis aprašomas pateikiant 4 dydžius: taurėlapio ilgį, taurėlapio plotį, vainiklapio ilgį bei vainiklapio plotį.
-Šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
+Taigi šiuos vilkdagių duomenis sudaro 150 gėlių, kurių kiekviena aprašyta 4 parametrais bei priskirta vienai iš 3 vilkdagių grupių.
 
-Šie duomenys puikiai tinka klasifikavimo tinklo apmokymui - tinklo tikslas yra kuo mažiau klystant pasakyti, kuriai iš 3 vilkdagių rūšių tam tikra gėlė su tam tikrais parametrais priklauso.
+Šie duomenys puikiai tinka klasifikavimo tinklo apmokymui - tinklo tikslas yra kuo mažiau klystant pasakyti, kuriai iš 3 rūšių vilkdagis su tam tikrais parametrais priklauso.
 Be to, yra pakankamai duomenų, kad būtų galima dalį jų panaudoti tinklo apmokymui, o kitą dalį - validavimui ir testavimui.
 Tokiu būdu galima patikrinti, ar tinklas teisingai išmoko atskirti vilkdagių rūšis pagal parametrus, o ne tiesiog prisitaikė prie mokymui panaudotų duomenų.
 
-\TODO{nuoroda į vilkdagių duomenis}
-
-\TODO{vilkdagių dimensijų mažinimo ir klasifikavimo diagramos?}
+\TODO{nuoroda į vilkdagių duomenis?}
 
 
 
@@ -405,20 +403,24 @@ Visos parametrų reikšmės yra natūralieji skaičiai.
 Kiekvienas genas priklauso vienai iš 24 grupių.
 Visos genų grupės turi po 500 genų.
 
+\TODO{plačiau aprašyti duomenų kilmę, pridėti refų}
+
 
 
 \subsection{Duomenų normavimas}
 
-Analizuojami duomenų parametrai gali būti labai skirtingi, kadangi jie išreiškia skirtingas savybes, dydžius.
+Analizuojami duomenų parametrai gali būti labai skirtingi, kadangi jie išreiškia skirtingas savybes, dydžius, yra išreikšti skirtingais vienetais.
 Skiriasi parametrų mąsteliai - pvz. vieno parametro reikšmės gali kisti intervale $[0; 10]$, o kito $[10^3; 10^9]$.
 Dėl šių skirtumų tokias parametrų reikšmes tiesiai pateikti neuroniniui tinklui nėra praktiška.
 Taip atsitinka dėl neuroninio tinklo veikimo principo - parametrai, kurių reikšmės linkusios būti didesnėmis, turėtų didesnę įtaką rezultatui nei parametrai su mažesnėmis reikšmėmis, kadangi pradiniai duomenų signalai būtų daug stipresni parametrų su didesnėmis reikšmėmis.
 Tačiau daug naudingiau būtų visiems parametrams suteikti vienodą svarbą, kadangi parametro reikšmių intervalas neturi nieko bendro su parametro svarba - gali būti ir taip, kad dideles reikšmes įgyjantis parametras yra kur kas mažiau svarbus nei mažas reikšmes įgyjantysis.
 Dėl šios priežasties prieš pateikiant duomenis neuroniniui tinklui, juos svarbu normuoti.
 
+\TODO{add ref about normalization - kodėl ji būtina (dėl skirtingų mąstelių)}
+
 Normuojant duomenis, kiekvienas duomenų parametras normuojamas atskirai.
 Norint sunormuotį parametrą, reikia išnagrinėti turimas šio parametro reikšmes bei pakeisti jas naujomis.
-Sunormalizavus duomenis, visi parametrai turėtų turėti beveik lygią svarbą neuroniniui tinklui - jų reikšmių intervalai turėtų būti lygūs.
+Sunormavus duomenis, visi parametrai turėtų turėti beveik lygią svarbą neuroniniui tinklui - jų reikšmių pasiskirstymai bei intervalai turėtų būti apyligiai (priklausomai nuo normavimo metodo).
 Paprasčiausias parametro normavimo metodas - rasti minimalią $p_{min}$ ir maksimalią $p_{max}$ parametro reikšmes ir kiekvieną $i$-tojo įrašo analizuojamo parametro reikšmę $p_i$ pakeisti pagal formulę:
 
 \begin{equation}
@@ -426,7 +428,7 @@ p_i = \frac{p_i - p_{min}}{p_{max} - p_{min}}
 \end{equation}
 
 Šis metodas užtikrina, kad naujos parametro reikšmės būtų intervale $[0; 1]$.
-Šis metodas buvo naudojamas tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengvai sugalvojamas metodas.
+Tai buvo naudojama tyrimo pradžioje, kadangi tai turbūt paprasčiausias ir lengviausiai suvokiamas metodas.
 Visgi vėliau buvo pradėtas naudoti kitas metodas, naudotas ir aprašytas \cite{gaussian} šaltinyje - Gauso normavimas (angl.~\textit{Gaussian Normalization}).
 Pagal šį metodą, radus parametro vidurkį $p_{mean}$ ir vidutinį nuokrypį $p_{std}$, kiekviena $i$-tojo įrašo analizuojamo parametro reikšmė keičiama pagal formulę:
 
@@ -435,8 +437,12 @@ p_i = \frac{p_i - p_{mean}}{p_{std}}
 \end{equation}
 
 Šiuo metodu gaunamų reikšmių vidurkis lygus nuliui, o dispersija lygi vienetui.
-Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi yra 68\% tikimybė, kad jie bus iš intervalo $[-1; 1]$.
+Nors ir šiuo metodu gaunami duomenys nėra apibrėžti konkrečiame reikšmių intervale kaip pirmojo metodo, visgi vidutiniškai 68\% duomenų reikšmių bus intervale $[-1; 1]$.
 Bandymu metu šis metodas pasirodė tinkamesnis tiriamai problemai.
+
+\TODO{pridėti dar vieną interalų grupė su 99.x\% tikimybe}
+
+\TODO{add ref for 68\% - the same ref as in previous paragraph}
 
 
 
@@ -471,10 +477,6 @@ Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
 
 \TODO{SVD? \url{http://en.wikipedia.org/wiki/Singular_value_decomposition}}
 
-
-\includegraphics[width=\linewidth]{pics/classification}
-
-\TODO{pašalinti diagramą?}
 
 \subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
