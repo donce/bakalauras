@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Single layer perceptron using sigmoid activation function.
-AND and OR in one network, using two output neurons.
-'''
+
 import math
 import random
 from datetime import datetime

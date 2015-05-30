@@ -56,23 +56,29 @@ nurodomi darbo raktiniai žodžiai.
 % Vienas terminas gali susidėti iš kelių žodžių.
 \raktiniaizodziai{raktinis žodis 1, raktinis žodis 2, raktinis žodis 3, raktinis žodis 4, raktinis žodis 5}   
 
-\raktiniaizodziai{Diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamatys duomenys}
+\raktiniaizodziai{diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamatys duomenys}
 
 \sectionnonumnocontent{Summary}
 Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
 \keywords{keyword 1, keyword 2, keyword 3, keyword 4, keyword 5}
 
-\keywords{Multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
+\keywords{multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
 
 \tableofcontents
 
 \sectionnonum{Įvadas}
-Klasifikavimas - tai dažnai sutinkama užduotis, turintį įvairių sprendimo būdų.
-Šios uždavinio tikslas - identifikuoti, kuriai grupei priklauso tiriamas objektas.
+
+% 2-4 psl.
+
+Klasifikavimas - tai dažnai sutinkama užduotis, turintį daugybę įvairių sprendimo būdų.
+Šio uždavinio tikslas - identifikuoti, kuriai grupei priklauso tiriamas objektas.
 Tiriamieji objektai dažniausiai būna vienos rūšies, aprašomi tam tikrais parametrais, o grupės, kuriems jie yra priskiriami - iš anksto žinomos.
 Pavyzdžiui, galima klasifikuoti gyvūnus pagal tam tikras jų fizines savybes - kojų ilgį, storį, kitas kūno apimtis, kailio ilgį ir pan.
 Natūralu, kad kiekvienas net ir tos pačios rūšies gyvūnas turės šiek tiek kitokius parametrus, tačiau šie parametrai dažniausiai turi įvairius dėsningumus, pagal kuriuos galima bandyti atspėti, kuriai rūšiai tam tikras gyvūnas priklauso.
 
+\TODO{pašalinti "pavyzdžiui" iš įvado}
+
+\TODO{gal apskritai įvade nereikia aiškinti klasifikavimo? pagalvoti, ar bus apie ką rašyti}
 
 Norint išspręsti konkretų klasifikavimo uždavinį, akivaizdžiausias sprendimas galėtų būti šių grupių parametrų ištyrimas - pavyzdžiui, norint mokėti atskirti triušius nuo liūtų turint jų ūgius nėra sunki užduotis.
 Tačiau problema kyla, kai atskiriamos klasės yra labai panašios viena į kitą - tokiu atveju pastebėti tam tikrus dėsningumus ir juos sumodeliuoti bei realizuoti ir kur kas sunkiau.
@@ -90,12 +96,38 @@ Turimi duomenys panaudojami apmokyti neuroninį tinklą, kuris po to geba pats p
 Dimensiškumo mažinimas (angl.~\textit{dimensionality reduction})
 Savybių ištraukimas (angl.~\textit{feature extraction})
 
-\TODO{TODO: pridėti paaiškinimą, kad dažniausiai turime daug duomenų?}
+\TODO{pridėti paaiškinimą, kad dažniausiai turime daug duomenų?}
+
+\TODO{aprašyti didelio dimensiškumo problemas - ganėtinai didelis sparsity (platus/retas taškų išsidėstymas?, kadangi mokymui naudota tik po 50 taškų)}
+
 
 \TODO{neuroniniai tinklai?}
 \TODO{dimensiškumo mažinimas}
 \TODO{tyrimo tikslai?}
 
+\TODO{Tikslas}
+
+Darbo tikslas - ištirti, ar galima pagerinti klasifikavimą sumažinant duomenų dimensiškumą.
+Kaip stipriai galima pagerinti.
+
+Darbo uždaviniai:
+\begin{enumerate}
+	\item Ištirti kompresavimo metodus
+	\item Suprogramuoti daugiasluoksnį perceptroną
+	\item Suprogramuoti ir suprojektuoti dimensiškumo mažinimo/kompresavimo daugiasluoksnį perceptroną
+	\item Suprogramuoti ir suprojektuoti klasifikavimo daugiasluoksnį perceptroną
+	\item Ištestuoti klasifikavimo daugiasluoksnį perceptroną
+\end{enumerate}
+
+
+\TODO{pateikiama žinių apie naudojamus instrumentus (programas ir kt., jei darbe yra eksperimentinė dalis).}
+python
+	matplotlib - rezultatų vizualizacijai
+	numpy
+	
+pycharm
+
+\TODO{ar gali būti "ištirti kompresavimo metodus" ir "suprogramuoti kompresijos tinklą", jeigu antrasis neaišku be pirmojo rezultatų?}
 
 \TODO{Šaltiniai:}
 
@@ -606,8 +638,8 @@ Raudoni taškai žymi visų klasifikavimo validacijų rezultatus, o mėlyna lini
 
 Iš šių rezultatų matosi, kad su pakankamai mažais dimensijų skaičiais (mažesniais nei 13), klasifikavimo perceptronas gauna šiek tiek didesnę klaidą nei su likusiais dimensijų skaičiais.
 Taip turbūt atsitinka dėl panašių priežasčių, kaip ir pirmame tyrime su dimensijų skaičiais nuo vieno iki trijų - kompresija praranda dalį svarbios duomenų informacijos.
-To nesimato pirmame eksperimente, kadangi skirtumai gan maži - blogiausias tyrimas pasiektas su 5 dimensijomis, kurio metu gauta klaida apie $1 - 0.965 = 0.035$.
-Tuo tarpu praeitame eksperimente, kuriame buvo ištirti dar mažesni dimensijų skaičiai, blogiausias tyrimas pasiektas su viena dimensija, kurio klaida apie $1 - 0.943 = 0.057$ beveik dvigubai didesnė.
+To nesimato pirmame eksperimente, kadangi skirtumai gan maži - blogiausias tyrimas pasiektas su 5 dimensijomis, kurio metu gauta klaida apie $1 - 0,965 = 0,035$.
+Tuo tarpu praeitame eksperimente, kuriame buvo ištirti dar mažesni dimensijų skaičiai, blogiausias tyrimas pasiektas su viena dimensija, kurio klaida apie $1 - 0,943 = 0,057$ beveik dvigubai didesnė.
 Tai didelis skirtumas žinant, kad pirmame eksperimente klaidos skaičiavimui buvo naudojami visi apmokymui naudoti duomenys.
 Geriausi rezultatai gauti $[14; 29]$ dimensijų skaičiaus intervale.
 Šio eksperimento metu patikimiausiai atrodo rezultatai su 18 dimensijų, todėl šis dimensijų skaičius buvo pasirinktas palyginimui.
@@ -636,7 +668,9 @@ Tai reiškia, kad perceptronai pilnai išmoko mokymui naudotus duomenis ir daugi
 Visgi galutinė validacijos klaida skiriasi - 18-os dimensijų duomenų validacijos klaida mažesnė už 30-ties.
 
 
+
 \sectionnonum{Rezultatai ir išvados}
+
 Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
 išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
 (daromi nagrinėtų problemų sprendimo metodų palyginimai, siūlomos
@@ -644,11 +678,11 @@ rekomendacijos, akcentuojamos naujovės). Rezultatai ir išvados pateikiami
 sunumeruotų (gali būti hierarchiniai) sąrašų pavidalu. Darbo rezultatai turi
 atitikti darbo tikslą.
 
-\TODO{Suprogramuotas neuroninis tinklas}
+\TODO{Suprogramuotas daugiasluoksnis perceptronas}
 \TODO{Išanalizuoti duomenys}
 \TODO{Išbandyti skirtingi dimensiškumo mažinimo metodai}
-\TODO{Išbandyti skirtingi klasifikavimo metodai}
-\TODO{Išbandyti skirtingi dimensiškumo mažinimo ir klasifikavimo apjungimo metodai}
+\TODO{Išbandyti skirtingi klasifikavimo metodai? kokie?}
+\TODO{Išbandyti skirtingi dimensiškumo mažinimo ir klasifikavimo apjungimo metodai?}
 
 
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
