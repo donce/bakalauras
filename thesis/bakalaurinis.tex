@@ -144,10 +144,10 @@ Programavimui buvo naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.
 
 
 
-
 \TODO{Šaltiniai:}
 
-\cite{298007} \cite[289~psl.]{price-dimensionality-reduction}
+\cite{298007}
+
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -245,7 +245,6 @@ Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{out
 Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{input layer}).
 Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
 Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos ir jo apmokymas sudėtingesnėms užduotims užtruktų daug ilgiau.
-\TODO{įdėti ref į straipsnį apie SLP lėtą mokymąsi sunkioms užduotims - iš dėstytojo}
 Paskutinysis sluoksnis, naudojamas rezultatų suformavimui, vadinamas išvesties sluoksniu.
 
 Tokia neuronų organizacija į sluoksnius dar palengvina tinklo veikimą - signalus siųsti galima sluoksnis po sluoksnio, pradedant pirmuoju, kuris gauna problemos duomenis, siunčiant signalus visomis jungtimis antrąjam sluoksniui.
@@ -256,13 +255,6 @@ Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti su
 Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
 Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{eq:a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
 Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
-
-
-\TODO{citata?}
-
-\TODO{110 iš knygos}
-
-\TODO{Perkelti statinės struktūros aprašymą (pateiktą žemiau):}
 
 Projektuojant daugiasluoksnį perceptroną konkrečiam uždaviniui, reikia parinkti jo struktūrą.
 Reikia nuspręsti, kiek neuronų sluoksnių bus, kiek kiekviename sluoksnyje bus neuronų, kokios aktyvacijos funkcijos bus naudojamos, kaip duomenys yra paduodami, kokiu formatu iš tinklo gaunami rezultatai.
@@ -370,8 +362,6 @@ Juos neuroninis tinklas turi išspręsti, tačiau be mokymosi žingsnio, nes kit
 Gavus validacijos rinkinio atsakymų klaidą, ją galima naudoti stebint neuroninio tinklo progresą.
 Paprastai mokymo pradžioje validacijos rinkinio klaida mažėja kartu su mokymo rinkinio klaida, tačiau po tam tikro iteracijų skaičiaus ši klaida gali pradėti didėti, nors apmokymo rinkinio gaunama klaida vis dar mažėja.
 Būtent šioje vietoje ir prasideda persitaikymas, todėl vos pasiekus šią ribą arba dar po kelių iteracijų nuo jos geriausia neurono apmokymą nutraukti.
-
-\TODO{paieškoti lokalių minimumų straipsnių}
 
 
 
@@ -608,6 +598,7 @@ Kiekvienam galimam dimensijų skaičiui, į kurį norima sutraukti duomenis, ši
 Taip buvo užtikrinama, kad gauti rezultatai bus patikimesni, kadangi kai kuriais atvejais atsitiktinai sugeneruoto perceptrono struktūra gali būti labai nepalanki ir gali būti gaunamas prastas rezultatas, neparodantis, kiek visgi toks kompresijos mažinimas gali padėti klasifikavimui.
 
 
+
 \subsection{Kompresuotų duomenų klasifikavimo perceptronų galimybių eksperimentas}
 
 Pirmiausia šis eksperimentas buvo atliktas su daliniais duomenimis.
@@ -618,8 +609,6 @@ Tada šie sumažinto dimensiškumo duomenys buvo panaudoti klasifikavimo tinklo 
 Apmokius klasifikavimo tinklą, gaunama klaida.
 Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultatai, pavaizduoti \ref{fig:experiment-1}~pav.
 Raudoni taškai žymi visų klasifikavimo apmokymų rezultatus, o mėlyna linija išryškina visų dimensijų geriausius apmokymo rezultatus.
-
-\TODO{paaiškinti grafiką}
 
 \begin{figure}
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-23_15-50-6}
@@ -632,6 +621,7 @@ Išimtis tyrimuose su mažais dimensijų skaičiais - kai dimensijų yra mažai,
 Tai parodo, kad mažinant dimensijų skaičių iki labai mažo, prarandama dalis informacijos apie duomenis.
 Dėl to juos klasifikuoti pasidaro sunkiau.
 Todėl norint padidinti klasifikavimo efektyvumą, dimensijų skaičių galima mažinti daugiausiai iki keturių.
+
 
 
 \subsection{Kompresuotų duomenų klasifikavimo eksperimentas}
