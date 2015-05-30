@@ -55,12 +55,43 @@
 
 
 \sectionnonumnocontent{Santrauka}
-Glaustai aprašomas darbo turinys: pristatoma nagrinėta problema ir padarytos
-išvados. Santraukos apimtis ne didesnė nei 0,5 puslapio. Santraukų gale
-nurodomi darbo raktiniai žodžiai. 
-% Vienas terminas gali susidėti iš kelių žodžių.
+% Glaustai aprašomas darbo turinys: pristatoma nagrinėta problema ir padarytos išvados.
+% Santraukos apimtis ne didesnė nei 0,5 puslapio.
+
+Darbe nagrinėjama klasifikavimo problema.
+Tiriama, kaip galima pagerinti klasifikavimo rezultatus, mažinant klasifikuojamų duomenų dimensiškumą.
+Dažniausiai toks dimensiškumo mažinimas naudojamas išskirti daug dimensijų turinčių duomenų bruožus.
+
+Tyrimui buvo naudojami biomedicininiai chromosomų duomenys, kadangi juose yra pakankamai dimensijų - kiekviena chromosoma aprašoma 30-ia parametrų.
+Šie duomenys buvo klasifikuojami naudojant daugiasluoksnį perceptroną.
+
+Dimensiškumo mažinimas buvo atliekamas naudojantis dimensiškumo mažinimui skirtu daugiasluoksniu perceptronu.
+Buvo ištirta, kaip dimensiškumo mažinimas įtakoja duomenų savybių praradimą.
+Atrasta, kad mažinant dimensijų skaičių, iki tam tikros ribos informacija beveik neprarandama, tačiau toliau mažinant dimensijų skaičių, prarandama informacijos dalis pradeda stipriai didėti.
+
+Buvo ištirtos daugisluoksnio perceptrono galimybės klasifikuoti sumažinto dimensiškumo duomenis - tam buvo naudojamas mokymo duomenų rinkinys be papildomo validacijos rinkinio.
+Atrasta, kad tinklas geba efektyviai klasifikuoti mokymui naudojamus duomenis tol, kol dimensijų skaičius nėra mažesnis už 6.
+
+Taip pat buvo ištirti klasifikavimo rezultatai su originaliais bei sumažinto dimensiškumo duomenimis.
+Nustatyta, kad dimensijų skaičių sumažinus, galima pasiekti geresnių klasifikavimo rezultatų.
+Norint pasiekti geresnį klasifikavimo rezultatą, dimensijų skaičių galima sumažinti iki daugumos intervalo $[14; 29]$ skaičių.
+Su dimensijų skaičiais, mažesniais nei 14, klasifikavimo rezultatai suprastėja, lyginant su nemažinto dimensiškumo duomenimis.
+
+Buvo palygintas nemažinto dimensiškumo duomenys bei duomenys, kurių dimensijų skaičius buvo sumažintas iki 18.
+Šis dimensijų skaičius buvo pasirinktas pagal turimus klasifikavimų palyginimus.
+
+skiriasi tik validacija, o ne mokymosi klaida
 
 Klasifikavimo gerinimas naudojant dimensiškumo mažinimą
+
+
+
+daugiasluoksnis perceptronas
+
+daugiamačiai duomenys
+naudojami chromosomų duomenys
+
+\TODO{peržiūrėti užduotis}
 
 \TODO{santrauka}
 
@@ -152,7 +183,8 @@ Darbo uždaviniai:
 	
 	\item Ištirti, kaip keičiasi klasifikavimo rezultatas mažinant daugiasluoksniui perceptronui perduodamų duomenų dimensiškumą,
 	\item Pasirinkti optimalų dimensijų skaičių, naudojamą dimensiškumo mažinimui,
-	\item Palyginti pasirinkto optimalaus dimensijų skaičiaus duomenų klasifikavimo rezultatus su nemažinto dimensiškumo duomenų klasifikavimo rezultatais.
+	\item Palyginti daugiasluoksnių perceptronų apmokymo bei validacijos klaidas naudojant sumažinto ir nesumažinto dimensiškumo duomenis,
+	\item Palyginti sumažinto ir nesumažinto dimensiškumo duomenų klasifikavimo rezultatus.
 \end{enumerate}
 
 Tyrimui naudojami chromosomų duomenys, panaudoti \cite[289~psl.]{price-dimensionality-reduction} tyrime.
@@ -729,7 +761,9 @@ Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 -
 
 	\item Atlikti tyrimai, analizuojantys, kaip keičiasi klasifikavimo rezultatas mažinant daugiasluoksniui perceptronui perduodamų duomenų dimensiškumą,
 	\item Pasirinktas optimalus dimensiškumo mažinimui naudojamas dimensijų skaičius,
-	\item Palyginta, kaip keičiasi klasifikavimo rezultatai duomenų dimensiškumą sumažinus iki pasirinkto optimalaus dimensijų skaičiaus lyginant su nemažinto dimensiškumo duomenimis.
+	
+	\item Palygintos daugiasluoksnių perceptronų apmokymo bei validacijos klaidos naudojant sumažinto ir nesumažinto dimensiškumo duomenis,
+	\item Palyginti sumažinto ir nesumažinto dimensiškumo duomenų klasifikavimo rezultatai.
 \end{enumerate}
 
 Išvados:
@@ -740,6 +774,9 @@ Išvados:
 	\item Nustatyta, kad klasifikavimą galima pagerinti sumažinant klasifikavimui naudojamų duomenų dimensiškumą,
 	\item Norint pagerinti tiriamų duomenų klasifikavimą, jų dimensijų skaičių verta sumažinti iki daugumos intervalo $[14; 29]$ skaičių,
 	\item Ištirta, kad vienas optimaliausių dimensiškumo mažinimui naudojamų dimensijų skaičių yra 18,
+
+	\item Tiek su sumažinto, tiek ir su nesumažinto dimensiškumo duomenimis daugiasluoksnių perceptronų apmokymo klaidos beveik pasiekia nulį, tuo tarpu validacijos klaidos truputį didesnės, tačiau mažesnė validacijos klaida pasiekiama naudojant sumažinto dimensiškumo duomenimis. Tai reiškia \TODO{finish - kad validacija svarbu?}
+		
 	\item Tiriamų duomenų dimensijų skaičių sumažinus iki 18, klaidų skaičius vidutiniškai sumažėja apie $13.03\%$.
 \end{enumerate}
 
