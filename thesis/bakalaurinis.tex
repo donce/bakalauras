@@ -425,7 +425,7 @@ Būtent šioje vietoje ir prasideda persitaikymas, todėl vos pasiekus šią rib
 Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
 Ji remiasi \ref{network-learning} poskyryje aprašytu mokymu, tačiau šiek tiek praplečia svorių keitimą.
 Svoriai keičiami ne pagal \ref{eq:learning} formulę, o pagal jos plėtinį \ref{eq:moment-2} formulėje.
-Šio metodo nauda aptariama \cite{1007668} straipsnyje.
+Šio metodo nauda aptariama \cite[1218~psl.]{1007668} straipsnyje.
 
 Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
 Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
@@ -546,7 +546,7 @@ Keli pavyzdžiai - \cite[1517~psl.]{pca-classification} straipsnyje klasifikavim
 Kitas pavyzdys - \cite[1098~psl.]{s-isomap-classification} straipsnyje klasifikavimo duomenų dimensiškumo mažinimui naudojamas S-Isomap metodas (angl.~\textit{S-Isomap}).
 Taip pat šiame straipsnyje buvo tiriami kiti dimensiškumo mažinimo metodai - Isomap, LLE bei WeightedIso, tačiau jų rezultatai buvo prastesni nei tiriamasis.
 
-Vieni populiariausi dimensiškumo mažinimo būdai, aprašomi \cite{feature-extraction} knygoje - bruožų parinkimas (angl.~\textit{feature selection}) bei bruožų išskyrimas (angl.~\textit{feature extraction}).
+Vieni populiariausių dimensiškumo mažinimo būdų - bruožų parinkimas (angl.~\textit{feature selection}) bei bruožų išskyrimas (angl.~\textit{feature extraction}).
 Abu šie būdai siekia panašaus tikslo - turimiems duomenims sumažinti dimensijas taip, kad naujai gautuose duomenyse būtų likusi svarbiausia informacija.
 Pagrindinis šių būdų skirtumas - bruožų parinkimas sumažina dimensijas tiesiog pašalindamas mažiausiai reikšmingas dimensijas, o bruožų išskyrimas sukuria naujas dimensijas, išvestas iš turimų.
 Bruožų parinkimo metodas veikia gerai tada, kai yra labai nereikšmingų dimensijų arba tokių, kurios gali būti išreikštos per kitas dimensijas.
@@ -573,7 +573,7 @@ Dėl to gaunamos parametrų reikšmės gali būti mažiau prasmingos nei gaunamo
 \subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
 Dimensiškumo mažinimui tyrimo metu buvo panaudotas daugiasluoksnis perceptronas (\ref{fig:compression_perceptron}~pav.).
-Buvo sukurtas \cite{autoencoder} straipsnyje aptariamas auto-kompresijos tinklas (angl.~\textit{autoencoder}).
+Buvo sukurtas \cite[505~psl.]{autoencoder} straipsnyje aptariamas auto-kompresijos tinklas (angl.~\textit{autoencoder}).
 Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tinklą, kurio pirmajame ir paskutiniajame sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
 Tokio neuroninio tinklo užduotis nėra tiesiog sumažinti dimensijų skaičių - tai daroma netiesiogiai.
 Šiam tinklui perduodant tam tikrus $M$ dimensijų turinčius duomenis, iš jo tikimasi, kad išeities neuronuose susiformuos rezultatas, lygus pradiniams duomenims - tai yra neuronų tinklas šių duomenų nepakeis.
