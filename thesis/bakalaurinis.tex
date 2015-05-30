@@ -54,13 +54,15 @@ išvados. Santraukos apimtis ne didesnė nei 0,5 puslapio. Santraukų gale
 nurodomi darbo raktiniai žodžiai. 
 % Nurodomi iki 5 svarbiausių temos raktinių žodžių (terminų).
 % Vienas terminas gali susidėti iš kelių žodžių.
-\raktiniaizodziai{raktinis žodis 1, raktinis žodis 2, raktinis žodis 3, raktinis žodis 4, raktinis žodis 5}   
+
+\TODO{santrauka}
 
 \raktiniaizodziai{diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamatys duomenys}
 
 \sectionnonumnocontent{Summary}
 Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
-\keywords{keyword 1, keyword 2, keyword 3, keyword 4, keyword 5}
+
+\TODO{summary}
 
 \keywords{multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
 
@@ -105,19 +107,29 @@ Savybių ištraukimas (angl.~\textit{feature extraction})
 \TODO{dimensiškumo mažinimas}
 \TODO{tyrimo tikslai?}
 
-\TODO{Tikslas}
 
-Darbo tikslas - ištirti, ar galima pagerinti klasifikavimą sumažinant duomenų dimensiškumą.
-Kaip stipriai galima pagerinti.
+Darbo tikslas - ištirti, ar galima ir kaip stipriai galima pagerinti klasifikavimą sumažinant klasifikavimui naudojamų duomenų dimensiškumą.
 
 Darbo uždaviniai:
+
 \begin{enumerate}
-	\item Ištirti kompresavimo metodus
-	\item Suprogramuoti daugiasluoksnį perceptroną
-	\item Suprogramuoti ir suprojektuoti dimensiškumo mažinimo/kompresavimo daugiasluoksnį perceptroną
-	\item Suprogramuoti ir suprojektuoti klasifikavimo daugiasluoksnį perceptroną
-	\item Ištestuoti klasifikavimo daugiasluoksnį perceptroną
+	\item Suprogramuoti daugiasluoksnį perceptroną,
+	\item Sukurti klasifikuojantį daugiasluoksnį perceptroną,
+	\item Parinkus tinkamus duomenis, ištestuoti klasifikuojantį daugiasluoksnį perceptroną,
+
+	\item Ištirti dimensiškumo mažinimo metodus,
+	\item Pasirinkti tyrimui tinkamą dimensiškumo mažinimo metodą,
+	\item Realizuoti pasirinktą dimensiškumo mažinimo metodą,
+	\item Ištirti dimensiškumo mažinimo įtaką duomenims,
+	
+	\item Ištirti, kaip keičiasi klasifikavimo rezultatas mažinant daugiasluoksniui perceptronui perduodamų duomenų dimensiškumą,
+	\item Pasirinkti optimalų dimensijų skaičių, naudojamą dimensiškumo mažinimui,
+	\item Palyginti pasirinkto optimalaus dimensijų skaičiaus duomenų klasifikavimo rezultatus su nemažinto dimensiškumo duomenų klasifikavimo rezultatais.
 \end{enumerate}
+
+\TODO{pridėti: ištirti/pasirinkti duomenų normavimo metodus?}
+
+
 
 
 \TODO{ar gali būti "ištirti kompresavimo metodus" ir "suprogramuoti kompresijos tinklą", jeigu antrasis neaišku be pirmojo rezultatų?}
@@ -135,7 +147,7 @@ Programavimui buvo naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.
 
 \TODO{Šaltiniai:}
 
-\cite{298007} \cite{363467} \cite[289~psl.]{price-dimensionality-reduction}
+\cite{298007} \cite[289~psl.]{price-dimensionality-reduction}
 
 \section{Dirbtinių neuronų tinklas}
 
@@ -233,7 +245,7 @@ Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{out
 Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{input layer}).
 Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir to pasekoje gebėti išmokti sudėtingesnius dalykus.
 Paprasčiausiuose tinkluose gali išvis nebūti paslėptų sluoksnių, tačiau tokio tinklo galimybės būtų labai ribotos ir jo apmokymas sudėtingesnėms užduotims užtruktų daug ilgiau.
-\TODO{įdėti ref į straipsnį apie SLP lėtą mokymasi sunkioms užduotims - iš dėstytojo}
+\TODO{įdėti ref į straipsnį apie SLP lėtą mokymąsi sunkioms užduotims - iš dėstytojo}
 Paskutinysis sluoksnis, naudojamas rezultatų suformavimui, vadinamas išvesties sluoksniu.
 
 Tokia neuronų organizacija į sluoksnius dar palengvina tinklo veikimą - signalus siųsti galima sluoksnis po sluoksnio, pradedant pirmuoju, kuris gauna problemos duomenis, siunčiant signalus visomis jungtimis antrąjam sluoksniui.
@@ -471,51 +483,45 @@ Bandymų metu šis metodas pasirodė tinkamesnis tiriamai problemai nei prieš t
 
 \section{Dimensiškumo mažinimas}
 
-Efektyvus dimensiškumo mažinimas šiame tyrime yra labai svarbus, kadangi norint tiksliai ištirti, ar galima pasiekti geresnius klasifikavimo rezultatus mažinant duomenų dimensiškumą, yra kritiškai svarbu kuo tiksliau paruošti kompresuotus duomenis.
+Norint klasifikuoti didelio dimensiškumo duomenis, labai svarbu juos tinkamai paruošti.
+Dažnai klasifikavimo problemose tenka susidurti su didelio dimensiškumo duomenimis.
+Tačiau tikiuose duomenyse dažniausiai ne visos dimensijos yra svarbios - kai kurios dimensijos gali neturėti nieko bendro su klasifikavimo problema.
+Taip pat gali būti, kad kai kurių dimensijų dydžiai yra tarpusavyje priklausomi, todėl nėra privaloma panaudoti visas dimensijas.
+Tačiau klasifikuojant didelio dimensiškumo duomenis kyla nemažai problemų - juos apdoroti tampa sunkiau, prireikia sudėtingesnių daugiasluoksnių perceptronų, mokymas užtrunka ilgiau.
+Be to, dažnai ir patys rezultatai būna prasti, kadangi turint daug dimensijų, gerai apmokyti daugiasluoksnį perceptroną yra sunku, kadangi tinklo klaidos minimizavimas vyksta didelio dimensiškumo erdvėje.
+Tokioje erdvėje gali susidaryti daugybė lokalių minimumų, kurie gali nulemti prastą daugiasluoksnio perceptrono mokymo rezultatą.
+Problema dar padidėja, jeigu apmokymui panaudojama mažai duomenų - tada tinklui gali neužtekti duomenų teisingai išmokti sprendžiamą problemą, kadangi didelio dimensiškumo erdvėje mažai turimų duomenų bus labai retai išsidėstę \cite[2455~psl.]{spectra}.
+Dėl to klasifikuojant didelio dimensiškumo duomenis, labai svarbu sumažinti duomenų dimensiškumą.
+Plačiau dimensiškumo mažinimo nauda klasifikavimui aptariama \cite[2455~psl.]{spectra} bei \cite[296~psl.]{ann-feature-extraction} straipsniuose - abu šie straipsniai nagrinėja šią problema bei siūlo efektyvesnius alternatyvius sprendimus.
 
-\TODO{feature axtraction}
-
-\TODO{removing redundant information (kaip pasimatė vėlesniuose rezultatuose)}
-
-\TODO{big parsity of date with high-dimensional data - reducing dimensionality can decrease the parsity}
-
-\TODO{ref apie feature extraction for classification}
-
-\TODO{egzistuoja daugybė dimensiškumo mažinimo būdų}
-
-\TODO{aptariami keli metodai}
+Populiariausi dimensiškumo mažinimo būdai, aprašomi \cite{feature-extraction} knygoje - bruožų parinkimas (angl.~\textit{feature selection}) bei bruožų išskyrimas (angl.~\textit{feature extraction}).
+Abu šie būdai siekia panašaus tikslo - turimiems duomenims sumažinti dimensijas taip, kad naujai gautuose duomenyse būtų likusi svarbiausia informacija.
+Pagrindinis šių būdų skirtumas - bruožų parinkimas sumažina dimensijas tiesiog pašalindamas mažiausiai reikšmingas dimensijas, o bruožų išskyrimas sukuria naujas dimensijas, išvestas iš turimų.
+Bruožų parinkimo metodas veikia gerai tada, kai yra labai nereikšmingų dimensijų arba tokių, kurios gali būti išreikštos per kitas dimensijas.
+Bruožų išskyrimas dažniausiai pasiekiamas sudėtingesniais būdais, tačiau jo išskirti bruožai būna ryškesni.
+Be to, bruožų išskyrimo metodas gali pasiekti lygiai tuos pačius rezultatus, kuriuos gali pasiekti bruožų parinkimas, tačiau ne priešingai.
+Tyrimui buvo pasirinktas bruožų išskyrimo metodas, kadangi tikėtina, jog chromosomų duomenyse gali būti nepakankamai mažai reikšmingų dimensijų.
 
 
 
 \subsection{Tiesinė diskriminantinė analizė}
 
 Vienas iš galimų dimensiškumo mažinimo sprendimo būdų - tiesinė diskriminantinė analizė (angl.~\textit{linear discriminant analysis}).
+Šis metodas sumažina duomenų dimensiškumą statistiškai analizuodamas juos.
 
-\TODO{Aprašyti veikimą}
-
-Pagrindinis šio metodo suvaržymas yra tai, kad kiekvienas naujas parametras yra gaunamas sudėjus originalių parametrų reikšmes, padaugintas iš atitinkamų koeficientų.
+Šis metodas dažnai taikomas didelio dimensiškumo duomenų klasifikavimo problemai.
+\cite[289~psl.]{price-dimensionality-reduction} straipsnis statistiškai analizuoja jo pritaikomumą šiai problemai bei aptaria įvarius variantus, atsižvelgiant į dimensijų skaičiaus ir apmokymo rinkinio dydžio santykį.
+Tačiau pagrindinis šio metodo suvaržymas yra tai, kad kiekvienas naujas parametras yra gaunamas sudėjus originalių parametrų reikšmes, padaugintas iš atitinkamų koeficientų.
 Tai reiškia, kad naujieji parametrai turi tiesinę priklausomybę nuo senųjų, todėl toks dimensijų mažinimas yra labai elementarus.
 Jeigu norima sukurti naują parametrą, kurio išvedimas yra sudėtingesnis, to padaryti naudojant šį metodą nepavyks.
-Dėl to gaunamos parametrų reikšmės gali būti mažai naudingos.
+Dėl to gaunamos parametrų reikšmės gali būti mažiau prasmingos nei gaunamos kitais metodais.
 
-\TODO{statistinis dimensijų mažinimas - tiesinis (linear), o neuroniniai tinklai geba atlikti sudėtingesnias transformacijas.}
-
-\TODO{paaiškinti, kaip veikia tiesinis - kiekviena nauja savybė gaunama iš originalių savybių su tam tikrais apskaičiuojamais koeficientais.}
-
-
-\url{http://en.wikipedia.org/wiki/Linear_discriminant_analysis#Face_recognition}
-
-\TODO{Pavyzdinio rezultato paveiksliukas}
-
-\TODO{matlab, python script}
-
-
-\TODO{SVD? \url{http://en.wikipedia.org/wiki/Singular_value_decomposition}}
 
 
 \subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
 Dimensiškumo mažinimui tyrimo metu buvo panaudotas daugiasluoksnis perceptronas (\ref{fig:compression_perceptron}~pav.).
+Buvo sukurtas \cite{autoencoder} straipsnyje aptariamas auto-kompresijos tinklas (angl.~\textit{autoencoder}).
 Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tiklą, kurio pirmajame ir paskutiniajame sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
 Tokio neuroninio tinklo užduotis nėra tiesiog sumažinti dimensijų skaičių - tai daroma netiesiogiai.
 Šiam tinklui perduodant tam tikrus $M$ dimensijų turinčius duomenis, iš jo tikimasi, kad išeities neuronuose susiformuos rezultatas, lygus pradiniams duomenims - tai yra neuronų tinklas šių duomenų nepakeis.
@@ -687,19 +693,35 @@ Tuo tarpu 18 dimensijų analizuojantčių - intervale $[1427, 1449]$.
 
 \sectionnonum{Rezultatai ir išvados}
 
-Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
-išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
-(daromi nagrinėtų problemų sprendimo metodų palyginimai, siūlomos
-rekomendacijos, akcentuojamos naujovės). Rezultatai ir išvados pateikiami
-sunumeruotų (gali būti hierarchiniai) sąrašų pavidalu. Darbo rezultatai turi
-atitikti darbo tikslą.
+Darbo rezultatai:
 
-\TODO{Suprogramuotas daugiasluoksnis perceptronas}
-\TODO{Išanalizuoti duomenys}
-\TODO{Išbandyti skirtingi dimensiškumo mažinimo metodai}
-\TODO{Išbandyti skirtingi klasifikavimo metodai? kokie?}
-\TODO{Išbandyti skirtingi dimensiškumo mažinimo ir klasifikavimo apjungimo metodai?}
+\begin{enumerate}
+	\item Suprogramuotas daugiasluoksnis perceptronas,
+	\item Suprojektuotas ir suprogramuotas klasifikuojantis daugiasluoksnis perceptronas,
+	\item Klasifikuojantis daugiasluoksnis perceptronas ištestuotas su tam parinktais Vilkdagių duomenimis,
 
+	\item Išanalizuoti keli dimensiškumo mažinimo metodai,
+	\item Tyrimui pasirinktas dimensiškumo mažinimo daugiasluoksniu perceptronu metodas,
+	\item Suprojektuotas ir suprogramuotas dimensiškumo mažinimo daugiasluoksnis perceptronas,
+	\item Tiriamų chromosomų duomenų dimensiškumas sumažintas iki visų galimų dimensijų skaičių, ištirta dimensiškumo mažinimo įtaka duomenims juos bandant atstatyti į pradinius,
+
+	\item Atlikti tyrimai, analizuojantys, kaip keičiasi klasifikavimo rezultatas mažinant daugiasluoksniui perceptronui perduodamų duomenų dimensiškumą,
+	\item Pasirinktas optimalus dimensiškumo mažinimui naudojamas dimensijų skaičius,
+	\item Palyginta, kaip keičiasi klasifikavimo rezultatai duomenų dimensiškumą sumažinus iki pasirinkto optimalaus skaičiaus lyginant su nemažinto dimensiškumo duomenimis,
+\end{enumerate}
+
+\TODO{išvados}
+
+Dimensiškumo mažinimas padėjo.
+
+Dimensiškumo mažinimas iki kažkiek dimensijų nelabai daug pakenkia - iš grafiko matosi, kad dekompresuoti pavyksta gan tiksliai.
+
+%Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
+%išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
+%(daromi nagrinėtų problemų sprendimo metodų palyginimai, siūlomos
+%rekomendacijos, akcentuojamos naujovės). Rezultatai ir išvados pateikiami
+%sunumeruotų (gali būti hierarchiniai) sąrašų pavidalu. Darbo rezultatai turi
+%atitikti darbo tikslą.
 
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
