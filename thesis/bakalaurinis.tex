@@ -120,14 +120,18 @@ Darbo uždaviniai:
 \end{enumerate}
 
 
-\TODO{pateikiama žinių apie naudojamus instrumentus (programas ir kt., jei darbe yra eksperimentinė dalis).}
-python
-	matplotlib - rezultatų vizualizacijai
-	numpy
-	
-pycharm
-
 \TODO{ar gali būti "ištirti kompresavimo metodus" ir "suprogramuoti kompresijos tinklą", jeigu antrasis neaišku be pirmojo rezultatų?}
+
+\TODO{gal "ištirti kompresavimo metodus", "pasirinkti kompresavimo metodą" ir "realizuoti pasirinktą kompresavimo metodą" ?}
+
+
+Tyrimams atlikti buvo naudojama Python programavimo kalba.
+Numpy paketas buvo naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojamoma kalboma.
+Duomenų vizualizavimui buvo panaudotas matplotlib paketas.
+Programavimui buvo naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
+
+
+
 
 \TODO{Šaltiniai:}
 
@@ -659,13 +663,25 @@ Gautas rezultatai pavaizduotas \ref{fig:dim-comparisons}~pav.
 
 \begin{figure}
 	\includegraphics[scale=0.75]{pics/dim_comparisons_2015-5-27_14-21-13}
-	\caption{18 ir 30 dimensijų klasifikavimo palyginimas}
+	\caption{18 ir 30 dimensijų klasifikavimo apmokymų palyginimas}
 	\label{fig:dim-comparisons}
 \end{figure}
 
-Iš rezultato matosi, kad abu klasifikavimo perceptronai sugebėjo pasiekti beveik nulinę klaidą mokymo procese.
-Tai reiškia, kad perceptronai pilnai išmoko mokymui naudotus duomenis ir daugiau pastebimai tobulėti negali.
+Iš rezultatų matosi, kad abu daugiasluoksniai klasifikavimo perceptronai sugebėjo pasiekti beveik nulinę klaidą mokymo procese.
+Tai reiškia, kad tinklai pilnai išmoko mokymui naudotus duomenis ir daugiau pastebimai tobulėti negali.
 Visgi galutinė validacijos klaida skiriasi - 18-os dimensijų duomenų validacijos klaida mažesnė už 30-ties.
+
+Taip pat buvo atliktas bandymas, kurio metu buvo skaičiuojama, kiek duomenų daugiasluoksniai klasifikavimo perceptronai suklasifikavo teisingai.
+Buvo sukurta, apmokyta ir ištestuota po 100 tinklų kompresuotiems 18-os dimensijų bei originaliems 30-ies dimensijų duomenims.
+Daugiasluoksnių perceptronų, analizuojančių originalius 30-ies dimensijų duomenis, teisingai suklasifikuotų atvejų skaičius buvo intervale $[1413, 1443]$.
+Tuo tarpu 18 dimensijų analizuojantčių - intervale $[1427, 1449]$.
+Šie rezultatai detaliau pavaizduoti \ref{fig:correct-count}~pav.
+
+\begin{figure}
+	\includegraphics[scale=0.35]{pics/correct}
+	\caption{18 ir 30 dimensijų klasifikavimo rezultatų palyginimas}
+	\label{fig:correct-count}
+\end{figure}
 
 
 
