@@ -70,48 +70,51 @@ Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
 
 \sectionnonum{Įvadas}
 
+% apibrėžiamas tiriamasis objektas akcentuojant neapibrėžtumą, kuris bus išspręstas darbe,
+% aptariamos teorinės darbo prielaidos bei metodika,
+% apibūdinami su tema susiję literatūros ar kitokie šaltiniai, temos analizės tvarka, darbo atlikimo aplinkybės,
+% Darbo įvadas neturi būti dėstymo santrauka
+
+%tiriamas objektas - kompresijos rezultato gerinimas mažinant duomenų dimensiškumą
+
+
 % 2-4 psl.
 
-Klasifikavimas - tai dažnai sutinkama užduotis, turintį daugybę įvairių sprendimo būdų.
+
+Klasifikavimas - tai dažnai sutinkama problema, turinti daugybę įvairių sprendimo būdų.
+Ši problema labai dažnai sutinkama realybėje beveik visose srityse - medicinoje, genetikoje, ekonomikoje, sociologijoje, chemijoje ir daugybėje kitų.
 Šio uždavinio tikslas - identifikuoti, kuriai grupei priklauso tiriamas objektas.
-Tiriamieji objektai dažniausiai būna vienos rūšies, aprašomi tam tikrais parametrais, o grupės, kuriems jie yra priskiriami - iš anksto žinomos.
-Pavyzdžiui, galima klasifikuoti gyvūnus pagal tam tikras jų fizines savybes - kojų ilgį, storį, kitas kūno apimtis, kailio ilgį ir pan.
-Natūralu, kad kiekvienas net ir tos pačios rūšies gyvūnas turės šiek tiek kitokius parametrus, tačiau šie parametrai dažniausiai turi įvairius dėsningumus, pagal kuriuos galima bandyti atspėti, kuriai rūšiai tam tikras gyvūnas priklauso.
+Tiriamieji objektai būna aprašomi tam tikrais parametrais, o grupės, kuriems jie yra priskiriami - iš anksto žinomos.
+Pagal turimus objekto parametrus reikia nustatyti, kuriai grupei tikrinamasis objektas priklauso.
 
-\TODO{pašalinti "pavyzdžiui" iš įvado}
-
-\TODO{gal apskritai įvade nereikia aiškinti klasifikavimo? pagalvoti, ar bus apie ką rašyti}
-
-Norint išspręsti konkretų klasifikavimo uždavinį, akivaizdžiausias sprendimas galėtų būti šių grupių parametrų ištyrimas - pavyzdžiui, norint mokėti atskirti triušius nuo liūtų turint jų ūgius nėra sunki užduotis.
-Tačiau problema kyla, kai atskiriamos klasės yra labai panašios viena į kitą - tokiu atveju pastebėti tam tikrus dėsningumus ir juos sumodeliuoti bei realizuoti ir kur kas sunkiau.
-Be to, sprendžiant konkretų klasifikavimo uždavinį, tektų gilintis į klasifikuojamus objektus - pavyzdžiui, norint sukurti tam tikrų kiškių rūšių klasifikavimą, gilios žinios apie šias kiškių rūšių savybes būtų privalomos.
-Dažniausiai įvairūs dėsningumai apima ne vieną dydį, bet jų kombinaciją, kurią atrasti ir apskaičiuoti reikalautų daug pastangų.
+Norint išspręsti konkretų klasifikavimo uždavinį, akivaizdžiausias sprendimas galėtų būti šių grupių ištyrimas, analizuojant, kokiomis parametrų savybėmis pasižymi kiekvienos grupės objektai.
+Tačiau problema kyla, kai tiriamų objektų klasės yra labai panašios viena į kitą - tokiu atveju pastebėti tam tikrus klasių skirtumus ir dėsningumus bei juos sumodeliuoti ir realizuoti yra kur kas sunkiau.
+Be to, sprendžiant konkretų klasifikavimo uždavinį, tektų analizuoti klasifikuojamus objektus, o tam reikėtų ne tik gilių žinių apie šiuos objektus, bet ir daug pastangų.
+Dažniausiai įvairūs dėsningumai apima ne vieną dydį, bet jų kombinaciją, kurią atrasti ir apskaičiuoti nėra lengva.
 O norint efektyviai atskirti tam tikras objektų klases, gali prireikti daugybės skirtingų dėsningumų.
-Šios priežastys labai apsunkina efektyvaus klasifikavimo algoritmo kūrimą analizuojant klases, todėl yra retai naudojamas.
+Šios priežastys labai apsunkina efektyvaus klasifikavimo algoritmo kūrimą analizuojant klases, todėl dažniau yra taikomi bendresni klasifikavimo sprendimai.
 
-Vienas populiariausių klasifikavimo sprendimo metodų - klasifikavimas naudojant neuroninį tinklą.
-Turint pakankamai didelį tiriamų objektų duomenų kiekį, galima įžvelgti tam tikrus dėsningumus.
-Neuroninis tinklas leidžia tai automatizuoti - vietoje to, kad žmogus mokytųsi apie objekto savybes, tai atliekama su neuroniniu tinklu.
-Turimi duomenys panaudojami apmokyti neuroninį tinklą, kuris po to geba pats pasakyti, kuriai grupei tiriamas objektas priklauso.
-Žinoma, neuroninis tinklas nėra visada teisus, kadangi jis remiasi patirtimi, kurią įgijo pavyzdinių duomenų apmokymo metu, tačiau jei šie apmokymui buvo surinkta pakankamai korektiškų duomenų, neuroninis tinklas geba klasifikuoti objektus pakankamai tiksliai.
+Vienas populiariausių klasifikavimo sprendimo metodų - klasifikavimas naudojant daugiasluoksnį perceptroną.
+Turint pakankamai didelį tiriamų objektų duomenų kiekį, galima aptikti tam tikrus dėsningumus, kuriais skirtingų grupių objektai išsiskiria.
+Šis metodas leidžia tai automatizuoti - vietoje to, kad žmogus mokytųsi apie objekto savybes ir jas analizuotų, tai atliekama naudojantis daugiasluoksniu perceptronu.
+Turimi duomenys panaudojami apmokant daugiasluoksnį perceptroną, kuris po to geba klasifikuoti - pateikus objekto parametrus, tinklas nurodo, kuriai grupei šis objektas priklauso.
+Žinoma, šio tinklo pateikiami atsakymai nėra visada teisingi, kadangi jis remiasi patirtimi, kurią įgijo pavyzdinių duomenų apmokymo metu, tačiau jei apmokymui buvo panaudota pakankamai korektiškų duomenų, pateikiami atsakymai būna ganėtinai tikslūs.
 
-Dimensiškumo mažinimas (angl.~\textit{dimensionality reduction})
-Savybių ištraukimas (angl.~\textit{feature extraction})
+Dažnai tenka klasifikuoti objektus, turinčius labai didelį parametrų skaičių.
+Tai apsunkina klasifikavimą naudojantis daugiasluoksniu perceptronu.
+Nagrinėjant tiriamuosius objektus kaip taškus $N$-matėje erdvėje, kur $N$ yra parametrų skaičius, galima suprasti, kad kuo dimensijų skaičius yra didesnis, tuo taškai, atitinkantys tiriamuosius objektus, turi daugiau laisvės erdvėje.
+Realybėje apmokant klasifikavimo tinklą naudojamas baigtinis objektų skaičius, todėl kuo šių duomenų dimensiškumas didesnis, tuo šie taškai bus rečiau išsidėstę erdvėje, o tai apsunkina daugiasluoksnio perceptrono darbą.
+Dėl to dažnai bandoma sumažinti klasifikavimo duomenų dimensiškumą.
 
-\TODO{pridėti paaiškinimą, kad dažniausiai turime daug duomenų?}
+Dimensiškumo mažinimui taip pat yra aprašyta daugybė skirtingų sprendimo metodikų.
+Dalis jų remiasi statistine duomenų analize, tyrinėjant turimų duomenų parametrų reikšmes, jų tarpusavio priklausomybes.
+Kiti metodai naudojasi daugiasluoksniu perceptronu, mokydamiesi mažinti duomenų dimensiškumą.
+Taip pat kai kurie metodai išnaudoja informaciją apie objektų klases - mažina duomenų dimensiškumą atsižvelgdami į skirtingų grupių parametrų savybes.
+Darbe nagrinėjami keli populiariausi dimensiškumo mažinimo metodai.
 
-\TODO{aprašyti didelio dimensiškumo problemas - ganėtinai didelis sparsity (platus/retas taškų išsidėstymas?, kadangi mokymui naudota tik po 50 taškų)}
-
-
-\TODO{neuroniniai tinklai?}
-\TODO{dimensiškumo mažinimas}
-\TODO{tyrimo tikslai?}
-
-
-Darbo tikslas - ištirti, ar galima ir kaip stipriai galima pagerinti klasifikavimą sumažinant klasifikavimui naudojamų duomenų dimensiškumą.
+Šio darbo tikslas - ištirti, ar galima ir kaip stipriai galima pagerinti klasifikavimą sumažinant klasifikavimui naudojamų duomenų dimensiškumą.
 
 Darbo uždaviniai:
-
 \begin{enumerate}
 	\item Suprogramuoti daugiasluoksnį perceptroną,
 	\item Sukurti klasifikuojantį daugiasluoksnį perceptroną,
@@ -127,26 +130,25 @@ Darbo uždaviniai:
 	\item Palyginti pasirinkto optimalaus dimensijų skaičiaus duomenų klasifikavimo rezultatus su nemažinto dimensiškumo duomenų klasifikavimo rezultatais.
 \end{enumerate}
 
-\TODO{pridėti: ištirti/pasirinkti duomenų normavimo metodus?}
+Tyrimui naudojami chromosomų duomenys, panaudoti \cite[289~psl.]{price-dimensionality-reduction} tyrime.
+Juos sudaro 12000 chromosomų, turinčių po 30 parametrų.
+Šie duomenys leidžia efektyviai ištirti, kokią įtaką klasifikavimui daro dimensiškumo mažinimas, kadangi parametrų skaičius yra ganėtinai didelis ir yra pakankamai daug chromosomų, kad būtų galima dalį duomenų naudoti daugiasluoksnio perceptrono apmokymui, o kitą dalį - tinklo teisingumo testavimui.
 
+Daugiasluoksniai perceptronai sprendžia daugybę skirtingų problemų, tačiau dažniausiai kiekviena jų sprendžiama vis kitaip.
+Projektuojant daugiasluoksnį perceptroną, labai svarbu tiriama problema ir konkretūs tiriami duomenys.
+Nuo jų priklauso, kokios struktūros tinklas geriausiai sprendžia analizuojamą problemą, kokie tinklo apmokymo metodai tinkamiausi ir pan.
+Dėl to projektuojant daugiasluoksnius perceptronus, labai svarbu eksperimentuoti su skirtingomis tinklo architektūromis, skirtingais tinklo parametrais ir naudojamais metodais.
 
-
-
-\TODO{ar gali būti "ištirti kompresavimo metodus" ir "suprogramuoti kompresijos tinklą", jeigu antrasis neaišku be pirmojo rezultatų?}
-
-\TODO{gal "ištirti kompresavimo metodus", "pasirinkti kompresavimo metodą" ir "realizuoti pasirinktą kompresavimo metodą" ?}
-
-
-Tyrimams atlikti buvo naudojama Python programavimo kalba.
-Numpy paketas buvo naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojamoma kalboma.
-Duomenų vizualizavimui buvo panaudotas matplotlib paketas.
-Programavimui buvo naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
-
+Tyrimams atlikti naudojama Python programavimo kalba.
+Numpy paketas naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojamoma kalba.
+Duomenų vizualizavimui naudojamas matplotlib paketas.
+Programavimui naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
 
 
 \TODO{Šaltiniai:}
 
 \cite{298007}
+
 
 
 \section{Dirbtinių neuronų tinklas}
@@ -323,7 +325,8 @@ Taip atsitinka todėl, kad neuroninio tinklo gerumas yra matuojamas pagal tai, k
 Kadangi mokymui yra naudojama baigtinė aibė duomenų, todėl neuroninis tinklas stengiasi kuo labiau prie jų visų prisitaikyti, neatsižvelgdamas į tai, kad gali egzistuoti ir kitokie duomenys.
 Dėl to po tam tikro skaičiaus mokymo įtaracijų dažnai įvyksta persitaikymas (angl.~\textit{overfitting}) - neuroninis tinklas siekia sumažinti mokomų duomenų pateikiamą klaidą taip stipriai, kad nuo to gali kentėti kitų, ne iš mokymo aibės pateikiamų įrašų atsakymai.
 
-Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją. Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
+Viena priežastis, kodėl taip įvyksta - ne visi duomenys tobulai atitinka analizuojamą populaiciją.
+Dažniausiai duomenyse egzistuoja tam tikros anomalijos, būdingos tik keliems duomenų įrašams, kurios pirmiausia būna natūraliai ignoruojamos.
 Nors ir gaunamas blogas atsakymas su tokiomis anomalijomis, visgi tokių įrašų yra mažuma, todėl bendras rezultatas yra neblogas.
 Atliekant daugybę itaracijų su tais pačiais mokymo duomenimis, neuroninis tinklas pasiekia tokį atsakymų tikslumą, kad norint dar bent kiek patobulėti, reikia prisitaikyti prie šių anomalijų, kadangi ir jos didina neuroninio tinklo klaidą.
 Tada neuroninio tinklo struktūra keičiasi taip, kad apimtų ir šią anomaliją, tačiau dėl to kenčia likusios problemos populiacijos, neįeinančios į apmokymo rinkinį, rezultatai.
@@ -406,7 +409,7 @@ Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį svorio keitimo žin
 
 \section{Duomenys}
 
-Tyrimui buvo pasirinkti duomenys. atitinkantys tyriamos problemos reikalavimus.
+Tyrimui buvo pasirinkti duomenys, atitinkantys tiriamos problemos reikalavimus.
 Pirmiausia, reikia duomenų, kurie būtų suskirstyti į klases.
 Be to, svarbu turėti pakankamai kiekvienos klasės duomenų, nes tai leidžia gerai apmokyti ir ištestuoti daugiasluoksnius perceptronus.
 Daugiasluoksnio klasifikavimo perceptrono programavimui svarbu mažas duomenų dimensiškumas, kadangi svarbu sukurti gerą klasifikavimo tinklą, negalvojant apie dimensiškumo mažinimą - dėl to reikia duomenų, kurių dimensiškumo mažinti nereikėtų.
@@ -679,32 +682,46 @@ Tuo tarpu 18 dimensijų analizuojantčių - intervale $[1427, 1449]$.
 	\label{fig:correct-count}
 \end{figure}
 
+Apskaičiuota, kad vidutinis teisingai suklasifikuotų duomenų skaičius 30-ies dimensijų tinkluose apytiksliai lygus $1429,4$, o 18-os dimensijų - apytiksliai $1438,6$.
+Kadangi iš viso buvo 1500 klasifikavimui naudotų duomenų, todėl 30-ies dimensijų tinklai blogai klasifikavo vidutiniškai apie 70.6 duomenų (apie $4.70\%$ visų duomenų), o 18-os dimensijų - vidutiniškai apie 61.4 duomenų (apie $4.09\%$ visų duomenų).
+Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 - 61.4) / 70.6 = 13.03\%$ visų padarytų klaidų
 
 
 \sectionnonum{Rezultatai ir išvados}
 
-Darbo rezultatai:
-
+Šio darbo metu pasiekti rezultatai:
 \begin{enumerate}
 	\item Suprogramuotas daugiasluoksnis perceptronas,
 	\item Suprojektuotas ir suprogramuotas klasifikuojantis daugiasluoksnis perceptronas,
-	\item Klasifikuojantis daugiasluoksnis perceptronas ištestuotas su tam parinktais Vilkdagių duomenimis,
+	\item Klasifikuojantis daugiasluoksnis perceptronas ištestuotas su tam parinktais vilkdagių duomenimis,
 
 	\item Išanalizuoti keli dimensiškumo mažinimo metodai,
 	\item Tyrimui pasirinktas dimensiškumo mažinimo daugiasluoksniu perceptronu metodas,
 	\item Suprojektuotas ir suprogramuotas dimensiškumo mažinimo daugiasluoksnis perceptronas,
-	\item Tiriamų chromosomų duomenų dimensiškumas sumažintas iki visų galimų dimensijų skaičių, ištirta dimensiškumo mažinimo įtaka duomenims juos bandant atstatyti į pradinius,
+	\item Tiriamų chromosomų duomenų dimensiškumas sumažintas iki visų galimų dimensijų skaičių, ištirta dimensiškumo mažinimo įtaka duomenims sumažinto dimensiškumo duomenis bandant atstatyti į pradinius,
 
 	\item Atlikti tyrimai, analizuojantys, kaip keičiasi klasifikavimo rezultatas mažinant daugiasluoksniui perceptronui perduodamų duomenų dimensiškumą,
 	\item Pasirinktas optimalus dimensiškumo mažinimui naudojamas dimensijų skaičius,
-	\item Palyginta, kaip keičiasi klasifikavimo rezultatai duomenų dimensiškumą sumažinus iki pasirinkto optimalaus skaičiaus lyginant su nemažinto dimensiškumo duomenimis,
+	\item Palyginta, kaip keičiasi klasifikavimo rezultatai duomenų dimensiškumą sumažinus iki pasirinkto optimalaus dimensijų skaičiaus lyginant su nemažinto dimensiškumo duomenimis.
 \end{enumerate}
 
-\TODO{išvados}
+Išvados:
+\begin{enumerate}
+	\item Nustatyta, kad klasifikavimą galima pagerinti sumažinant klasifikavimui naudojamų duomenų dimensiškumą,
+	\item Norint pagerinti tiriamų duomenų klasifikavimą, jų dimensijų skaičių verta sumažinti iki daugumos intervalo $[14; 29]$ skaičių,
+	\item Ištirta, kad vienas optimaliausių dimensiškumo mažinimo dimensijų skaičių yra 18,
+	\item Mažinant duomenų dimensiškumą, svarbu parinkti ne per mažą dimensijų skaičių, nes priešingu atveju duomenys gali prarasti svarbią dalį informacijos
+	
+	\item \TODO{kaip stipriai pagerina}
 
-Dimensiškumo mažinimas padėjo.
+\end{enumerate}
 
-Dimensiškumo mažinimas iki kažkiek dimensijų nelabai daug pakenkia - iš grafiko matosi, kad dekompresuoti pavyksta gan tiksliai.
+
+\TODO{Išvados}
+
+
+\TODO{Dimensiškumo mažinimas iki kažkiek dimensijų nelabai daug pakenkia - iš grafiko matosi, kad dekompresuoti pavyksta gan tiksliai.}
+
 
 %Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
 %išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
