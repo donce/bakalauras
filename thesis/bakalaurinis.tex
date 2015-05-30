@@ -48,16 +48,32 @@
 %     Padėkos asmenims ir/ar organizacijoms
 % \end{center}
 
+
+
+
+
+
+
 \sectionnonumnocontent{Santrauka}
 Glaustai aprašomas darbo turinys: pristatoma nagrinėta problema ir padarytos
 išvados. Santraukos apimtis ne didesnė nei 0,5 puslapio. Santraukų gale
 nurodomi darbo raktiniai žodžiai. 
-% Nurodomi iki 5 svarbiausių temos raktinių žodžių (terminų).
 % Vienas terminas gali susidėti iš kelių žodžių.
+
+Klasifikavimo gerinimas naudojant dimensiškumo mažinimą
 
 \TODO{santrauka}
 
+% Nurodomi iki 5 svarbiausių temos raktinių žodžių (terminų).
+
 \raktiniaizodziai{diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamačiai duomenys}
+
+
+
+
+
+
+
 
 \sectionnonumnocontent{Summary}
 Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
@@ -66,7 +82,16 @@ Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
 
 \keywords{multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
 
+
+
+
+
+
+
+
 \tableofcontents
+
+
 
 \sectionnonum{Įvadas}
 
@@ -143,11 +168,6 @@ Tyrimams atlikti naudojama Python programavimo kalba.
 Numpy paketas naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojama kalba.
 Duomenų vizualizavimui naudojamas matplotlib paketas.
 Programavimui naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
-
-
-\TODO{Šaltiniai:}
-
-\cite{298007}
 
 
 
@@ -487,7 +507,14 @@ Problema dar padidėja, jeigu apmokymui panaudojama mažai duomenų - tada tinkl
 Dėl to klasifikuojant didelio dimensiškumo duomenis, labai svarbu sumažinti duomenų dimensiškumą.
 Plačiau dimensiškumo mažinimo nauda klasifikavimui aptariama \cite[2455~psl.]{spectra} bei \cite[296~psl.]{ann-feature-extraction} straipsniuose - abu šie straipsniai nagrinėja šią problema bei siūlo efektyvesnius alternatyvius sprendimus.
 
-Populiariausi dimensiškumo mažinimo būdai, aprašomi \cite{feature-extraction} knygoje - bruožų parinkimas (angl.~\textit{feature selection}) bei bruožų išskyrimas (angl.~\textit{feature extraction}).
+Egzistuoja daugybė skirtingų dimensiškumo mažinimo būdų.
+Net ir būtent klasifikavimui tinkamų dimensijų mažinimo metodų yra daugybė.
+Keli pavyzdžiai - \cite[1517~psl.]{pca-classification} straipsnyje klasifikavimo duomenų dimensiškumo mažinimui panaudota principinė komponentų analizė (angl.~\textit{principal component analysis}).
+Šios analizės metu išrinkti bruožai buvo panaudoti klasifikuojant ir tai pagerino klasifikavimo rezultatą.
+Kitas pavyzdys - \cite[1098~psl.]{s-isomap-classification} straipsnyje klasifikavimo duomenų dimensiškumo mažinimui naudojamas S-Isomap metodas (angl.~\textit{S-Isomap}).
+Taip pat šiame straipsnyje buvo tiriami kiti dimensiškumo mažinimo metodai - Isomap, LLE bei WeightedIso, tačiau jų rezultatai buvo prastesni nei tiriamasis.
+
+Vieni populiariausi dimensiškumo mažinimo būdai, aprašomi \cite{feature-extraction} knygoje - bruožų parinkimas (angl.~\textit{feature selection}) bei bruožų išskyrimas (angl.~\textit{feature extraction}).
 Abu šie būdai siekia panašaus tikslo - turimiems duomenims sumažinti dimensijas taip, kad naujai gautuose duomenyse būtų likusi svarbiausia informacija.
 Pagrindinis šių būdų skirtumas - bruožų parinkimas sumažina dimensijas tiesiog pašalindamas mažiausiai reikšmingas dimensijas, o bruožų išskyrimas sukuria naujas dimensijas, išvestas iš turimų.
 Bruožų parinkimo metodas veikia gerai tada, kai yra labai nereikšmingų dimensijų arba tokių, kurios gali būti išreikštos per kitas dimensijas.
@@ -695,7 +722,7 @@ Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 -
 	\item Suprojektuotas ir suprogramuotas klasifikuojantis daugiasluoksnis perceptronas,
 	\item Klasifikuojantis daugiasluoksnis perceptronas ištestuotas su tam parinktais vilkdalgių duomenimis,
 
-	\item Išanalizuoti keli dimensiškumo mažinimo metodai,
+	\item Peržvelgti keli dimensiškumo mažinimo metodai bei išanalizuota tiesinė diskriminantinė analizė bei dimensiškumo mažinimas daugiasluoksniu perceptronu,
 	\item Tyrimui pasirinktas dimensiškumo mažinimo daugiasluoksniu perceptronu metodas,
 	\item Suprojektuotas ir suprogramuotas dimensiškumo mažinimo daugiasluoksnis perceptronas,
 	\item Tiriamų chromosomų duomenų dimensiškumas sumažintas iki visų galimų dimensijų skaičių, ištirta dimensiškumo mažinimo įtaka duomenims sumažinto dimensiškumo duomenis bandant atstatyti į pradinius,
@@ -713,22 +740,10 @@ Išvados:
 	\item Nustatyta, kad klasifikavimą galima pagerinti sumažinant klasifikavimui naudojamų duomenų dimensiškumą,
 	\item Norint pagerinti tiriamų duomenų klasifikavimą, jų dimensijų skaičių verta sumažinti iki daugumos intervalo $[14; 29]$ skaičių,
 	\item Ištirta, kad vienas optimaliausių dimensiškumo mažinimui naudojamų dimensijų skaičių yra 18,
-	\item Tiriamų duomenų dimensijų skaičių sumažinus iki 18, sumažėja vidutiniškai apie $13.03\%$ klaidų.
+	\item Tiriamų duomenų dimensijų skaičių sumažinus iki 18, klaidų skaičius vidutiniškai sumažėja apie $13.03\%$.
 \end{enumerate}
 
 
-\TODO{Išvados}
-
-
-\TODO{Dimensiškumo mažinimas iki kažkiek dimensijų nelabai daug pakenkia - iš grafiko matosi, kad dekompresuoti pavyksta gan tiksliai.}
-
-
-%Rezultatų ir išvadų dalyje išdėstomi pagrindiniai darbo rezultatai (kažkas
-%išanalizuota, kažkas sukurta, kažkas įdiegta), toliau pateikiamos išvados
-%(daromi nagrinėtų problemų sprendimo metodų palyginimai, siūlomos
-%rekomendacijos, akcentuojamos naujovės). Rezultatai ir išvados pateikiami
-%sunumeruotų (gali būti hierarchiniai) sąrašų pavidalu. Darbo rezultatai turi
-%atitikti darbo tikslą.
 
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
