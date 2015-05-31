@@ -31,6 +31,7 @@ def answer(output):
     return 1 if output > 0.5 else 0
 vectorized_answer = vectorize(answer)
 
+
 def figname(name=None):
     now = datetime.now()
     return 'diagrams/{}{}-{}-{}_{}-{}-{}.pdf'.format(name + '_' if name else '', now.year, now.month, now.day, now.hour, now.minute, now.second)
@@ -189,7 +190,7 @@ class Network(object):
 
         return error
 
-    def teach(self, data, validation_data=None, allowed_error=0.0001, max_cycles=None, cycles=None):
+    def teach(self, data, validation_data=None, allowed_error=None, max_cycles=None, cycles=None):
         self.velocities = [zeros(a.shape) if a is not None else None for a in self.biases]
         best_network = self
         best_error = None
@@ -199,16 +200,15 @@ class Network(object):
         errors = []
         validation_errors = []
         while cycles is not None or not success:
-            # self.learning_rate = 1.0 / (cycle / 10 + 2) # TODO: remove?
-            success = False  # TODO: fix success?
+            success = allowed_error is not None
 
             #learning
             cycle_error = 0
             for case in data:
-                curr_error = self.teach_case(case[0], case[1])# TODO: diff in this line
+                curr_error = self.teach_case(case[0], case[1])
                 cycle_error += curr_error
-                # if curr_error > allowed_error:
-                #     success = False
+                if allowed_error is not None and curr_error > allowed_error:
+                    success = False
             cycle += 1
             iteration_error = cycle_error / len(data)
             errors.append(iteration_error)
@@ -218,7 +218,7 @@ class Network(object):
             if validation_data:
                 cycle_error = 0
                 for case in validation_data:
-                    curr_error = self.run(case[0], case[1])# TODO: test
+                    curr_error = self.run(case[0], case[1])
                     cycle_error += curr_error
                 iteration_error = cycle_error / len(validation_data)
                 validation_errors.append(iteration_error + 0.0)
@@ -253,6 +253,10 @@ class Network(object):
         else:
             pyplot.close()
 
+###########################################################################################
+# Simple data for testing
+###########################################################################################
+
 OR = (
     ((0, 0), (0,)),
     ((0, 1), (1,)),
@@ -283,12 +287,17 @@ XOR = (
     ((1, 1), (0,)),
 )
 
+###########################################################################################
 
 #correct: 288
 # network = Network()
 # network.generate((2, 1), use_random=False)
 # network.teach(AND)
 
+
+###########################################################################################
+# Normalization methods
+###########################################################################################
 
 def normalize_input_linear(data):
     min_values = data[0][0][:]
@@ -315,7 +324,10 @@ def normalize_gaussian(data):
             else:
                 line[0][j] = 0
 
+
 '''
+# For testing
+
 foo = array((
     (1, 2, 3),
     (100, 2, 3),
@@ -329,9 +341,13 @@ foo = array((
     (100, 2, 3),
     (100, 2, 3),
 ), float)
+
+normalize_gaussian(foo)
+print foo
 '''
 
-# normalize_input_1(foo)
+###########################################################################################
+
 
 def generate_encoding_data(inputs):
     return [(d, d) for d in inputs]  # TODO: remove numpy_copy
@@ -360,17 +376,18 @@ pyplot.show()
 '''
 
 
-
+###########################################################################################
+# Data
+###########################################################################################
 '''
-About data:
+Chromosome data:
 Each input has 30 integer values
 Each group has 500 samples (0:500, 500:1500...)
 '''
 
-
 def read_input():
     data = []
-    f = open('../data/CR1')
+    f = open('data/CR1')
     for nr, line in enumerate(f.readlines()):
         type = nr / 500
         input = map(int, line.strip().split())
@@ -379,11 +396,15 @@ def read_input():
     f.close()
     return data
 
+'''
+Iris flower data.
+'''
+
 def read_iris():
     iris_data = []
     types = {}
     next_type_nr = 0
-    f = open('iris.data')
+    f = open('data/iris.data')
     for line in f.readlines():
         data = line.rstrip().split(',')
         input = map(float, data[:4])
@@ -395,6 +416,7 @@ def read_iris():
     f.close()
     return iris_data
 
+###########################################################################################
 
 # data = read_input()[:1500]
 # normalize_input(data)
@@ -430,19 +452,17 @@ best_vy = []
 
 start_time = time()
 
-def compress_data(dimensions, compress_partial_data):
+def compress_data(dimensions, compress_partial_data, draw_points=False):
     print 'compression...'
     network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='compression')
-    # network = Network(learning_rate=0.01, momentum_coefficient=0.4)
     network.generate((30, 30, dimensions, 30, 30))
     compression_layer = 2
 
     best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500)
-    network.draw_last_errors(show=False)
-    # _, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=1,
+    # best_compression_error, network = network.teach(generate_encoding_data(compress_partial_data), max_cycles=500,
     #                            validation_data=generate_encoding_data(compress_validation_data))
+    network.draw_last_errors(show=False)
 
-    draw_points = True
     points = [[] for i in xrange(dimensions)]
 
     compressed_data = []
@@ -450,9 +470,9 @@ def compress_data(dimensions, compress_partial_data):
     for i, d in enumerate(compress_partial_data):
         r = network.run_encoding(d, compression_layer)
         assert len(r) == dimensions
-        # if draw_points:
-        #     for d in xrange(dimensions):
-        #         points[d].append(r[d])
+        if draw_points:
+            for d in xrange(dimensions):
+                points[d].append(r[d])
         compressed_data.append((r, partial_data[i][1]))
 
     normalize_gaussian(compressed_data)
@@ -498,10 +518,8 @@ def get_compressed_data(dimensions, data, recalculate=False):
         return load()
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+###########################################################################################
 
-
-# TODO: comparison of networks in one diagram
 '''
 temp_errors = []
 for dimensions in [18, 30]:
@@ -528,9 +546,11 @@ exit(0)
 '''
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+###########################################################################################
 # Compression
+###########################################################################################
 
+'''
 ITERATIONS_COUNT = 1
 
 for dimensions in range(1, 29+1):
@@ -559,14 +579,44 @@ pyplot.plot(best_vx, best_vy, label=u'Pagalbinė linija')
 pyplot.legend(loc=4)
 pyplot.savefig(figname('dimensions'), format='pdf')
 pyplot.show()
+'''
 
-# ----------------------------------------------------------------------------------------------------------------------
+###########################################################################################
+# Number of correctly classificated data
+###########################################################################################
+
+def mean(list):
+    return float(sum(list)) / len(list)
+
+def draw_correctly_classified_distribution(a, b):
+    min_value = min(min(a), min(b))
+    max_value = 1500
+
+    values = range(min_value, max_value+1)
+
+    pyplot.figure(figsize=(8, 3))
+    axis = pyplot.gca()
+    axis.set_xlim([min_value, 1500])
+    pyplot.xlabel(u'Teisingai suklasifikuotų duomenų skaičius (iš 1500)', fontsize=AXIS_LABEL_FONT_SIZE)
+    pyplot.ylabel(u'Tinklų skaičius', fontsize=AXIS_LABEL_FONT_SIZE)
+
+    pyplot.plot(values, [a.count(value) for value in values], c='#00FF00', label=u'18D klasifikavimo rezultatai')
+    pyplot.plot(values, [b.count(value) for value in values], c='#0000FF', label=u'30D klasifikavimo rezultatai')
+
+    pyplot.legend()
+    pyplot.savefig(figname('correct'), format='pdf')
+    pyplot.show()
 
 
-ITERATIONS_COUNT = 1
+ITERATIONS_COUNT = 100
 
 for dimensions in range(4, 30+1):
     best_iterations_error = 1
+
+    all_correct = []
+    min_correct = 1501
+    max_correct = -1
+
     for iteration in range(ITERATIONS_COUNT):
         print '-----------------------------------------'
         print 'dimensions:', dimensions
@@ -574,34 +624,11 @@ for dimensions in range(4, 30+1):
         best_compressed_error, compressed_data = get_compressed_data(dimensions, compress_partial_data)
         compressed_partial_data = compressed_data[0:50] + compressed_data[500:550] + compressed_data[1000:1050]
 
-        #drawing compressed points
-        # if draw_points and dimensions in [2, 3]:
-        #     fig = pyplot.figure(figsize=(6, 6))
-        #     if dimensions == 2:
-        #         pyplot.xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-        #         pyplot.ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-        #         pyplot.plot(points[0][:500], points[1][:500], 'ro')
-        #         pyplot.plot(points[0][500:1000], points[1][500:1000], 'go')
-        #         pyplot.plot(points[0][1000:1500], points[1][1000:1500], 'bo')
-        #     if dimensions == 3:
-        #         ax = fig.add_subplot(111, projection='3d')
-        #         ax.set_xlabel('x', fontsize=AXIS_LABEL_FONT_SIZE)
-        #         ax.set_ylabel('y', fontsize=AXIS_LABEL_FONT_SIZE)
-        #         ax.set_zlabel('z', fontsize=AXIS_LABEL_FONT_SIZE)
-        #         ax.scatter(points[0][:500], points[1][:500], points[2][:500], c='r')
-        #         ax.scatter(points[0][500:1000], points[1][500:1000], points[2][500:1000], c='g')
-        #         ax.scatter(points[0][1000:1500], points[1][1000:1500], points[2][1000:1500], c='b')
-        #     pyplot.savefig(figname('points'), format='pdf')
-        #     pyplot.show()
-
         print 'classification...'
         cls_network = Network(learning_rate=0.2, momentum_coefficient=0.4, name='classification')
         cls_network.generate((dimensions, 30, 30, 3))
         best_current_error, cls_network = cls_network.teach(compressed_partial_data, max_cycles=400)
         cls_network.draw_last_errors(show=False)
-        # print 'best_current_error:', best_current_error
-        # vx.append(dimensions)
-        # vy.append(1.0 - best_current_error)
 
         curr_global_cls_error = 0.0
         for inputs, desired_result in compressed_data:
@@ -611,7 +638,6 @@ for dimensions in range(4, 30+1):
         vy.append(1.0 - curr_global_cls_error)
         best_iterations_error = min(best_iterations_error, curr_global_cls_error)
 
-        '''
         total = len(compressed_data)
         correct = 0
         for d, expected in compressed_data:
@@ -619,12 +645,18 @@ for dimensions in range(4, 30+1):
             expected_result = array(expected).argmax()
             if result == expected_result:
                 correct += 1
-
         print 'result {}/{}'.format(correct, total)
-        '''
+
+        min_correct = min(min_correct, correct)
+        max_correct = max(max_correct, correct)
+        all_correct.append(correct)
+
     print 'best_iterations_error', best_iterations_error
     best_vx.append(dimensions)
     best_vy.append(1.0 - best_iterations_error)
+
+    print 'correct: [{}, {}]'.format(min_correct, max_correct)
+    print 'all_correct', all_correct
 
 
 elapsed_time = time() - start_time
@@ -641,7 +673,9 @@ pyplot.legend()
 pyplot.savefig(figname('dimensions'), format='pdf')
 pyplot.show()
 
-
+###########################################################################################
+# Iris flower dataset classification
+###########################################################################################
 
 # iris_data = read_iris()
 # normalize_input(iris_data)
@@ -651,3 +685,5 @@ pyplot.show()
 # network = Network()
 # network.generate((4, 4, 4, 3), use_random=True)
 # network.teach(iris_data, max_cycles=10)
+
+###########################################################################################
