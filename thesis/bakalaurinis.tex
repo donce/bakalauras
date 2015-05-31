@@ -595,6 +595,8 @@ Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo
 \end{figure}
 
 Tiriamų duomenų dimensiškumas buvo sumažintas šiuo būdu.
+Dimensiškumo mažinimui buvo panaudotas daugiasluoksnis perceptronas su 5 sluoksniais - po 30 neuronų įvedimo, išvedimo ir dviejuose paslėptuose sluoksniuose, o viduriniame paslėptame sluoksnyje - tiek neuronų, į kiek dimensijų norima sumažinti duomenų dimensiškumą.
+Apmokymui panaudoti $\eta = 0,2$ mokymosi bei $\mu = 0,4$ momento koeficientai.
 Buvo paimta po 500 įrašų iš 3 skirtingų grupių.
 Kadangi duomenys turi 30 dimensijų, duomenų dimensijos buvo mažinamos iki [1; 29] dimensijų.
 Gauti rezultatai pavaizduoti \ref{fig:compression_dimensions}~pav.
@@ -611,15 +613,15 @@ Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2
 Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
 
 \begin{figure}[h]
-	\includegraphics[scale=0.5]{pics/points_2d}
-	\includegraphics[scale=0.5]{pics/points_2d_progress}
+	\includegraphics[scale=0.45]{pics/points_2d}
+	\includegraphics[scale=0.45]{pics/points_2d_progress}
 	\caption{Dvimačiai duomenys}
 	\label{fig:2d_points}
 \end{figure}
 
 \begin{figure}[h]
-	\includegraphics[scale=0.5]{pics/points_3d}
-	\includegraphics[scale=0.5]{pics/points_3d_progress}
+	\includegraphics[scale=0.45]{pics/points_3d}
+	\includegraphics[scale=0.45]{pics/points_3d_progress}
 	\caption{Trimačiai duomenys}
 	\label{fig:3d_points}
 \end{figure}
@@ -647,6 +649,7 @@ Tada du paslėpti sluoksniai, turintys po 30 neuronų.
 Galiausiai, išvesties sluoksnis, turintis tiek neuronų, kiek yra skirtingų galimų klasių.
 Kadangi šio eksperimento metu buvo analizuojami duomenys iš 3 skirtingų klasių, todėl išvesties sluoksnis turėjo 3 neuronus.
 Šis tinklas buvo apmokomas panaudojant iš kompresijos tinklo gautais kompresuotais duomenimis.
+Apmokymui buvo naudojami $\eta = 0,2$ mokymosi bei $\mu = 0,4$ momento koeficientai.
 Apmokymas vyko 400 kartų, kaskart mokymo metu panaudojant visus mokymo rinkinio įrašus.
 Baigus apmokymą, gaunamas rezultatas - klasifikavimo klaida.
 
@@ -668,7 +671,7 @@ Raudoni taškai žymi visų klasifikavimo apmokymų rezultatus, o mėlyna linija
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.32]{pics/dimensions_2015-5-23_15-50-6}
+	\centerline{\includegraphics[scale=0.37]{pics/dimensions_2015-5-23_15-50-6}}
 	\caption{Klasifikavimo mažinant dimensijas rezultatai}
 	\label{fig:experiment-1}
 \end{figure}
@@ -703,7 +706,7 @@ Geriausi rezultatai gauti $[14; 29]$ dimensijų skaičiaus intervale.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.32]{pics/dimensions_2015-5-27_6-18-5}
+	\centerline{\includegraphics[scale=0.37]{pics/dimensions_2015-5-27_6-18-5}}
 	\caption{Klasifikavimo mažinant dimensijas rezultatai}
 	\label{fig:experiment-2}
 \end{figure}
@@ -715,9 +718,9 @@ Buvo atliktas klasifikavimo efektyvumo palyginimas naudojant originalius 30-ties
 Palyginimui buvo naudojami tie patys duomenys - po 500 įrašų iš kiekvienos grupės, ir tik po 50 iš jų naudojami apmokymui (validacijai buvo panaudoti visi 500 įrašų iš kiekvienos grupės).
 Gautas rezultatai pavaizduotas \ref{fig:dim-comparisons}~pav.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{pics/dim_comparisons_2015-5-27_14-21-13}
+	\includegraphics[scale=0.8]{pics/dim_comparisons_2015-5-27_14-21-13}
 	\caption{18 ir 30 dimensijų klasifikavimo apmokymų palyginimas}
 	\label{fig:dim-comparisons}
 \end{figure}
@@ -734,7 +737,7 @@ Tuo tarpu 18 dimensijų analizuojančių - intervale $[1427, 1449]$.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.35]{pics/correct}
+	\centerline{\includegraphics[scale=0.43]{pics/correct}}
 	\caption{18 ir 30 dimensijų klasifikavimo rezultatų palyginimas}
 	\label{fig:correct-count}
 \end{figure}
