@@ -41,10 +41,9 @@
 \captionsetup[figure]{labelsep=space}
 
 
-%\usepackage{titlesec}
-%\titleformat{\section}[block]{\Large\fontsize{14}{14}\bfseries\filcenter}{}{1em}{}
-
-% 14?
+\usepackage{titlesec}
+\titleformat*{\section}{\fontsize{14}{14}\bfseries}
+\titleformat*{\subsection}{\fontsize{14}{14}\bfseries}
 
 
 \begin{document}
@@ -61,7 +60,7 @@
 
 
 
-\sectionnonumnocontent{Santrauka}
+\sectionnonumnocontent{SANTRAUKA}
 % Glaustai aprašomas darbo turinys: pristatoma nagrinėta problema ir padarytos išvados.
 % Santraukos apimtis ne didesnė nei 0,5 puslapio.
 
@@ -87,7 +86,8 @@ Vieni geriausių rezultatų pasiekiami su 18 dimensijų.
 
 
 
-\sectionnonumnocontent{Summary}
+\clearpage
+\sectionnonumnocontent{SUMMARY}
 
 This paper analysis the problem of classification.
 It is examined how results of classification can be improved by reducing the dimensionality of data.
@@ -111,11 +111,12 @@ The results showed improvement in classification results.
 
 
 
+\clearpage
 \tableofcontents
 
 
 
-\sectionnonum{Įvadas}
+\sectionnonum{ĮVADAS}
 
 % apibrėžiamas tiriamasis objektas akcentuojant neapibrėžtumą, kuris bus išspręstas darbe,
 % aptariamos teorinės darbo prielaidos bei metodika,
@@ -194,7 +195,7 @@ Programavimui naudojama \textit{JetBrains PyCharm} integruota kūrimo aplinka (a
 
 
 
-\section{Dirbtinių neuronų tinklas}
+\section{DIRBTINIŲ NEURONŲ TINKLAS}
 
 Dirbtinis neuronų tinklas - tai tarpusavyje susijungusių dirbtinių neuronų tinklas, kurio užduotis yra spręsti tam tikrą konkrečią užduotį.
 Gavęs pradinius užduoties duomenis, dirbtinis neuronų tinklas juos apdoroja ir taip gaunamas tam tikras atsakymas.
@@ -212,7 +213,7 @@ Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungt
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.75]{diagrams/1_neuron}
+	\includegraphics[scale=0.65]{diagrams/1_neuron}
 	\caption{Dirbtinis neuronas}
 	\label{fig:neuron}
 \end{figure}
@@ -451,7 +452,8 @@ Tai įvyksta natūraliai, kadangi įgavus pakankamai didelį svorio keitimo žin
 
 
 
-\section{Duomenys}
+\clearpage
+\section{DUOMENYS}
 
 Tyrimui buvo pasirinkti duomenys, atitinkantys tiriamos problemos reikalavimus.
 Pirmiausia, reikia duomenų, kurie būtų suskirstyti į klases.
@@ -518,7 +520,8 @@ Bandymų metu šis metodas pasirodė tinkamesnis tiriamai problemai nei prieš t
 
 
 
-\section{Dimensiškumo mažinimas}
+\clearpage
+\section{DIMENSIŠKUMO MAŽINIMAS}
 
 Norint klasifikuoti didelio dimensiškumo duomenis, labai svarbu juos tinkamai paruošti \cite[2455~psl.]{spectra}, \cite[296~psl.]{ann-feature-extraction}.
 Dažnai klasifikavimo problemose tenka susidurti su didelio dimensiškumo duomenimis.
@@ -625,7 +628,8 @@ Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dė
 
 
 
-\section{Klasifikavimas mažinant dimensiškumą} \label{classification-dimensionality-reduction}
+\clearpage
+\section{KLASIFIKAVIMAS MAŽINANT DIMENSIŠKUMĄ} \label{classification-dimensionality-reduction}
 
 Norint išsiaiškinti, ar galima pasiekti geresnius klasifikavimo rezultatus prieš tai sumažinant duomenų dimensiškumą, buvo atliktas tyrimas.
 Kadangi tiriamus duomenis sudaro 30 dimensijų, buvo bandoma sumažinti dimensijas iki visų galimų dimensijų dydžių - nuo 1 iki 29.
@@ -745,7 +749,8 @@ Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 -
 
 
 
-\sectionnonum{Rezultatai ir išvados}
+\clearpage
+\sectionnonum{REZULTATAI IR IŠVADOS}
 
 Šio darbo metu pasiekti rezultatai:
 \begin{enumerate}
@@ -780,6 +785,7 @@ Išvados:
 
 
 
+\clearpage
 \printbibliography[heading=bibintoc]  % Šaltinių sąraše nurodoma panaudota
 % literatūra, kitokie šaltiniai. Abėcėlės tvarka išdėstomi darbe panaudotų
 % (cituotų, perfrazuotų ar bent paminėtų) mokslo leidinių, kitokių publikacijų
