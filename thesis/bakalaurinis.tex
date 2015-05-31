@@ -28,29 +28,36 @@
 \title{Duomenų dimensiškumo mažinimas ir klasifikavimas}
 \titleineng{Dimensionality reduction and classification}
 \author{Donatas Kučinskas}
-\supervisor{Vytautas Valaitis}
-\reviewer{Julija Vysockytė}
+\supervisor{lekt. Vytautas Valaitis}
+\reviewer{asist. Julija Vysockytė}
 \date{Vilnius – \the\year}
 
 % Nustatymai
 \setmainfont{Palemonas}   % Pakeisti teksto šriftą į Palemonas (turi būti įdiegtas sistemoje)
 \bibliography{bibliografija}
 
+
+\usepackage{caption}
+\captionsetup[figure]{labelsep=space}
+
+
+%\usepackage{titlesec}
+%\titleformat{\section}[block]{\Large\fontsize{14}{14}\bfseries\filcenter}{}{1em}{}
+
+% 14?
+
+
 \begin{document}
 
 \maketitle
 
 \setcounter{page}{2}
-%% Padėkų skyrius
+% Padėkų skyrius
 % \sectionnonumnocontent{}
 % \vspace{7cm}
 % \begin{center}
 %     Padėkos asmenims ir/ar organizacijoms
 % \end{center}
-
-
-
-
 
 
 
@@ -60,58 +67,42 @@
 
 Darbe nagrinėjama klasifikavimo problema.
 Tiriama, kaip galima pagerinti klasifikavimo rezultatus, mažinant klasifikuojamų duomenų dimensiškumą.
-Dažniausiai toks dimensiškumo mažinimas naudojamas išskirti daug dimensijų turinčių duomenų bruožus.
+Klasifikavimas bei dimensiškumo mažinimas atliekami naudojantis atitinkamais daugiasluoksniais perceptronais.
+Tyrimui naudojami didelio dimensiškumo biomedicinos duomenys.
 
-Tyrimui buvo naudojami biomedicininiai chromosomų duomenys, kadangi juose yra pakankamai dimensijų - kiekviena chromosoma aprašoma 30-ia parametrų.
-Šie duomenys buvo klasifikuojami naudojant daugiasluoksnį perceptroną.
-
-Dimensiškumo mažinimas buvo atliekamas naudojantis dimensiškumo mažinimui skirtu daugiasluoksniu perceptronu.
-Buvo ištirta, kaip dimensiškumo mažinimas įtakoja duomenų savybių praradimą.
+% dimensiškumo mažinimas
+Tiriama, kaip dimensiškumo mažinimas įtakoja duomenų savybių praradimą.
 Atrasta, kad mažinant dimensijų skaičių, iki tam tikros ribos informacija beveik neprarandama, tačiau toliau mažinant dimensijų skaičių, prarandama informacijos dalis pradeda stipriai didėti.
+Tiriamos daugiasluoksnio perceptrono galimybės išmokti sumažinto dimensiškumo duomenis nenaudojant validacijos grupės.
+Atrasta, kad tinklas geba išmokti duomenis tol, kol dimensijų skaičius siekia bent 6 - su mažesniais dimensijų skaičiais dėl per didelio prarasto informacijos kiekio tinklas net nebegali pakankamai gerai išmokti mokymo duomenų rinkinio.
 
-Buvo ištirtos daugisluoksnio perceptrono galimybės klasifikuoti sumažinto dimensiškumo duomenis - tam buvo naudojamas mokymo duomenų rinkinys be papildomo validacijos rinkinio.
-Atrasta, kad tinklas geba efektyviai klasifikuoti mokymui naudojamus duomenis tol, kol dimensijų skaičius nėra mažesnis už 6.
-
+% klasifikavimo rezultatai
 Taip pat buvo ištirti klasifikavimo rezultatai su originaliais bei sumažinto dimensiškumo duomenimis.
-Nustatyta, kad dimensijų skaičių sumažinus, galima pasiekti geresnių klasifikavimo rezultatų.
-Norint pasiekti geresnį klasifikavimo rezultatą, dimensijų skaičių galima sumažinti iki daugumos intervalo $[14; 29]$ skaičių.
-Su dimensijų skaičiais, mažesniais nei 14, klasifikavimo rezultatai suprastėja, lyginant su nemažinto dimensiškumo duomenimis.
+Nustatyta, kad dimensijų skaičių sumažinus iki daugumos intervalo $[14; 29]$ skaičių, pasiekiami geresni klasifikavimo rezultatai.
+Vieni geriausių rezultatų pasiekiami su 18 dimensijų.
+Šių duomenų klasifikavimas palygintas su nemažinto dimensiškumo duomenimis - gauti rezultatai, parodantys klasifikavimo rezultatų pagerėjimą.
 
-Buvo palygintas nemažinto dimensiškumo duomenys bei duomenys, kurių dimensijų skaičius buvo sumažintas iki 18.
-Šis dimensijų skaičius buvo pasirinktas pagal turimus klasifikavimų palyginimus.
+% klasifikavimo palyginimas su 18-D
+%Nemažinto dimensiškumo duomenų klasifikavimas buvo palygintas su duomenų, kurių dimensijų skaičius buvo sumažintas iki 18.
+% Abiem atvejais tinklas mokymo duomenys buvo tinkamai įsisavinti, kadangi mokymo klaidos beveik pasiekė nulines.
+% Visgi klasifikavimą geriau perprato ..., kadangi su šiais duomenimis validacijos klaida buvo pasiekta mažesnė.
 
-skiriasi tik validacija, o ne mokymosi klaida
+% Dažniausiai toks dimensiškumo mažinimas naudojamas išskirti daug dimensijų turinčių duomenų bruožus.
+% Tyrimui buvo naudojami biomedicinos duomenys, kadangi juose yra pakankamai dimensijų - kiekviena chromosoma aprašoma 30-ia parametrų.
+% Šie duomenys buvo klasifikuojami naudojant daugiasluoksnį perceptroną.
 
-Klasifikavimo gerinimas naudojant dimensiškumo mažinimą
-
-
-
-daugiasluoksnis perceptronas
-
-daugiamačiai duomenys
-naudojami chromosomų duomenys
-
-\TODO{peržiūrėti užduotis}
-
-\TODO{santrauka}
 
 % Nurodomi iki 5 svarbiausių temos raktinių žodžių (terminų).
 
-\raktiniaizodziai{diagiasluoksnis perceptronas, dimensiškumo mažinimas, bruožų išskyrimas, klasifikacija, daugiamačiai duomenys}
-
-
-
-
-
+\raktiniaizodziai{diagiasluoksnis perceptronas, klasifikacija, daugiamačiai duomenys, dimensiškumo mažinimas}
 
 
 
 \sectionnonumnocontent{Summary}
-Santrauka anglų kalba. Santraukos apimtis ne didesnė nei 0,5 puslapio.
 
 \TODO{summary}
 
-\keywords{multilayer perceptron, dimensionality reduction, feature extraction, classification, high-dimensional data}
+\keywords{multilayer perceptron, classification, high-dimensional data, dimensionality reduction}
 
 
 
@@ -197,9 +188,9 @@ Nuo jų priklauso, kokios struktūros tinklas geriausiai sprendžia analizuojam�
 Dėl to projektuojant daugiasluoksnius perceptronus, labai svarbu eksperimentuoti su skirtingomis tinklo architektūromis, skirtingais tinklo parametrais ir naudojamais metodais.
 
 Tyrimams atlikti naudojama Python programavimo kalba.
-Numpy paketas naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojama kalba.
-Duomenų vizualizavimui naudojamas matplotlib paketas.
-Programavimui naudojama JetBrains PyCharm integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
+\textit{Numpy} paketas naudojamas įvairiems skaičiavimams ir matricų operacijoms atlikti - jis ne tik supaprastina šias operacijas, tačiau ir kur kas pagreitina jas, kadangi bibliotekos pagrindinės funkcijos parašytos kompiliuojama kalba.
+Duomenų vizualizavimui naudojamas \textit{Matplotlib} paketas.
+Programavimui naudojama \textit{JetBrains PyCharm} integruota kūrimo aplinka (angl.~\textit{integrated development environment}).
 
 
 
@@ -214,12 +205,13 @@ Gavęs pradinius užduoties duomenis, dirbtinis neuronų tinklas juos apdoroja i
 Dirbinių neuronų tinklas sudarytas iš daugybės dirbtinių neuronų, todėl norint suprasti tinklą, reikia pradėti nuo vieno dirbtinio neurono.
 Žmogaus smegenys sudarytos iš daugybės neuronų.
 Dirbtinis neuronas - tai supaprastintas šių biologinių neuronų modelis.
-Jo modelis pavaizduotas \ref{fig:neuron}~paveiksliuke.
+Jo modelis pavaizduotas \ref{fig:neuron}~paveiksle.
 Dirbtinio neurono veikimo principas gan paprastas - per kairėje esančias jungtis dirbtinis neuronas gauna signalus iš kitų dirbtinių neuronų - iš $k$-tosios jungties gaunamas $x_k$ dydžio signalas.
 Šiuos signalus neuronas apjungia ir pertvarko, ir taip sugeneruojamas dirbtinio neurono išeinamasis signalas.
 Šis išeinamasis signalas gali būti siunčiamas daugybei kitų neuronų - dešinėje esančios jungtys yra neurono išeinamojo signalo jungtys, kuriomis ir yra siunčiamas išeinamasis signalas.
 
-\begin{figure}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.75]{diagrams/1_neuron}
 	\caption{Dirbtinis neuronas}
 	\label{fig:neuron}
@@ -284,17 +276,18 @@ Grafe be ciklų rasti tokią neuronų seką, kuria būtų galima apdoroti tinklo
 Yra žinoma, kad beciklį grafą visada galima topologiškai išrikiuoti, o tai reiškia, kad daugiasluoksnį perceptroną galima apdoroti tiesiog paeiliui apdorojant topologiškai išrikiuotų viršūnių seką.
 Šį savybė palengvina neuroninio tinklo apdorojimą.
 
-\begin{figure}
-	\includegraphics[scale=0.75]{diagrams/2_neural_network}
-	\caption{Daugiasluoksnis perceptronas}
-	\label{fig:neural_network}
-\end{figure}
-
-Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais (žr. \ref{fig:neural_network} paveiksliuką).
+Be to, daugiasluoksniai perceptronai yra organizuojami sluoksniais (žr. \ref{fig:neural_network} paveikslą).
 Tinklas yra sudarytas iš perceptronų grupių, kurios yra vadinamos sluoksniais.
 Visi neuronų sluoksniai yra išsidėstę iš eilės, nuo kairės į dešinę.
 Kiekvieno sluoksnio visi neuronai turi išeinamąsias jungtis į visus neuronus iš sekančio sluoksnio, esančio dešinėje.
 Išimtis paskutinis sluoksnis, vadinamas išvesties sluoksniu (angl.~\textit{output layer}) - kadangi jis naudojamas išvedimui, todėl neturi jungčių į kitus neuronus, o jo jungtyse formuojamas atsakymas į analizuojamą problemą.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{diagrams/2_neural_network}
+	\caption{Daugiasluoksnis perceptronas}
+	\label{fig:neural_network}
+\end{figure}
 
 Pirmasis neuronų sluoksnis, kuriam paduodami duomenys, vadinamas įvesties sluoksniu (angl.~\textit{input layer}).
 Po to gali būti vienas ar keli paslėpti sluoksniai (angl.~\textit{hidden layer}), kurie naudojami tam, kad neuroninio tinklo struktūra būtų didesnė ir gebėtų išmokti sudėtingesnius dalykus.
@@ -330,11 +323,11 @@ Mokymas vyksta pažingsniui, vienu metu neuroniniui tinklui pateikiant vienus du
 Neuroninis tinklas, gavęs duomenis, juos analizuoja ir pateikia tam tikrą atsakymą.
 Šis gautas atsakymas yra sulyginamas su teisingu, iš anksto žinomu atsakymu.
 Pagal tai, kaip neuroninio tinklo pateiktas atsakymas skiriasi nuo teisingojo, neuroninis tinklas būna pertvarkomas.
-Pertvarkymas vyksta nagrinėjant neuroninį tinklą pradedant nuo paskutinio sluoksnio ir baigiant pirmuoju - t.y. priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
+Pertvarkymas vyksta nagrinėjant neuroninį tinklą pradedant nuo paskutinio sluoksnio ir baigiant pirmuoju - t. y. priešinga tvarka, nei buvo nagrinėjama, kai neuroninis tinklas analizavo pateiktus duomenis.
 Nagrinėjant kiekvieną neuroninio tinklo neuroną, į jį įeinančių jungčių svoriai $w_k$ (įskaitant ir $w_0$, kuris naudojamas kaip papildomas parametras) būna pakeičiami taip, kad neuroninis tinklas gautų panašesnį atsakymą į teisingąjį.
 
 Lyginant tinklo pateiktą atsakymą su teisingu, būna apskaičiuojama atsakymo klaida, pateikta \ref{eq:error}~formulėje.
-Čia $r$ - teisingo, iš anksto žinomo atsakymo vektorius, $a$ - neurono pateikto atsakymo vektorius, o N - vektorių dydis.
+Čia $r$ - teisingo, iš anksto žinomo atsakymo vektorius, $a$ - neurono pateikto atsakymo vektorius, o $N$ - vektorių dydis.
 
 \begin{equation} \label{eq:error}
 E = \frac{1}{N} \sum_{k=1}^N (r_k - a_k)^2
@@ -483,9 +476,9 @@ Tokiu būdu galima patikrinti, ar tinklas teisingai išmoko atskirti vilkdalgių
 
 
 
-\subsection{Biomedicininiai duomenys}
+\subsection{Biomedicinos duomenys}
 
-Tyrimui buvo naudojami biomedicininiai chromosomų duomenys, naudoti \cite[289~psl.]{price-dimensionality-reduction} tyrime.
+Tyrimui buvo naudojami biomedicinos chromosomų duomenys, naudoti \cite[289~psl.]{price-dimensionality-reduction} tyrime.
 Kiekvieną chromosomą aprašo 30 parametrų.
 Visos chromosomos priklauso vienai iš 24 grupių, ir kiekvienoje grupėje yra po 500 chromosomų, taigi visus duomenis sudaro 12000 chromosomų.
 Chromosomų parametrų reikšmės yra natūralieji skaičiai.
@@ -572,6 +565,13 @@ Dėl to gaunamos parametrų reikšmės gali būti mažiau prasmingos nei gaunamo
 
 \subsection{Dimensiškumo mažinimas daugiasluoksniu perceptronu} \label{dimensionality-reduction-perceptron}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{diagrams/compression_perceptron}
+	\caption{Dimensiškumo mažinimo perceptrono struktūra}
+	\label{fig:compression_perceptron}
+\end{figure}
+
 Dimensiškumo mažinimui tyrimo metu buvo panaudotas daugiasluoksnis perceptronas (\ref{fig:compression_perceptron}~pav.).
 Buvo sukurtas \cite[505~psl.]{autoencoder} straipsnyje aptariamas auto-kompresijos tinklas (angl.~\textit{autoencoder}).
 Turint $N$ dimensijų ir norint jas sumažinti iki $M$, kai $M < N$, tai buvo atliekama sukūrus neuroninį tinklą, kurio pirmajame ir paskutiniajame sluoksniuose yra po $N$ neuronų, o viename iš vidinių sluoksnių - $M$ (šį vidinį sluoksnį vadinkime kompresijos sluoksniu).
@@ -583,17 +583,12 @@ Būtent čia ir įvyksta dimensiškumo mažinimas - neuroninis tinklas yra apmok
 Norint sumažinti tam tikrų duomenų dimensijas, užtenka šiuos duomenis paduoti apmokytam neuroniniui tinklui ir pažiūrėti, kokie duomenys susidarė kompresijos sluoksnyje.
 Nuskaičius šių neuronų reikšmes ir bus gaunami duomenys, turintis mažiau dimensijų.
 
-\begin{figure}
-	\includegraphics[scale=0.75]{diagrams/compression_perceptron}
-	\caption{Dimensiškumo mažinimo perceptrono struktūra}
-	\label{fig:compression_perceptron}
-\end{figure}
-
 Tokiame apmokytame neuroniniame tinkle visi sluoksniai, esantys kairėje nuo kompresijos sluoksnio, yra naudojami dimensiškumo mažinimui.
 Būtent per šiuos sluoksnius einant signalams ir yra sudaromi mažiau dimensijų turintis duomenys.
 Kadangi šio neuroninio tinklo tikslas yra pateikti rezultatą, kuris būtų kuo panašesnis į pateiktus duomenis, todėl galima teikti, kad sluoksniai, esantys dešinėje nuo kompresijos sluoksnio, yra naudojami pradinių duomenų dekompresijai.
 
-\begin{figure}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.25]{pics/compression_dimensions}
 	\caption{Duomenų kompresijos rezultatai}
 	\label{fig:compression_dimensions}
@@ -610,25 +605,24 @@ Tęsiant dimensijų mažinimą, teisingumas pradeda kristi vis greičiau.
 Iš to galima daryti prielaidą, kad analizuojamuose duomenyse yra pasikartojančios ar tiesiogiai tarpusavyje priklausančios informacijos, kurią galima sukompresuoti į mažiau dimensijų turinčią ir naudingesnę informaciją.
 Tačiau svarbu pasirinkti tinkamą dimensijų skaičių, kadangi pasirinkus per mažai dimensijų, kompresija gali prarasti didelę svarbios informacijos dalį.
 
-\begin{figure}
+Pateikiami dvimačių (\ref{fig:2d_points}~pav.) ir trimačių (\ref{fig:3d_points}~pav.) duomenų kompresijos rezultatai - kairėje pusėje pavaizduoti sukompresuoti duomenys, skirtingų grupių įrašus pavaizduojant skirtingomis spalvomis, o dešinėje - tinklo apmokymo klaidos kitimo diagramos.
+Iš pateiktų rezultatų matosi, kad dvimačiai duomenys susigrupavę ne taip gerai, kaip trimačiai.
+Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2 praranda didesnę dalį duomenų nei mažinant iki 3 dimensijų.
+Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
+
+\begin{figure}[h]
 	\includegraphics[scale=0.5]{pics/points_2d}
 	\includegraphics[scale=0.5]{pics/points_2d_progress}
 	\caption{Dvimačiai duomenys}
 	\label{fig:2d_points}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 	\includegraphics[scale=0.5]{pics/points_3d}
 	\includegraphics[scale=0.5]{pics/points_3d_progress}
 	\caption{Trimačiai duomenys}
 	\label{fig:3d_points}
 \end{figure}
-
-Pateikiami dvimačių (\ref{fig:2d_points}~pav.) ir trimačių (\ref{fig:3d_points}~pav.) duomenų kompresijos rezultatai - kairėje pusėje pavaizduoti sukompresuoti duomenys, skirtingų grupių įrašus pavaizduojant skirtingomis spalvomis, o dešinėje - tinklo apmokymo klaidos kitimo diagramos.
-Iš pateiktų rezultatų matosi, kad dvimačiai duomenys susigrupavę ne taip gerai, kaip trimačiai.
-Kadangi turimi duomenys turi 30 dimensijų, todėl dimensijų sumažinimas iki 2 praranda didesnę dalį duomenų nei mažinant iki 3 dimensijų.
-Didesnių dimensijų kompresijos rezultatų vizualiai pavaizduoti nepavyksta dėl natūralių priežasčių.
-
 
 
 
@@ -672,7 +666,8 @@ Apmokius klasifikavimo tinklą, gaunama klaida.
 Tai atlikus po 5 kartus visiems galimiems dimensijų skaičiams, gauti rezultatai, pavaizduoti \ref{fig:experiment-1}~pav.
 Raudoni taškai žymi visų klasifikavimo apmokymų rezultatus, o mėlyna linija išryškina visų dimensijų geriausius apmokymo rezultatus.
 
-\begin{figure}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-23_15-50-6}
 	\caption{Klasifikavimo mažinant dimensijas rezultatai}
 	\label{fig:experiment-1}
@@ -706,7 +701,8 @@ Tai didelis skirtumas žinant, kad pirmame eksperimente klaidos skaičiavimui bu
 Geriausi rezultatai gauti $[14; 29]$ dimensijų skaičiaus intervale.
 Šio eksperimento metu patikimiausiai atrodo rezultatai su 18 dimensijų, todėl šis dimensijų skaičius buvo pasirinktas palyginimui.
 
-\begin{figure}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.32]{pics/dimensions_2015-5-27_6-18-5}
 	\caption{Klasifikavimo mažinant dimensijas rezultatai}
 	\label{fig:experiment-2}
@@ -720,6 +716,7 @@ Palyginimui buvo naudojami tie patys duomenys - po 500 įrašų iš kiekvienos g
 Gautas rezultatai pavaizduotas \ref{fig:dim-comparisons}~pav.
 
 \begin{figure}
+	\centering
 	\includegraphics[scale=0.75]{pics/dim_comparisons_2015-5-27_14-21-13}
 	\caption{18 ir 30 dimensijų klasifikavimo apmokymų palyginimas}
 	\label{fig:dim-comparisons}
@@ -736,6 +733,7 @@ Tuo tarpu 18 dimensijų analizuojančių - intervale $[1427, 1449]$.
 Šie rezultatai detaliau pavaizduoti \ref{fig:correct-count}~pav.
 
 \begin{figure}
+	\centering
 	\includegraphics[scale=0.35]{pics/correct}
 	\caption{18 ir 30 dimensijų klasifikavimo rezultatų palyginimas}
 	\label{fig:correct-count}
@@ -775,8 +773,7 @@ Išvados:
 	\item Norint pagerinti tiriamų duomenų klasifikavimą, jų dimensijų skaičių verta sumažinti iki daugumos intervalo $[14; 29]$ skaičių.
 	\item Ištirta, kad vienas optimaliausių dimensiškumo mažinimui naudojamų dimensijų skaičių yra 18.
 
-	\item Tiek su sumažinto, tiek ir su nesumažinto dimensiškumo duomenimis daugiasluoksnių perceptronų apmokymo klaidos beveik pasiekia nulį, tuo tarpu validacijos klaidos truputį didesnės, tačiau mažesnė validacijos klaida pasiekiama naudojant sumažinto dimensiškumo duomenimis. Tai reiškia \TODO{finish - kad validacija svarbu?}
-		
+	\item Tiek su sumažinto, tiek ir su nesumažinto dimensiškumo duomenimis daugiasluoksnių perceptronų apmokymo klaidos beveik pasiekia nulį. Tuo tarpu validacijos klaidos truputį didesnės, naudojant sumažinto dimensiškumo duomenis validacijos klaida šiek tiek mažesnė. Vadinasi, abiem atvejais mokymui naudoti duomenys buvo gerai įsisavinti, tačiau bendri rezultatai geresni naudojant sumažinto dimensiškumo duomenis.
 	\item Tiriamų duomenų dimensijų skaičių sumažinus iki 18, klaidų skaičius vidutiniškai sumažėja apie $13.03\%$.
 \end{enumerate}
 
