@@ -190,7 +190,7 @@
 \renewcommand\tableofcontents{%
     % Turinys su viengubu intervalu tarp eilučių
     \begin{singlespacing}%
-        \section*{\bf\normalsize\centering\MakeUppercase\contentsname
+        \section*{\bf\large\fontsize{14}{14}\centering\MakeUppercase\contentsname
         \@mkboth{%
            \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
     \@starttoc{toc}%
