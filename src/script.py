@@ -34,7 +34,7 @@ vectorized_answer = vectorize(answer)
 
 def figname(name=None):
     now = datetime.now()
-    return 'diagrams/{}{}-{}-{}_{}-{}-{}.pdf'.format(name + '_' if name else '', now.year, now.month, now.day, now.hour, now.minute, now.second)
+    return 'generated_diagrams/{}{}-{}-{}_{}-{}-{}.pdf'.format(name + '_' if name else '', now.year, now.month, now.day, now.hour, now.minute, now.second)
 
 
 class Network(object):
