@@ -236,7 +236,7 @@ f(a) = \frac{1}{1 + e^{-a}}
 
 Įeinamosios neurono jungtys numeruojamos nuo 1 iki $k$.
 Norint $a$ reikšmę padaryti tinkamesnę neuroninio tinklo funkcijoms, dažniausiai įvedama papildoma $0$-inė jungtis su svoriu $w_0$ ir signalo stiprumu $x_0 = 1$.
-Tokiu būdu prie $a$ (formulė~\ref{eq:a}) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
+Tokiu būdu prie $a$ (\ref{eq:a}~formulė) reikšmės papildomai pridedama $w_0 * x_0 = w_0$ reikšmė.
 Šis papildomas narys leidžia koreguoti neurono generuojamą signalą nepriklausomai nuo įeinančių jungčių signalų.
 
 
@@ -300,7 +300,7 @@ Po to tas pats atliekama su antruoju sluoksniu siunčiant visus signalus trečia
 Savybė, kad kiekvieno sluoksnio, išskyrus paskutinio, visi neuronai turi išeinamąsias jungtis į visus sekančio sluoksnio neuronus taip pat yra naudinga - žinant tai, nereikia turėti jokio tinklo grafo, kadangi užtenka žinoti kiekvieno sluoksnio neuronus bei jungčių svorius.
 Be to, signalų siuntimas iš vieno sluoksnio į sekantį taip pat gali būti suprastintas.
 Vietoj to, kad programiškai iteruoti per visas dviejų sluoksnių neuronų poras ir atlikti jungties dydžio skaičiavimą, tą galima padaryti su matricų aritmetika.
-Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{eq:a} formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
+Signalo skaičiavimo atliekamas operacijas, nurodytas \ref{eq:a}~formulėje, galima sutraukti į matricų daugybos operacijas, o aktyvacijos funkciją pritaikyti visai matricai.
 Taip daugiasluoksnio perceptrono tinklo modelis tampa dar tvarkingesnis ir paprastesnis.
 
 Projektuojant daugiasluoksnį perceptroną konkrečiam uždaviniui, reikia parinkti jo struktūrą.
@@ -417,13 +417,13 @@ Būtent šioje vietoje ir prasideda persitaikymas, todėl vos pasiekus šią rib
 
 Momento koeficientas - tai itin populiari neuroninio tinklo modifikacija, skirta pagerinti tinklo mokymosi procesą.
 Ji remiasi \ref{network-learning} poskyryje aprašytu mokymu, tačiau šiek tiek praplečia svorių keitimą.
-Svoriai keičiami ne pagal \ref{eq:learning} formulę, o pagal jos plėtinį \ref{eq:moment-2} formulėje.
+Svoriai keičiami ne pagal \ref{eq:learning}~formulę, o pagal jos plėtinį \ref{eq:moment-2}~formulėje.
 Šio metodo nauda aptariama \cite[1218~psl.]{1007668} straipsnyje.
 
 Svoriai keičiami ne tik pagal tai, kaip svorius keisti apsimoka būtent šiuo metu būtent šiam testui, tačiau ir pagal tai, kaip tai buvo keičiama praeitose mokymo iteracijose.
 Tai įgyvendinama pasinaudojant greičio ir įveikto atstumo fizikinį analogą - kai norima įveikti tam tikrą atstumą, kūnui reikia suteikti jėgos ir įgauti greitį, o greitis leis judėti.
 Panašiai veikia momento koeficientas - analizuojant, kaip reikia pakeisti svorius, šie dydžiai nėra tiesiog pritaikomi šiuo metu, tačiau jie yra panaudojami kaip greitis - svorio kitimo žingsnis.
-Kiekvienam svoriui išsaugomas kitimo žingsnis, aprašytas \ref{eq:moment-1} formulėje, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti svorio dydį.
+Kiekvienam svoriui išsaugomas kitimo žingsnis, aprašytas \ref{eq:moment-1}~formulėje, kuris po kiekvienos apmokymo iteracijos pakeičiamas padidinant ar pamažinant tam tikra reikšme pagal tai, kaip šioje iteracijoje reikia keisti svorio dydį.
 Šis turimas žingsnis kiekvienos iteracijos metu yra pritaikomas kaip pokytis svoriui keisti.
 
 \begin{equation} \label{eq:moment-1}
@@ -717,7 +717,7 @@ Gautas rezultatai pavaizduotas \ref{fig:dim-comparisons}~pav.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.75]{pics/dim_comparisons_2015-5-27_14-21-13}
+	\includegraphics[scale=0.6]{pics/dim_comparisons_2015-5-27_14-21-13}
 	\caption{18 ir 30 dimensijų klasifikavimo apmokymų palyginimas}
 	\label{fig:dim-comparisons}
 \end{figure}
@@ -732,7 +732,7 @@ Daugiasluoksnių perceptronų, analizuojančių originalius 30-ies dimensijų du
 Tuo tarpu 18 dimensijų analizuojančių - intervale $[1427, 1449]$.
 Šie rezultatai detaliau pavaizduoti \ref{fig:correct-count}~pav.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.35]{pics/correct}
 	\caption{18 ir 30 dimensijų klasifikavimo rezultatų palyginimas}
@@ -741,7 +741,8 @@ Tuo tarpu 18 dimensijų analizuojančių - intervale $[1427, 1449]$.
 
 Apskaičiuota, kad vidutinis teisingai suklasifikuotų duomenų skaičius 30-ies dimensijų tinkluose apytiksliai lygus $1429,4$, o 18-os dimensijų - apytiksliai $1438,6$.
 Kadangi iš viso buvo 1500 klasifikavimui naudotų duomenų, todėl 30-ies dimensijų tinklai blogai klasifikavo vidutiniškai apie 70.6 duomenų (apie $4.70\%$ visų duomenų), o 18-os dimensijų - vidutiniškai apie 61.4 duomenų (apie $4.09\%$ visų duomenų).
-Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 - 61.4) / 70.6 = 13.03\%$ visų padarytų klaidų
+Tai reiškia, kad dimensiškumo mažinimas vidutiniškai sumažino apie $(70.6 - 61.4) / 70.6 = 13.03\%$ visų padarytų klaidų.
+
 
 
 \sectionnonum{Rezultatai ir išvados}
