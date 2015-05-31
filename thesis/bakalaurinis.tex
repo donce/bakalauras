@@ -72,7 +72,7 @@ Tyrimui naudojami didelio dimensiškumo biomedicinos duomenys.
 
 % dimensiškumo mažinimas
 Tiriama, kaip dimensiškumo mažinimas įtakoja duomenų savybių praradimą.
-Atrasta, kad mažinant dimensijų skaičių, iki tam tikros ribos informacija beveik neprarandama, tačiau toliau mažinant dimensijų skaičių, prarandama informacijos dalis pradeda stipriai didėti.
+Atrasta, kad mažinant tiriamų duomenų dimensijų skaičių, iki tam tikros ribos informacija beveik neprarandama, tačiau toliau mažinant dimensijų skaičių, prarandama informacijos dalis pradeda stipriai didėti.
 Tiriamos daugiasluoksnio perceptrono galimybės išmokti sumažinto dimensiškumo duomenis nenaudojant validacijos grupės.
 Atrasta, kad tinklas geba išmokti duomenis tol, kol dimensijų skaičius siekia bent 6 - su mažesniais dimensijų skaičiais dėl per didelio prarasto informacijos kiekio tinklas net nebegali pakankamai gerai išmokti mokymo duomenų rinkinio.
 
@@ -82,32 +82,32 @@ Nustatyta, kad dimensijų skaičių sumažinus iki daugumos intervalo $[14; 29]$
 Vieni geriausių rezultatų pasiekiami su 18 dimensijų.
 Šių duomenų klasifikavimas palygintas su nemažinto dimensiškumo duomenimis - gauti rezultatai, parodantys klasifikavimo rezultatų pagerėjimą.
 
-% klasifikavimo palyginimas su 18-D
-%Nemažinto dimensiškumo duomenų klasifikavimas buvo palygintas su duomenų, kurių dimensijų skaičius buvo sumažintas iki 18.
-% Abiem atvejais tinklas mokymo duomenys buvo tinkamai įsisavinti, kadangi mokymo klaidos beveik pasiekė nulines.
-% Visgi klasifikavimą geriau perprato ..., kadangi su šiais duomenimis validacijos klaida buvo pasiekta mažesnė.
-
-% Dažniausiai toks dimensiškumo mažinimas naudojamas išskirti daug dimensijų turinčių duomenų bruožus.
-% Tyrimui buvo naudojami biomedicinos duomenys, kadangi juose yra pakankamai dimensijų - kiekviena chromosoma aprašoma 30-ia parametrų.
-% Šie duomenys buvo klasifikuojami naudojant daugiasluoksnį perceptroną.
-
-
 % Nurodomi iki 5 svarbiausių temos raktinių žodžių (terminų).
-
 \raktiniaizodziai{diagiasluoksnis perceptronas, klasifikacija, daugiamačiai duomenys, dimensiškumo mažinimas}
 
 
 
 \sectionnonumnocontent{Summary}
 
-\TODO{summary}
+This paper analysis the problem of classification.
+It is examined how results of classification can be improved by reducing the dimensionality of data.
+Both classification and dimensionality reduction is done using multilayer perceptron.
+For this purpose high-dimensionality biomedicine data is being used.
+
+Loss of data features due to dimensionality reduction is studied.
+For studied data, reducing dimensionality has a low impact on data loss when reducing by a small number of dimensions.
+However, data loss starts to escale when reducing by bigger number of dimensions.
+Also, the ability of learning reduced dimensionality data is examined by ignoring validation group.
+It is found that multilayer perceptron is able to effectivly learn reduced dimensionality data when using at least 6 dimensions.
+When using smaller number of dimensions, multilayer perceptron is not being able to learn data used for learning step due to big data loss.
+
+Classification results were analysed using original data and data with reduced dimensionality.
+Results of classification were improved by reducing the number of dimensions when using some values of $[14; 29]$ interval.
+One of the best results were obtained by using 18 dimensions.
+This data was compared with the original data.
+The results showed improvement in classification results.
 
 \keywords{multilayer perceptron, classification, high-dimensional data, dimensionality reduction}
-
-
-
-
-
 
 
 
